@@ -1,0 +1,80 @@
+/* Theme */
+body.light {
+
+  /* Colors */
+  --color-bg: hsl(220, 10%, 90%);
+  --color-header: hsl(220, 10%, 96%);
+  --color-text-bright: hsl(220, 10%, 10%);
+  --color-text: hsl(220, 10%, 30%);
+  --color-text-dim: hsl(220, 10%, 60%);
+  
+  --color-bg-secondary: hsl(220, 10%, 75%);
+  --color-text-secondary: var(--color-text-bright);
+
+  --color-bg-primary: hsl(265, 75%, 65%);
+  --color-text-primary: hsl(265, 90%, 10%);
+
+  --filter-brightness-hover: brightness(80%);
+  --filter-brightness-diable: brightness(60%);
+  --color-highlight: #00000020;
+
+  --color-border: var(--color-header);
+  --color-border-bright: var(--color-bg-secondary);
+  --color-shadow: #00000015;
+
+  /* Other colors */
+  --color-bg-grey:     hsl( 220, 10%, 65%);
+  --color-bg-red:      hsl(   5, 75%, 65%);
+  --color-bg-orange:   hsl(  30, 75%, 65%);
+  --color-bg-yellow:   hsl(  60, 75%, 65%);
+  --color-bg-lime:     hsl(  90, 75%, 65%);
+  --color-bg-green:    hsl( 130, 75%, 65%);
+  --color-bg-cyan:     hsl( 180, 75%, 65%);
+  --color-bg-blue:     hsl( 220, 75%, 65%);
+  --color-bg-purple:   hsl( 260, 75%, 65%);
+  --color-bg-pink:     hsl( 315, 75%, 65%);
+  --color-text-grey:   hsl( 220, 10%,  5%);
+  --color-text-red:    hsl(   5, 99%,  5%);
+  --color-text-orange: hsl(  30, 99%,  5%);
+  --color-text-yellow: hsl(  60, 99%,  5%);
+  --color-text-lime:   hsl(  90, 99%,  5%);
+  --color-text-green:  hsl( 130, 99%,  5%);
+  --color-text-cyan:   hsl( 180, 99%,  5%);
+  --color-text-blue:   hsl( 220, 99%,  5%);
+  --color-text-purple: hsl( 260, 99%,  5%);
+  --color-text-pink:   hsl( 315, 99%,  5%);
+
+  /* Text */
+  --font-size: 16px;
+  --font-text: 'Open Sans', -apple-system, BlinkMacSystemFont, helvetica, arial, sans-serif;
+  --font-mono: 'Fira Code', Menlo, Consolas, monospace;
+  --line-height: 1.75;
+  --char-width: 80ch;
+
+  /* Margin, Padding, Gap */ 
+  /* top | right | bottom | left */
+  --pad: 0.9rem;
+  --gap: 1.2rem;
+  --margin: var(--gap) var(--gap);
+  --padding: var(--pad) var(--pad);
+
+  /*  Border, Border Radius, Outline */
+  /* width | style | color */
+  --border: 2px solid var(--color-border);
+  --outline: 2px solid var(--color-border);
+  --radius: 0.4rem;
+  --radius-2: 0.8rem;
+  
+  /* Shadow */ 
+  /* box-shadow: offset-x | offset-y | blur-radius | spread-radius | color */
+  /* text-shadow: offset-x | offset-y | blur-radius | color */
+  --text-shadow: 1px 1px 4px var(--color-shadow);
+  --shadow: 2px 2px 2px 0px var(--color-shadow);
+  --shadow: var(--color-shadow) 0px 4px 6px -1px, var(--color-shadow) 0px 2px 4px -1px;
+  --shadow-2:
+      2px 2px 2px 0px var(--color-shadow),
+      0px 0px 10px 10px var(--color-shadow);
+  --shadow-input: -2px -2px 2px 0px var(--color-shadow);
+  --shadow-input: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+
+}

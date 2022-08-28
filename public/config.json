@@ -1,0 +1,319 @@
+{
+  "theme": "dark",
+  "scale": 1.4,
+  "rotate": 0,
+  "startup": {
+    "page": "Activities",
+    "popup": ""
+  },
+  "topBar": {
+    "show": true,
+    "homePage": "Activities",
+    "powerPage": "Power Down",
+    "quickAccess": {
+      "darkMode": true,
+      "privacy": true,
+      "volumes": true,
+      "record": false,
+      "walls": false
+    }
+  },
+  "roomState": {
+    "split-north": {
+      "configFile": "split-north.json"
+    },
+    "combined-north": {
+      "configFile": "combined-north.json"
+    }
+  },
+  "pages": {
+    "Splash": {
+      "name": "Splash",
+      "file": "SplashPage"
+    },
+    "Activities": {
+      "name": "Home",
+      "file": "ActivityPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "ActivityPage"
+      },
+      "lowerLeftButton": {
+        "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "Device Power"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "name": "Presentation",
+          "page": "Presentation",
+          "icon": "co_present",
+          "color": "green"
+        },
+        {
+          "id": 2,
+          "name": "Video Call",
+          "page": "Cameras",
+          "icon": "videocam",
+          "color": "yellow"
+        },
+        {
+          "id": 3,
+          "name": "Volumes",
+          "page": "Audio",
+          "icon": "volume_up",
+          "color": "orange"
+        },
+        {
+          "id": 4,
+          "name": "Phone",
+          "page": "Phone",
+          "icon": "phone",
+          "color": "purple"
+        }
+      ]
+    },
+    "Presentation": {
+      "name": "Presentation",
+      "file": "PresentationPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "PresentationPage"
+      },
+      "advanced": false,
+      "inputSelected": 0,
+      "inputs": [
+        {
+          "id": 1,
+          "name": "Laptop",
+          "icon": "computer"
+        },
+        {
+          "id": 2,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 0,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 0,
+          "name": "Display",
+          "inputId": 0
+        }
+      ]
+    },
+    "Cameras": {
+      "name": "Video Call",
+      "file": "CameraPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "CameraPage"
+      },
+      "savePresetHoldTime_sec": 2,
+      "cameras": [
+        {
+          "id": 0,
+          "name": "Camera 0"
+        },
+        {
+          "id": 1,
+          "name": "Camera 1",
+          "controls": {
+            "show": true
+          }
+        },
+        {
+          "id": 2,
+          "name": "Camera 2",
+          "controls": {
+            "show": true,
+            "showPresets": false
+          }
+        },
+        {
+          "id": 3,
+          "name": "Camera 3",
+          "controls": {
+            "show": true,
+            "showDpad": false
+          }
+        },
+        {
+          "id": 4,
+          "name": "Camera 4",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "name": "Camera 5",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            },
+            "bottomRight": {
+              "show": true,
+              "label": "Auto Track",
+              "icon": "auto_mode",
+              "toggle": true
+            }
+          }
+        }
+      ]
+    },
+    "Phone": {
+      "name": "Phone Call",
+      "file": "PhonePage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "PhonePage"
+      },
+      "placeholder": "405-123-4567"
+    },
+    "Power Down": {
+      "name": "System Off",
+      "file": "PowerDownPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "AudioPage"
+      },
+      "offPage": "Splash"
+    },
+    "Audio Sub Page 1": {
+      "name": "Audio 1",
+      "file": "AudioPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "AudioPage"
+      },
+      "volumes": [
+        {
+          "id": 1,
+          "label": "Video",
+          "type": "slider",
+          "iconMic": false,
+          "value": 0,
+          "max": 6,
+          "min": -24,
+          "units": "dB"
+        },
+        {
+          "id": 2,
+          "label": "TV",
+          "type": "slider",
+          "iconMic": false,
+          "value": 5,
+          "max": 10,
+          "min": 0,
+          "units": "/ 10"
+        },
+        {
+          "id": 3,
+          "label": "Wireless Microphone",
+          "type": "slider",
+          "value": 75,
+          "iconMic": true
+        },
+        {
+          "id": 4,
+          "label": "Privacy",
+          "iconMic": true,
+          "type": "mute"
+        },
+        {
+          "id": 5,
+          "label": "All",
+          "type": "mute"
+        }
+      ]
+    },
+    "Audio Sub Page 2": {
+      "name": "Audio 2",
+      "file": "AudioPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "AudioPage"
+      },
+      "volumes": [
+        {
+          "id": 1,
+          "label": "Fake Mic 2",
+          "type": "slider",
+          "value": 75,
+          "iconMic": true
+        }
+      ]
+    },
+    "Audio Sub Page 3": {
+      "name": "Audio 3",
+      "file": "AudioPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "AudioPage"
+      },
+      "volumes": [
+        {
+          "id": 1,
+          "label": "Fake Mic 3",
+          "type": "slider",
+          "value": 75,
+          "iconMic": true
+        }
+      ]
+    },
+    "Audio": {
+      "name": "Volumes",
+      "subpages": [
+        "Audio Sub Page 1",
+        "Audio Sub Page 2",
+        "Audio Sub Page 3"
+      ]
+    },
+    "Settings": {
+      "name": "Settings",
+      "subpages": [
+        "Device Power"
+      ]
+    },
+    "Device Power": {
+      "name": "Device Power",
+      "file": "DevicePowerPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "DevicePowerPage"
+      }
+    },
+    "ConfigPage": {
+      "name": "Configuration Edit",
+      "file": "ConfigPage",
+      "SIMPL": {
+        "ip": "192.168.1.69",
+        "port": 10000,
+        "path": "ConfigPage"
+      }
+    }
+  }
+}
