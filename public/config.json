@@ -1,6 +1,7 @@
 {
   "theme": "dark",
-  "scale": 1.4,
+  "scale": 1.2,
+  "scaleMobile": 1,
   "rotate": 0,
   "startup": {
     "page": "Activities",
@@ -29,7 +30,9 @@
   "pages": {
     "Splash": {
       "name": "Splash",
-      "file": "SplashPage"
+      "file": "SplashPage",
+      "image": "images/FordAV_BlackBG_1920_1080.png",
+      "backgroundColor": "#000000"
     },
     "Activities": {
       "name": "Home",
@@ -77,7 +80,7 @@
       ]
     },
     "Presentation": {
-      "name": "Presentation",
+      "name": "Video Routing",
       "file": "PresentationPage",
       "SIMPL": {
         "ip": "192.168.1.69",

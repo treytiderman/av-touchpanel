@@ -47,7 +47,7 @@
   // Theme
   import "./themes/theme-dark.css"
   import "./themes/theme-light.css"
-  // import "./themes/theme-a.css"
+  import "./themes/theme-test.css"
   
   // Components
   import TopBar from "./layout/TopBar.svelte"
@@ -105,7 +105,7 @@
   // Dynamic css classes
   $: document.querySelector("body").classList = $config?.theme || "dark"
   $: document.documentElement.classList = `rotate${$config?.rotate}` || ""
-  $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? "14px" : `${$config.scale*14}px` || "14px"
+  $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.scaleMobile*14}px` || "14px" : `${$config.scale*14}px` || "16px"
 
   // Debug
   $: $config?.pages ? console.log("config", $config) : ""

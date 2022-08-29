@@ -1,48 +1,50 @@
 /* Theme */
-@import url('./palette-trey.css');
-body {
+body.test {
 
   /* Colors */
-  --color-font-0: hsl(220,10%,75%);
-  --color-font-1: hsl(220,10%,90%);
-  --color-font-2: hsl(225,80%,80%);
-  --color-bg-0: hsl(220, 10%, 12%);
-  --color-bg-1: hsl(220, 10%, 7%);
-  --color-bg-2: hsl(220, 10%, 80%);
+  --color-bg: hsl(265, 100%, 60%);
+  --color-header: hsl(265, 100%, 70%);
+  --color-text-bright: hsl(265, 70%, 5%);
+  --color-text: hsl(265, 70%, 15%);
+  --color-text-dim: hsl(265, 70%, 25%);
+  
+  --color-bg-secondary: hsl(265, 100%, 75%);
+  --color-text-secondary: var(--color-text-bright);
 
-  --color-border: var(--color-font-2);
-  --color-shadow: #00000033;
-    
-  --color-primary: hsl( 265, 100%, 75%);
-  --color-bg-primary: hsl( 265, 100%, 75%);
-  --color-font-primary: hsl( 265, 100%, 15%);
-  --color-bg-secondary: var(--color-bg-0);
-  --color-font-secondary: var(--color-font-0);
-  --color-bg-red: var(--color-red-500);
-  --color-font-red: var(--color-red-100);
-  --color-bg-orange: var(--color-orange-500);
-  --color-font-orange: var(--color-orange-100);
-  --color-bg-yellow: var(--color-yellow-500);
-  --color-font-yellow: var(--color-yellow-100);
-  --color-bg-lime: var(--color-lime-500);
-  --color-font-lime: var(--color-lime-100);
-  --color-bg-green: var(--color-green-500);
-  --color-font-green: var(--color-green-100);
-  --color-bg-cyan: var(--color-cyan-500);
-  --color-font-cyan: var(--color-cyan-100);
-  --color-bg-blue: var(--color-blue-500);
-  --color-font-blue: var(--color-blue-100);
-  --color-bg-purple: var(--color-purple-500);
-  --color-font-purple: var(--color-purple-100);
-  --color-bg-pink: var(--color-pink-500);
-  --color-font-pink: var(--color-pink-100);
-
+  --color-bg-primary: hsl(260, 100%, 90%);
+  --color-text-primary: hsl(260, 99%, 10%);
+  
   --filter-brightness-hover: brightness(125%);
-  --filter-brightness-diable: brightness(60%);
-  --color-highlight: #FFFFFF20;
+  --filter-brightness-diable: brightness(80%);
+  --color-highlight: hsl(265, 40%, 60%, 15%);
+
+  --color-border: var(--color-header);
+  --color-border-bright: var(--color-bg-secondary);
+  --color-shadow: #00000099;
+
+  /* Other colors */
+  --color-bg-grey:     hsl( 220, 10%, 55%);
+  --color-bg-red:      hsl(   5, 85%, 60%);
+  --color-bg-orange:   hsl(  30, 85%, 60%);
+  --color-bg-yellow:   hsl(  60, 85%, 60%);
+  --color-bg-lime:     hsl(  90, 85%, 60%);
+  --color-bg-green:    hsl( 130, 85%, 60%);
+  --color-bg-cyan:     hsl( 180, 85%, 60%);
+  --color-bg-blue:     hsl( 220, 85%, 60%);
+  --color-bg-purple:   hsl( 260, 85%, 60%);
+  --color-bg-pink:     hsl( 315, 85%, 60%);
+  --color-text-grey:   hsl( 220, 10%,  5%);
+  --color-text-red:    hsl(   5, 99%,  5%);
+  --color-text-orange: hsl(  30, 99%,  5%);
+  --color-text-yellow: hsl(  60, 99%,  5%);
+  --color-text-lime:   hsl(  90, 99%,  5%);
+  --color-text-green:  hsl( 130, 99%,  5%);
+  --color-text-cyan:   hsl( 180, 99%,  5%);
+  --color-text-blue:   hsl( 220, 99%,  5%);
+  --color-text-purple: hsl( 260, 99%,  5%);
+  --color-text-pink:   hsl( 315, 99%,  5%);
 
   /* Text */
-  --font-size: 16px;
   --font-text: 'Open Sans', helvetica, arial, sans-serif;
   --font-mono: 'Fira Code', Menlo, Consolas, monospace;
   --line-height: 1.75;
@@ -57,8 +59,8 @@ body {
 
   /*  Border, Border Radius, Outline */
   /* width | style | color */
-  --border: 2px solid var(--color-border);
-  --outline: 2px solid var(--color-border);
+  --border: calc(1rem / 8) solid var(--color-border);
+  --outline: calc(1rem / 8) solid var(--color-border);
   --radius: 0.4rem;
   --radius-2: 0.8rem;
   

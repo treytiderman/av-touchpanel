@@ -13,8 +13,12 @@
 /* Base */
 html {
   height: 100%;
+  width: 100%;
   color-scheme: dark light;
   font-size: 16px;
+  /* Prevent scroll for mobile */
+  overflow: hidden;
+  position: fixed;
 }
 /* @media (max-width: 640px) { html { font-size: 14px; } } */
 body {
