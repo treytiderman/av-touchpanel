@@ -26,6 +26,7 @@
   $: title = $configFile.pages[$router.page].name || $configFile.pages[$router.page].subpages
   $: file = $configFile.pages[$router.page].file || $configFile.pages[$router.page].subpages
   let editMode = $global.url.search.edit === "true"
+  let timeout
   let show = config.show
   let homePage = config.homePage
   let powerPage = config.powerPage
@@ -36,7 +37,11 @@
 <!-- HTML -->
 {#if show}
 <header style={$$props.style}>
-  <button on:click={() => $router.page = homePage }>
+  <button 
+    on:click={() => $router.page = homePage}
+    on:pointerup={() => clearTimeout(timeout)}
+    on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+  >
     <Icon name="home"/>
   </button>
   <h4>{title} {editMode ? `- [${file}]` : ""}</h4>

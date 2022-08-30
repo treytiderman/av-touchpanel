@@ -3,7 +3,7 @@
 
   // Stores + Functions
   import { global, router, config, getJSON, getConfigFileName, getUrlSearchs, getUrlHash } from './js/global.js'
-  
+  let lastPage = "last"
   // Load Config File
   import { onMount } from 'svelte';
   onMount(async () => {
@@ -27,20 +27,34 @@
       },
     }
 
+    // Screen Resize
+    window.addEventListener('resize', event => {
+      $global.screen = {
+        width: document.documentElement.offsetWidth,
+        height: document.documentElement.offsetHeight,
+        portrait: document.documentElement.offsetWidth < document.documentElement.offsetHeight
+      }
+    })
+
     // Handle History
-    // router.subscribe(obj => {
-    //   if (obj.popup === "") {
-    //     const state = {}
-    //     const label = ""
-    //     const url = obj.page + document.location.search + document.location.hash
-    //     history.pushState(state, label, url)
-    //   }
-    // })
-    // window.addEventListener('popstate', (event) => {
-    //   let previousPage = event.target.location.pathname.substring(1)
-    //   $router.popup = ""
-    //   $router.page = previousPage || $config.startup.page
-    // })
+    router.subscribe(obj => {
+      if (lastPage !== obj.page) {
+        const state = {}
+        const label = ""
+        const url = obj.page + document.location.search + document.location.hash
+        history.pushState(state, label, url)
+      }
+      lastPage = obj.page
+    })
+    window.addEventListener('popstate', event => {
+      if ($router.popup !== "") $router.popup = ""
+      else { 
+        const url = $router.page + document.location.search + document.location.hash
+        const currentUrl = event.target.location.pathname.substring(1)
+        if(currentUrl !== $router.page) history.pushState({}, "", url)
+        $router.page = $config.startup.page
+      }
+    })
 
   })
 
@@ -76,10 +90,6 @@
       file: "PhonePage",
       component: () => import("./pages/PhonePage.svelte")
     },
-    "SettingsPage": {
-      file: "SettingsPage",
-      component: () => import("./pages/SettingsPage.svelte")
-    },
     "DevicePowerPage": {
       file: "DevicePowerPage",
       component: () => import("./pages/DevicePowerPage.svelte")
@@ -105,7 +115,7 @@
   // Dynamic css classes
   $: document.querySelector("body").classList = $config?.theme || "dark"
   $: document.documentElement.classList = `rotate${$config?.rotate}` || ""
-  $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.scaleMobile*14}px` || "14px" : `${$config.scale*14}px` || "16px"
+  $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.scaleMobile*14}px` || "14px" : `${$config.scale*20}px` || "20px"
 
   // Debug
   $: $config?.pages ? console.log("config", $config) : ""
@@ -118,7 +128,7 @@
 {#if $config?.pages}
 
   <!-- Redraw if any of the router properties change -->
-  {#key $config}
+  {#key $router}
     <TopBar config={$config.topBar} />
     <Main 
       pageFiles={pageFiles}

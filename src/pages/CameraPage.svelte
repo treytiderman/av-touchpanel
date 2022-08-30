@@ -14,6 +14,7 @@
       "port": 10000,
       "path": "CameraPage"
     },
+    "shareListShow": true,
     "savePresetHoldTime_sec": 2,
     "cameras": [
       {
@@ -83,6 +84,7 @@
   let cameras = config.cameras
   let cameraShared = cameras[0]
   let cameraControlled = firstCameraWithControls(cameras)
+  let shareListShow = config.shareListShow
   let savePresetHoldTime_sec = config.savePresetHoldTime_sec
   let presetSaved = 0
 
@@ -165,18 +167,20 @@
   {#if cameras.length > 1}
 
     <!-- Share -->
-    <div>
-      <h4>Share</h4>
-      {#each cameras as camera}
-        <button
-          class:selected={cameraShared.id === camera.id}
-          on:click={() => setShareCamera(camera.id)}
-        >
-          <Icon name="videocam" size=2 />
-          {camera.name}
-        </button>
-      {/each}
-    </div>
+    {#if shareListShow}
+      <div>
+        <h4>Share</h4>
+        {#each cameras as camera}
+          <button
+            class:selected={cameraShared.id === camera.id}
+            on:click={() => setShareCamera(camera.id)}
+          >
+            <Icon name="videocam" size=2 />
+            {camera.name}
+          </button>
+        {/each}
+      </div>
+    {/if}
 
     <!-- Control -->
     <div>

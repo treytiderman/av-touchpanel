@@ -16,7 +16,10 @@ body.light {
 
   --filter-brightness-hover: brightness(80%);
   --filter-brightness-diable: brightness(60%);
-  --color-highlight: #00000020;
+  --color-highlight: hsl(220, 10%, 60%, 15%);
+
+  --color-hover: hsl(220, 10%, 50%);
+  --color-pressed: hsl(220, 10%, 30%);
 
   --color-border: var(--color-header);
   --color-border-bright: var(--color-bg-secondary);

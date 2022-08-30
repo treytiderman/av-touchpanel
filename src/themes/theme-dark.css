@@ -18,6 +18,9 @@ body {
   --filter-brightness-diable: brightness(80%);
   --color-highlight: hsl(220, 10%, 60%, 15%);
 
+  --color-hover: hsl(220, 10%, 15%);
+  --color-pressed: hsl(220, 10%, 10%);
+
   --color-border: var(--color-header);
   --color-border-bright: var(--color-bg-secondary);
   --color-shadow: #00000099;
@@ -27,12 +30,12 @@ body {
   --color-bg-red:      hsl(   5, 85%, 60%);
   --color-bg-orange:   hsl(  30, 85%, 60%);
   --color-bg-yellow:   hsl(  60, 85%, 60%);
-  --color-bg-lime:     hsl(  90, 85%, 60%);
+  --color-bg-lime:     hsl(  95, 85%, 60%);
   --color-bg-green:    hsl( 130, 85%, 60%);
   --color-bg-cyan:     hsl( 180, 85%, 60%);
   --color-bg-blue:     hsl( 220, 85%, 60%);
   --color-bg-purple:   hsl( 260, 85%, 60%);
-  --color-bg-pink:     hsl( 315, 85%, 60%);
+  --color-bg-pink:     hsl( 315, 70%, 60%);
   --color-text-grey:   hsl( 220, 10%,  5%);
   --color-text-red:    hsl(   5, 99%,  5%);
   --color-text-orange: hsl(  30, 99%,  5%);

@@ -7,29 +7,47 @@
   // Configuration
   export let config 
   const exampleConfig = {
-    "name": "Presentation",
-    "advanced": false,
-    "inputSelected": 0,
+    "name": "Video 2",
+    "file": "PresentationPage",
+    "SIMPL": {
+      "ip": "192.168.1.69",
+      "port": 10000,
+      "path": "PresentationPage"
+    },
+    "advancedOption": false,
+    "advancedRouting": true,
+    "inputColumns": 1,
+    "outputColumns": 2,
     "inputs": [
+      {
+        "id": 3,
+        "name": "Room PC",
+        "icon": "computer"
+      },
+      {
+        "id": 5,
+        "name": "Wireless",
+        "icon": "cast"
+      },
       {
         "id": 1,
         "name": "Laptop Front",
-        "icon": "computer"
+        "icon": "settings_input_hdmi"
       },
       {
         "id": 2,
         "name": "Laptop Back",
-        "icon": "laptop_windows"
-      },
-      {
-        "id": 3,
-        "name": "Old DVD Player",
-        "icon": "settings_input_component"
+        "icon": "settings_input_hdmi"
       },
       {
         "id": 4,
-        "name": "HDMI Input",
-        "icon": "settings_input_hdmi"
+        "name": "Apple TV",
+        "icon": "Cast"
+      },
+      {
+        "id": 6,
+        "name": "VCR",
+        "icon": "settings_input_component"
       },
       {
         "id": 0,
@@ -39,19 +57,36 @@
     ],
     "outputs": [
       {
-        "id": 0,
-        "name": "Display Left",
-        "inputId": 0
-      },
-      {
         "id": 1,
-        "name": "Display Right",
-        "inputId": 0
+        "name": "Display 1"
       },
       {
         "id": 2,
-        "name": "Projector",
-        "inputId": 0
+        "name": "Display 2"
+      },
+      {
+        "id": 3,
+        "name": "Display 3"
+      },
+      {
+        "id": 4,
+        "name": "Display 4"
+      },
+      {
+        "id": 5,
+        "name": "Display 5"
+      },
+      {
+        "id": 6,
+        "name": "Display 6"
+      },
+      {
+        "id": 7,
+        "name": "Display 7"
+      },
+      {
+        "id": 8,
+        "name": "Display 8"
       }
     ]
   }
@@ -60,157 +95,160 @@
   import Icon from '../components/Icon.svelte'
 
   // Variables
-  let advanced = config.advanced
+  let iconSize = 2
+  let advancedRouting = config.advancedRouting
+  let advancedOption = config.advancedOption
+  // let directionVertial = config.directionVertial
   let inputs = config.inputs
+  let inputSelected = inputs.find(input => input.id === 0)
   let outputs = config.outputs
-  let inputSelected = config.inputSelected
+  outputs.forEach(output => output.input = inputSelected)
+
+  // Dynamic Variables
+  $: inputColumns = $global.screen.width > 550 ? config.inputColumns || "auto" : 2
+  $: outputColumns = $global.screen.width > 550 ? config.outputColumns || "auto" : 1
+
+  // Functions
+  function inputSelect(input) {
+    inputSelected = input
+  }
+  function outputSelect(output) {
+    output.input = inputSelected
+    outputs = outputs
+  }
+  function advancedToggle() {
+    advancedRouting = !advancedRouting
+  }
+
+  // Debug
+  $: console.log("config", config)
+  $: console.log("inputSelected", inputSelected)
+  $: console.log("advancedRouting", advancedRouting)
+  $: console.log("outputs", outputs)
 
 </script>
 
 <!-- HTML -->
-<!-- Advanced Routing -->
-{#if advanced}
-  <section class="advancedSection">
-
-    <!-- Inputs -->
-    <div class="colunm">
-      <h4>Select source...</h4>
-      <div class="sources">
-        {#each inputs as input}        
-          <button 
-            class:selected={inputSelected === input.id}
-            on:click={() => inputSelected = input.id}
-          >
-            <Icon name={input.icon} style="font-size: 2rem" />
-            {input.name}
-          </button>
-        {/each}
-      </div>
+<section class:advancedSection={advancedRouting}>
+  
+  <!-- Inputs -->
+  <div class="colunm">
+    <h4>Select source...</h4>
+    <div
+      class="inputList"
+      style="grid-template-columns: repeat({inputColumns}, 1fr);"
+    >
+      {#each inputs as input}        
+        <button 
+          on:click={() => inputSelect(input)}
+          class:selected={inputSelected.id === input.id}
+        >
+          <Icon name={input.icon} size={iconSize} />
+          {input.name}
+        </button>
+      {/each}
     </div>
+  </div>
 
-    <!-- Outputs -->
+  <!-- Outputs -->
+  {#if advancedRouting}
     <div class="colunm">
       <h4>Then destination...</h4>
       <div 
-        class="tvs"
-        style="grid-template-columns: { outputs.length > 1 ? "1fr" : "1fr" };"
+        class="outputList"
+        style="grid-template-columns: repeat({outputColumns}, 1fr);"
       >
-        {#each outputs as output}        
-          <button on:click={() => output.inputId = inputSelected} class="tv">
-            <span>{output.name}</span>
-            <div>
-              <Icon name={inputs.find(input => input.id === output.inputId).icon} style="font-size: 2rem" />
-              {inputs.find(input => input.id === output.inputId).name}
-            </div>
-          </button>
-        {/each}
+        {#key outputs}
+          {#each outputs as output}      
+            <button on:click={() => outputSelect(output)} class="tv">
+              <span>{output.name}</span>
+              <div>
+                <Icon name={output.input.icon} size={iconSize} />
+                {output.input.name}
+              </div>
+            </button>
+          {/each}
+        {/key}
       </div>
     </div>
+  {/if}
 
-    <button class="lowerLeft"
-      on:click={() => advanced = !advanced}
-    >
-      <Icon name="display_settings" size=2/>
-      Simple
-    </button>
-  </section>
-
-<!-- Simple Routing -->
-{:else}
-  <section class="simpleSection">
-
-    <!-- Inputs -->
-    <div class="colunm">
-      <h4>Select source...</h4>
-      <div class="sources">
-        {#each inputs as input}        
-          <button 
-            class:selected={inputSelected === input.id}
-            on:click={() => inputSelected = input.id}
-          >
-            <Icon name={input.icon} style="font-size: 2rem" />
-            {input.name}
-          </button>
-        {/each}
-      </div>
-    </div>
-
-    <button class="lowerLeft"
-      on:click={() => advanced = !advanced}
-    >
-      <Icon name="display_settings" size=2/>
-      Advanced
-    </button>
-
-  </section>
-{/if}
+  <!-- Advanced Routing Toggle -->
+  {#if advancedOption}
+  <button class="lowerLeft" on:click={advancedToggle}>
+    <Icon name="display_settings" size={iconSize}/>
+    {advancedRouting ? "Simple" : "Advanced"}
+  </button>
+  {/if}
+    
+</section>
 
 
 
 <!-- CSS -->
 <style>
   section {
-    display: grid;
-    gap: calc(var(--gap)*2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
     align-items: flex-start;
-    /* border: var(--border); border-color: red; */
-    /* padding: var(--gap); */
-    /* background-color: var(--color-header); */
-    /* border-radius: var(--radius-2); */
   }
-  .simpleSection {
-    grid-template-columns: 1fr;
-  }
-  .advancedSection {
-    grid-template-columns: auto 1fr;
+  @media (max-width: 550px) { section { gap: var(--gap); } }
+  button {
+    position: relative;
+    white-space: nowrap;
+    background-color: var(--color-bg-secondary);
   }
   .colunm {
     display: grid;
     gap: var(--gap);
     align-items: flex-start;
+    height: 100%;
   }
-  button {
-    position: relative;
-    overflow-wrap: break-word;
-    background-color: var(--color-bg-secondary);
-    min-width: 10rem;
-  }
-  .sources {
+  .inputList,
+  .outputList {
     display: grid;
     gap: var(--gap);
-    grid-template-columns: 1fr 1fr;
-    
-    /* border: var(--border); border-color: red; */
+    align-items: flex-start;
+    overflow: auto;
+    max-height: 65vh;
+    padding-right: var(--gap);
   }
-  .sources > button {
+  /* .directionVertial {
+    flex-direction: column;
+  } */
+
+  /* Inputs */
+  .inputList {
+    display: grid;
+  }
+  @media (max-width: 550px) { .inputList { max-height: 100%; } }
+  .inputList > button {
     display: flex;
     gap: var(--gap);
     align-items: center;
   }
-  .sources > button.selected {
+  .inputList > button.selected {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
   }
   
-  .tvs {
+  /* Outputs */
+  .outputList {
     display: grid;
-    gap: var(--gap);
-    align-items: flex-start;
-    grid-template-columns: 1fr 1fr;
-    /* border: var(--border); border-color: red; */
   }
-  .tvs > .tv {
+  @media (max-width: 550px) { .outputList { max-height: 100%; } }
+  .outputList > .tv {
     text-align: left;
     display: grid;
     width: 16rem;
     height: 9rem;
     aspect-ratio: 16/9;
   }
-  .tvs > .tv > div {
+  .outputList > .tv > div {
     text-align: center;
     display: grid;
     height: 100%;
-    /* color: var(--color-font-2); */
   }
 
   .lowerLeft {
@@ -226,7 +264,4 @@
     gap: var(--pad);
     align-items: center;
   }
-  /* @media (max-width: 550px) { .sources { grid-template-columns: 1fr } } */
-  @media (max-width: 1000px) { .tvs { grid-template-columns: 1fr } }
-  @media (max-width: 760px) { .advancedSection { grid-template-columns: 1fr } }
 </style>

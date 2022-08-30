@@ -113,8 +113,8 @@
     /* border: var(--border); border-color: red; */
   }
   button {
-    --grad-start-color-hover: hsl(220, 10%, 15%);
-    --grad-start-color: var(--color-header);
+    --grad-start-color-hover: var(--color-hover);
+    --grad-start-color: var(--color-pressed);
     --grad-end-color: transparent;
     --grad-dist: 95%;
 

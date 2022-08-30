@@ -286,6 +286,7 @@ tr:hover {
   position: fixed;
   left: 0;
   bottom: 0;
+  background-color: var(--color-bg);
   color: var(--color-text-dim);
   margin: var(--pad);
   padding: .5rem;

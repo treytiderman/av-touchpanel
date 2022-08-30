@@ -127,7 +127,7 @@ function createStore(wsOptions) {
       }
       ws.send(JSON.stringify(data))
     },
-		digitalPulse: (join, time_ms = 10) => {
+		digitalPulse: (join, time_ms = 1000) => {
       log(`TX: digital pulse ${join} for ${time_ms} ms`)
       const dataPress = {
         "method": "set",

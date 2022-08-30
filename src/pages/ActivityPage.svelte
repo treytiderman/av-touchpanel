@@ -3,6 +3,7 @@
 
   // Stores
   import { global, router } from '../js/global.js';
+  import { ActivityPage } from '../js/simpl-ws-connections.js';
 
   // Configuration
   export let config
@@ -65,10 +66,15 @@
   // Functions
   function pressActivity(activity) {
     $router.page = activity.page
+    ActivityPage.analog(1, activity.id)
+    ActivityPage.digitalPulse(activity.id)
   }
   function pressLowerLeftButton() {
     $router.page = page
   }
+
+  // Debug
+  $: console.log("activities", activities)
 
 </script>
 

@@ -122,7 +122,8 @@
     left: 0px;
     width: 100%;
     height: 100%;
-    background-color: #000000cc;
+    background-color: #000000;
+    opacity: 0.75;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
   }

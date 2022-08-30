@@ -1,3 +1,8 @@
+# What is this
+
+This project uses Svelte (JavaScript/HTML Framwork) to make a touch panel UI for Crestron touch panels.
+
+
 # Setup
 
 install Node.js from https://nodejs.org/ (16.16.0)
