@@ -22,10 +22,15 @@
     return false
   }
 
-  // Variables
+  // Dynamic Variables
   $: hasSubpages = activePageConfig.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePageConfig.subpages[0] : ""
   $: activeSubpageFiles = getSubpageFiles(hasSubpages)
+
+  // Get all the file names
+  $config.files = []
+  $config.pages["AllPages"] = {name: "All Pages", file: "AllPages"}
+  $config.pageFiles = pageFiles
 
 </script>
 
@@ -37,7 +42,8 @@
     {#each activePageConfig.subpages as subpage}
       <button
         on:click={() => activeSubpageName = subpage}
-        class:active={subpage === activeSubpageName}>
+        class:active={subpage === activeSubpageName}
+      >
         {$config.pages[subpage]?.name}
       </button>
     {/each}

@@ -5,16 +5,53 @@
   import { global, router, config as configFile } from '../js/global.js';
 
   // Configuration
-  export let config
-  const exampleConfig = {
+  export let config = {
     "show": true,
     "homePage": "Activities",
-    "powerPage": "",
+    "powerPage": "Power Down",
     "quickAccess": {
-      "privacy": false,
-      "volumes": false,
-      "record": false,
-      "walls": false
+      "darkMode": true,
+      "popups": [
+        {
+          "id": 1,
+          "name": "Audio",
+          "page": "Audio",
+          "icon": "volume_up"
+        },
+        {
+          "id": 2,
+          "name": "Pres",
+          "page": "Presentation",
+          "icon": "co_present"
+        }
+      ],
+      "toggles": [
+        {
+          "id": 2,
+          "state": false,
+          "onState": {
+            "icon": "join_full",
+            "name": "Combine"
+          },
+          "offState": {
+            "icon": "join_right",
+            "name": "Split"
+          }
+        },
+        {
+          "id": 1,
+          "state": false,
+          "onState": {
+            "icon": "mic_off",
+            "name": "Privacy",
+            "color": "red"
+          },
+          "offState": {
+            "icon": "mic",
+            "name": "Privacy"
+          }
+        }
+      ]
     }
   }
 

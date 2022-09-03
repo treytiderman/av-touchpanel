@@ -5,15 +5,9 @@
   import { global, router } from '../js/global.js';
 
   // Configuration
-  export let config
-  const exampleConfig = {
+  export let config = {
     "name": "System Off",
-    "file": "PowerDownPage",
-    "SIMPL": {
-      "ip": "192.168.1.69",
-      "port": 10000,
-      "path": "AudioPage"
-    }
+    "file": "PowerDownPage"
   }
 
   // Functions

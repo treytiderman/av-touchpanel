@@ -3,10 +3,10 @@
 
   // Stores
   import { global, router } from '../js/global.js';
+  // import { PresentationPage } from '../js/simpl-ws-connections.js';
 
   // Configuration
-  export let config 
-  const exampleConfig = {
+  export let config = {
     "name": "Video 2",
     "file": "PresentationPage",
     "SIMPL": {
@@ -111,6 +111,7 @@
   // Functions
   function inputSelect(input) {
     inputSelected = input
+    // PresentationPage.digitalPulse(inputSelected.id)
   }
   function outputSelect(output) {
     output.input = inputSelected

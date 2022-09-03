@@ -1,25 +1,72 @@
 {
-  "theme": "dark",
-  "scale": 1,
-  "scaleMobile": 1,
-  "rotate": 0,
+  "processor": {
+    "offline": true,
+    "ip": "192.168.1.69",
+    "websocket": {
+      "port": 10000,
+      "path": "tp"
+    }
+  },
+  "view": {    
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1,
+    "rotate": 0
+  },
   "startup": {
-    "page": "Activities",
+    "page": "activities",
     "popup": ""
   },
   "topBar": {
     "show": true,
-    "homePage": "Activities",
-    "powerPage": "Power Down",
+    "homePage": "activities",
+    "powerPage": "system off",
     "quickAccess": {
       "darkMode": true,
-      "privacy": true,
-      "volumes": true,
-      "record": false,
-      "walls": false
+      "popups": [
+        {
+          "id": 1,
+          "name": "Audio",
+          "page": "audio",
+          "icon": "volume_up"
+        },
+        {
+          "id": 2,
+          "name": "Pres",
+          "page": "video",
+          "icon": "co_present"
+        }
+      ],
+      "toggles": [
+        {
+          "id": 2,
+          "state": false,
+          "onState": {
+            "icon": "join_full",
+            "name": "Combine"
+          },
+          "offState": {
+            "icon": "join_right",
+            "name": "Split"
+          }
+        },
+        {
+          "id": 1,
+          "state": false,
+          "onState": {
+            "icon": "mic_off",
+            "name": "Privacy",
+            "color": "red"
+          },
+          "offState": {
+            "icon": "mic",
+            "name": "Privacy"
+          }
+        }
+      ]
     }
   },
-  "roomState": {
+  "roomStates": {
     "split-north": {
       "configFile": "split-north.json"
     },
@@ -28,71 +75,60 @@
     }
   },
   "pages": {
-    "Splash": {
+    "splash screen": {
       "name": "Splash",
       "file": "SplashPage",
       "image": "images/FordAV_BlackBG_1920_1080.png",
       "backgroundColor": "#000000"
     },
-    "Activities": {
+    "activities": {
       "name": "Home",
       "file": "ActivityPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "ActivityPage"
+        "subscription": "ActivityPage"
       },
       "lowerLeftButton": {
         "show": true,
         "icon": "settings",
         "label": "Settings",
-        "page": "Device Power"
+        "page": "settings power"
       },
       "activities": [
         {
           "id": 1,
+          "page": "video",
           "name": "Presentation",
-          "page": "Presentation",
           "icon": "co_present",
           "color": "green"
         },
         {
           "id": 2,
+          "page": "cameras",
           "name": "Video Call",
-          "page": "Cameras",
           "icon": "videocam",
           "color": "yellow"
         },
         {
-          "id": 3,
-          "name": "Volumes",
-          "page": "Audio",
-          "icon": "volume_up",
-          "color": "orange"
-        },
-        {
           "id": 4,
           "name": "Phone",
-          "page": "Phone",
+          "page": "phone",
           "icon": "phone",
           "color": "purple"
         }
       ]
     },
-    "Presentation": {
-      "name": "Video Routing",
+    "video": {
+      "name": "Video",
       "subpages": [
-        "Presentation 1",
-        "Presentation 2"
+        "video sub 1",
+        "video sub 2"
       ]
     },
-    "Presentation 1": {
+    "video sub 1": {
       "name": "Video 1",
-      "file": "PresentationPage",
+      "file": "VideoPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "PresentationPage"
+        "subscription": "VideoPage"
       },
       "advancedOption": true,
       "advancedRouting": false,
@@ -131,13 +167,11 @@
         }
       ]
     },
-    "Presentation 2": {
+    "video sub 2": {
       "name": "Video 2",
-      "file": "PresentationPage",
+      "file": "VideoPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "PresentationPage"
+        "subscription": "VideoPage"
       },
       "advancedOption": false,
       "advancedRouting": true,
@@ -215,49 +249,13 @@
         }
       ]
     },
-    "Cameras": {
+    "cameras": {
       "name": "Video Call",
       "file": "CameraPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "CameraPage"
+        "subscription": "CameraPage"
       },
       "shareListShow": true,
-      "savePresetHoldTime_sec": 2,
-      "cameras": [
-        {
-          "id": 4,
-          "name": "Camera 4",
-          "controls": {
-            "show": true,
-            "bottomLeft": {
-              "show": true,
-              "icon": "home"
-            }
-          }
-        },
-        {
-          "id": 4,
-          "name": "Camera 4",
-          "controls": {
-            "show": true,
-            "bottomLeft": {
-              "show": true,
-              "icon": "home"
-            }
-          }
-        }
-      ]
-    },
-    "Cameras2": {
-      "name": "Video Call",
-      "file": "CameraPage",
-      "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "CameraPage"
-      },
       "savePresetHoldTime_sec": 2,
       "cameras": [
         {
@@ -317,33 +315,35 @@
         }
       ]
     },
-    "Phone": {
-      "name": "Phone Call",
+    "phone": {
+      "name": "Phone",
       "file": "PhonePage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "PhonePage"
+        "subscription": "PhonePage"
       },
       "placeholder": "405-123-4567"
     },
-    "Power Down": {
+    "system off": {
       "name": "System Off",
-      "file": "PowerDownPage",
+      "file": "SystemOffPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "AudioPage"
+        "subscription": "SystemOffPage"
       },
-      "offPage": "Splash"
+      "offPage": "splash screen"
     },
-    "Audio Sub Page 1": {
+    "audio": {
+      "name": "Volumes",
+      "subpages": [
+        "audio sub 1",
+        "audio sub 2",
+        "audio sub 3"
+      ]
+    },
+    "audio sub 1": {
       "name": "Audio 1",
       "file": "AudioPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "AudioPage"
+        "subscription": "AudioPage"
       },
       "volumes": [
         {
@@ -386,13 +386,11 @@
         }
       ]
     },
-    "Audio Sub Page 2": {
+    "audio sub 2": {
       "name": "Audio 2",
       "file": "AudioPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "AudioPage"
+        "subscription": "AudioPage"
       },
       "volumes": [
         {
@@ -404,13 +402,11 @@
         }
       ]
     },
-    "Audio Sub Page 3": {
+    "audio sub 3": {
       "name": "Audio 3",
       "file": "AudioPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "AudioPage"
+        "subscription": "AudioPage"
       },
       "volumes": [
         {
@@ -422,37 +418,32 @@
         }
       ]
     },
-    "Audio": {
-      "name": "Volumes",
-      "subpages": [
-        "Audio Sub Page 1",
-        "Audio Sub Page 2",
-        "Audio Sub Page 3"
-      ]
-    },
-    "Settings": {
+    "settings": {
       "name": "Settings",
       "subpages": [
-        "Device Power"
+        "settings power"
       ]
     },
-    "Device Power": {
+    "settings power": {
       "name": "Device Power",
       "file": "DevicePowerPage",
       "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "DevicePowerPage"
-      }
-    },
-    "ConfigPage": {
-      "name": "Configuration Edit",
-      "file": "ConfigPage",
-      "SIMPL": {
-        "ip": "192.168.1.69",
-        "port": 10000,
-        "path": "ConfigPage"
-      }
+        "subscription": "DevicePowerPage"
+      },
+      "devices": [
+        {
+          "id": 1,
+          "name": "Display Left"
+        },
+        {
+          "id": 2,
+          "name": "Display Right"
+        },
+        {
+          "id": 3,
+          "name": "Projector"
+        }
+      ]
     }
   }
 }

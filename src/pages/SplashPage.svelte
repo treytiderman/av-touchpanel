@@ -5,8 +5,7 @@
   import { global, router, config as configFile } from '../js/global.js';
 
   // Configuration
-  export let config
-  const exampleConfig = {
+  export let config = {
     "name": "Splash",
     "file": "SplashPage",
     "png": "images/FordAV_BlackBG_1920_1080.png",

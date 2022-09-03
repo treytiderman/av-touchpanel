@@ -87,7 +87,7 @@ export function getUrlSearchs() {
   // Return
   // console.log(searchObj)
   return searchObj
-    
+
 }
 
 // Check URL for "...#edit" or "...#whatever"

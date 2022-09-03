@@ -40,11 +40,11 @@
   div {
     display: grid;
     gap: var(--gap);
-    align-items: center;
+    align-items: flex-start;
     grid-template-columns: 4rem 1fr;
   }
   button {
-    font-size: 1.6em;
+    font-size: 1.6rem;
     color: var(--color-text-dim);
     border: var(--border);
     border-color: var(--color-bg-secondary);

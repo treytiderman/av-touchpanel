@@ -3,10 +3,15 @@
   import formatHighlight from '../js/json-format-highlight.js'
 
   // Stores
-  import { global, router, config } from '../js/global.js';
-  let exampleConfig = {
-    "name": "Configuration Edit"
+  import { global, router, config as configFile } from '../js/global.js';
+  export let config = {
+    "name": "Configuration Edit",
+    "file": "ConfigPage",
+    "SIMPL": {
+      "subscription": "ConfigPage"
+    }
   }
+  config = config
 
   // Functions
   function isJSON(str) {
@@ -28,20 +33,20 @@
   function use() {
     if (isJSON(text)) {
       obj = JSON.parse(text)
-      config.set(obj)
-      console.log("Temp Config", $config)
+      configFile.set(obj)
+      console.log("Temp Config", $configFile)
     }
   }
   function save() {
     if (isJSON(text)) {
       obj = JSON.parse(text)
-      console.log("Saved Config", $config)
+      console.log("Saved Config", $configFile)
     }
   }
   
   // Variables
   let text = ""
-  let obj = $config
+  let obj = $configFile
   let badConfig = false
   $: html = formatHighlight(obj)
 

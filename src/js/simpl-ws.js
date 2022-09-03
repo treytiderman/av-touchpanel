@@ -2,47 +2,54 @@ import { writable } from 'svelte/store'
 
 // Debug
 let debug = false;
-function setDebug(bool) { debug = bool }
 function log(text) { if (debug) console.log(text) }
 
 // Global variables
-let ws
+let websocket = { readyState: 3 }
 let reconnectInterval
 
 // Functions
 function parseMessage(message) {
   /* Structure
   {
+    "id":"pageName",
+    "method":"get",
+    "data": ""
+  }
+  {
+    "id": "pageName",
     "method": "set",
-    "request": {
+    "data": {
       "index": 1,
       "value": true
     }
   }
   {
+    "id": "pageName",
     "method": "set",
-    "request": {
+    "data": {
       "index": 1,
       "value": 420
     }
   }
   {
+    "id": "pageName",
     "method": "set",
-    "request": {
+    "data": {
       "index": 1,
       "value": "Strings"
     }
   }
   */
-  
+
   // Object
-  const data = JSON.parse(message)
-  if      (typeof data.request.value === 'boolean') data.type = 'digital'
-  else if (typeof data.request.value === 'number')  data.type = 'analog'
-  else if (typeof data.request.value === 'string')  data.type = 'serial'
-  
+  const obj = JSON.parse(message)
+  if      (typeof obj.data.value === 'boolean') obj.type = 'digital'
+  else if (typeof obj.data.value === 'number')  obj.type = 'analog'
+  else if (typeof obj.data.value === 'string')  obj.type = 'serial'
+
   // Return
-  return data
+  return obj
 }
 function wsConnect(options) {
   // Options
@@ -57,119 +64,158 @@ function wsConnect(options) {
 
   // Failed to Connect, Start reconnect Timer
   reconnectInterval = setTimeout(() => {
-    log('WebSocket: FAILED TO CONNECT');
-    log('WebSocket: PLEASE REFRESH');
-  }, reconnectTimeout_ms);
+    log(`WebSocket ${url}: FAILED TO CONNECT`)
+    log(`WebSocket ${url}: PLEASE REFRESH`)
+  }, reconnectTimeout_ms)
 
   // Connection request
-  ws = new WebSocket(url);
-  log('WebSocket: REQUESTED');
+  websocket = new WebSocket(url)
+  log(`WebSocket: REQUESTED at ${url}`)
 
   // Events
-  ws.addEventListener('open', (event) => {
-    log('WebSocket: OPEN');
+  websocket.addEventListener('open', (event) => {
+    log(`WebSocket: OPEN at ${url}`)
     // Connection active, Clear reconnect timer
-    clearTimeout(reconnectInterval);
-    // Request all values on OPEN
-    const get = { "method": "get", "request": "" }
-    ws.send(JSON.stringify(get))
-  });
-  ws.addEventListener('message', (event) => {
-    const data = parseMessage(event.data);
-    log(`RX: ${data.type} ${data.request.index} = ${data.request.value}`);
-  });
-  ws.addEventListener('error', (event) => {
-    log('WebSocket: ERROR')
-    log(event);
-  });
-  ws.addEventListener('close', (event) => {
-    log('WebSocket: CLOSE');
-    setTimeout(() => wsConnect(options), reconnectTimeout_ms);
-  });
-};
-function createStore(wsOptions) {
+    clearTimeout(reconnectInterval)
+  })
+  websocket.addEventListener('error', (event) => {
+    log(`WebSocket: ERROR at ${url}`)
+    log(event)
+  })
+  websocket.addEventListener('close', (event) => {
+    log(`WebSocket: CLOSE at ${url}`)
+    setTimeout(() => wsConnect(options), reconnectTimeout_ms)
+  })
+}
+function createStore() {
   // Create Store
 	const { subscribe, set, update } = writable({
-    digital: [
-      false,
-    ],
-    analog: [
-      0,
-    ],
-    serial: [
-      "not connected",
-    ],
-  });
-  
-  // Connect to Websocket and listen for updates
-  wsConnect(wsOptions)
-  ws.addEventListener('message', (event) => {
-    const data = parseMessage(event.data);
-    
-    // Set value in store
-    update(val => {
-      val[data.type][data.request.index-1] = data.request.value
-      return val
-    })
-  });
+    "status": "",
+    "subscriptions": {
+      "pageName": {
+        "digital": [false],
+        "analog": [0],
+        "serial": [""]
+      }
+    }
+  })
 	
   // Return functions to listen to changes and send messages to the processor
   return {
 		subscribe,
-    digital: (join, value) => {
-      log(`TX: digital ${join} = ${value}`)
-      const data = {
-        "method": "set",
-        "request": {
-          "index": join,
-          "value": value
-        }
-      }
-      ws.send(JSON.stringify(data))
+    // set,
+    // update,
+    connect: (options) => {
+      // Connect to Websocket
+      wsConnect(options)
+
+      // Connected
+      websocket.addEventListener('open', (event) => {
+        // Update Status
+        update(val => { val.status = "open"; return val })
+        // Request all values
+        const get = { "method": "get", "data": "" }
+        websocket.send(JSON.stringify(get))
+      })
+
+      // Recive message
+      websocket.addEventListener('message', (event) => {
+        const obj = parseMessage(event.data)
+        log(`RX[${obj.id}]: ${obj.type} ${obj.data.index} = ${obj.data.value}`)
+        update(val => {
+          // Create a object for the recived data if it doesn't exist
+          if (!val[obj.id]) {
+            val[obj.id] = {"digital": [false],"analog": [0],"serial": [""]}
+          }
+          // Update the ws store with the new value
+          val[obj.id][obj.type][obj.data.index] = obj.data.value
+          return val
+        })
+      })
+
+      // Error / Close
+      websocket.addEventListener('error', (event) => {
+        update(val => { val.status = "error"; return val })
+      })
+      websocket.addEventListener('close', (event) => {
+        update(val => { val.status = "closed"; return val })
+      })
+
     },
-		digitalPulse: (join, time_ms = 1000) => {
-      log(`TX: digital pulse ${join} for ${time_ms} ms`)
-      const dataPress = {
-        "method": "set",
-        "request": {
-          "index": join,
-          "value": true
+
+    // Send data to SIMPL modules
+    digital: (sub, join, value) => {
+      if (websocket.readyState === 1) {        
+        log(`TX[${sub}]: digital ${join} = ${value}`)
+        const data = {
+          "id": sub,
+          "method": "set",
+          "data": {
+            "index": join,
+            "value": value
+          }
         }
+        websocket.send(JSON.stringify(data))
       }
-      const dataRelease = {
-        "method": "set",
-        "request": {
-          "index": join,
-          "value": false
-        }
-      }
-      ws.send(JSON.stringify(dataPress))
-      setTimeout(() => ws.send(JSON.stringify(dataRelease)), time_ms)
+      else log(`SEND FAILED. TX[${sub}]: digital ${join} = ${value}`)
     },
-		analog: (join, value) => {
-      log(`TX: analog ${join} = ${value}`)
-      const data = {
-        "method": "set",
-        "request": {
-          "index": join,
-          "value": value
+		digitalPulse: (sub, join, time_ms = 100) => {
+      if (websocket.readyState === 1) {    
+        log(`TX[${sub}]: digital pulse ${join} for ${time_ms} ms`)
+        const dataPress = {
+          "id": sub,
+          "method": "set",
+          "data": {
+            "index": join,
+            "value": true
+          }
         }
+        const dataRelease = {
+          "id": sub,
+          "method": "set",
+          "data": {
+            "index": join,
+            "value": false
+          }
+        }
+        websocket.send(JSON.stringify(dataPress))
+        setTimeout(() => websocket.send(JSON.stringify(dataRelease)), time_ms)
       }
-      ws.send(JSON.stringify(data));
+      else log(`SEND FAILED. TX[${sub}]: digital pulse ${join} for ${time_ms} ms`)
     },
-		serial: (join, value) => {
-      log(`TX: serial ${join} = ${value}`)
-      const data = {
-        "method": "set",
-        "request": {
-          "index": join,
-          "value": value
+		analog: (sub, join, value) => {
+      if (websocket.readyState === 1) {    
+        log(`TX[${sub}]: analog ${join} = ${value}`)
+        const data = {
+          "id": sub,
+          "method": "set",
+          "data": {
+            "index": join,
+            "value": value
+          }
         }
+        websocket.send(JSON.stringify(data));
       }
-      ws.send(JSON.stringify(data));
+      else log(`SEND FAILED. TX[${sub}]: analog ${join} = ${value}`)
+    },
+		serial: (sub, join, value) => {
+      if (websocket.readyState === 1) {    
+        log(`TX[${sub}]: serial ${join} = ${value}`)
+        const data = {
+          "id": sub,
+          "method": "set",
+          "data": {
+            "index": join,
+            "value": value
+          }
+        }
+        websocket.send(JSON.stringify(data));
+      }
+      else log(`SEND FAILED. TX[${sub}]: serial ${join} = ${value}`)
     }
-	};
+	}
 }
 
 // Exports
-export { createStore, setDebug };
+export const ws = createStore()
+export function setDebug(bool) { debug = bool }

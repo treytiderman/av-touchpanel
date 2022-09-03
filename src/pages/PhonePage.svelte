@@ -7,7 +7,7 @@
   // Configuration
   export let config = {
     "name": "Phone",
-    "placeholder": "4051234567"
+    "placeholder": "405-123-4567"
   }
 
   // Components

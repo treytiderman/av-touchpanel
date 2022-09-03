@@ -3,17 +3,14 @@
 
   // Stores
   import { global, router } from '../js/global.js';
-  import { ActivityPage } from '../js/simpl-ws-connections.js';
+  import { ws } from '../js/simpl-ws'
 
   // Configuration
-  export let config
-  let exampleConfig = {
+  export let config = {
     "name": "Home",
     "file": "ActivityPage",
     "SIMPL": {
-      "ip": "192.168.1.69",
-      "port": 10000,
-      "path": "ActivityPage"
+      "subscription": "ActivityPage"
     },
     "lowerLeftButton": {
       "show": true,
@@ -57,6 +54,7 @@
   import Activity from '../components/Activity.svelte'
 
   // Variables
+  let sub = config.SIMPL.subscription
   let activities = config.activities
   let show = config.lowerLeftButton.show
   let icon = config.lowerLeftButton.icon
@@ -66,8 +64,8 @@
   // Functions
   function pressActivity(activity) {
     $router.page = activity.page
-    ActivityPage.analog(1, activity.id)
-    ActivityPage.digitalPulse(activity.id)
+    ws.analog(sub, 1, activity.id)
+    ws.digitalPulse(sub, activity.id)
   }
   function pressLowerLeftButton() {
     $router.page = page

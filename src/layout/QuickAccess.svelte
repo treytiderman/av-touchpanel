@@ -5,12 +5,37 @@
   import { global, router, config as configFile } from '../js/global.js';
 
   // Configuration
-  export let config
-  const defaultConfig = {
-    "privacy": true,
-    "volumes": true,
-    "walls": true,
-    "record": true
+  export let config = {
+    "darkMode": true,
+    "popups": [
+      {
+        "id": 1,
+        "name": "Audio",
+        "page": "Audio",
+        "icon": "volume_up",
+      },
+      {
+        "id": 2,
+        "name": "Pres",
+        "page": "Presentation",
+        "icon": "co_present",
+      }
+    ],
+    "toggles": [
+      {
+        "id": 1,
+        "state": false,
+        "onState": {
+          "icon": "mic_off",
+          "name": "Privacy",
+          "color": "red"
+        },
+        "offState": {
+          "icon": "mic",
+          "name": "Privacy"
+        }
+      }
+    ]
   }
 
   // Components
@@ -18,79 +43,66 @@
 
   // Variables
   export let editMode = false
-  let showWalls = config.walls
-  let showRecord = config.record
-  let showVolumes = config.volumes
-  let showPrivacy = config.privacy
+  let popups = config.popups
+  let toggles = config.toggles
   let showdarkMode = config.darkMode
 
 </script>
 
-<!-- Walls -->
-{#if showWalls}
-  {#if $global.combined}
-    <button on:click={() => router.set("popup", "WallsPage")}>
-      <Icon name="join_full" />
-      <small>Room Split</small>
-    </button>
-  {:else}
-    <button on:click={() => router.set("popup", "WallsPage")}>
-      <!-- <Icon name="join_left" /> -->
-      <Icon name="join_right" />
-      <small>Room Join</small>
-    </button>
-  {/if}
-{/if}
-
 <!-- Dark Mode -->
 {#if showdarkMode}
-  {#if $configFile.theme === "light"}
-    <button on:click={() => $configFile.theme = 'dark'}>
+  {#if $configFile.view.theme === "light"}
+    <button on:click={() => $configFile.view.theme = 'dark'}>
       <Icon name="dark_mode" />
       <small>Dark Mode</small>
     </button>
   {:else}
-    <button on:click={() => $configFile.theme = 'light'}>
+    <button on:click={() => $configFile.view.theme = 'light'}>
       <Icon name="light_mode" />
       <small>Light Mode</small>
     </button>
   {/if}
 {/if}
 
-<!-- Record -->
-{#if showRecord}
-<button on:click={() => $router.popup = "Presentation"}>
-  <Icon name="radio_button_unchecked"/>
-  <small>Record</small>
-</button>
-{/if}
+<!-- Popups -->
+{#each popups as popup}
+  <button on:click={() => $router.popup = popup.page}>
+    <Icon name={popup.icon} />
+    <small>{popup.name}</small>
+  </button>
+{/each}
 
-<!-- Volumes -->
-{#if showVolumes}
-<button on:click={() => $router.popup = "Audio"}>
-  <Icon name="volume_up" />
-  <small>Volumes</small>
-</button>
-{/if}
-
-<!-- Privacy -->
-{#if showPrivacy}
-  {#if $global.privacyMute}
-    <button class="privacy" on:click={() => $global.privacyMute = false}>
-      <Icon name="mic_off" />
-      <small>Privacy</small>
+<!-- Toggles -->
+{#each toggles as toggle}
+  {#if toggle.state}
+    <button 
+      style="color: var(--color-bg-{toggle.onState.color});"
+      on:click={() => toggle.state = false}>
+      <Icon name={toggle.onState.icon}/>
+      <small>{toggle.onState.name}</small>
     </button>
   {:else}
-    <button on:click={() => $global.privacyMute = true}>
-      <Icon name="mic" />
-      <small>Privacy</small>
+    <button 
+      style="color: var(--color-bg-{toggle.offState.color});"
+      on:click={() => toggle.state = true}>
+      <Icon name={toggle.offState.icon}/>
+      <small>{toggle.offState.name}</small>
     </button>
   {/if}
-{/if}
+{/each}
 
 <!-- Edit Mode -->
 {#if editMode}
-  <button on:click={() => $router.page = "ConfigPage"}>
+  <button on:click={() => {
+    $configFile.pages["config"] = {
+      "name": "Configuration Edit",
+      "file": "ConfigPage",
+      "SIMPL": {
+        "subscription": "ConfigPage"
+      }
+    }
+    $router.page = "config"
+  }}>
     <Icon name="edit"/>
     <small>Edit Config</small>
   </button>
@@ -101,8 +113,5 @@
   button {
     display: grid;
     align-items: center;
-  }
-  .privacy {
-    color: var(--color-bg-red);
   }
 </style>

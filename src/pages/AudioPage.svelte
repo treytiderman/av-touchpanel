@@ -5,8 +5,7 @@
   import { global, router } from '../js/global.js';
 
   // Configuration
-  export let config
-  const exampleConfig = {
+  export let config = {
     "name": "Audio",
     "file": "AudioPage",
     "SIMPL": {
@@ -46,11 +45,6 @@
         "id": 4,
         "label": "Privacy",
         "iconMic": true,
-        "type": "mute"
-      },
-      {
-        "id": 5,
-        "label": "All",
         "type": "mute"
       }
     ]

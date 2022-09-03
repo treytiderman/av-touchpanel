@@ -5,17 +5,11 @@
   export let label = "Toggle"
   export let labelOn = "ON"
   export let labelOff = "OFF"
-  export let on = false
+  export let state = false
 
   // Functions
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-  function onPress() {
-    on = true
-  }
-  function offPress() {
-    on = false
-  }
 
 </script>
 
@@ -23,17 +17,15 @@
 <div>
   <h6>{label}</h6>
   <span>
-    <button 
-      class:on={on}
-      on:pointerup={() => dispatch('onPress')}
-      on:click={onPress}
+    <button
+      class:on={state}
+      on:click={() => dispatch('onPress')}
     >
       {labelOn}
     </button>
     <button
-      class:off={!on}
-      on:pointerup={() => dispatch('offPress')}
-      on:click={offPress}
+      class:off={!state}
+      on:click={() => dispatch('offPress')}
     >
       {labelOff}
     </button>

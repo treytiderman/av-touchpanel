@@ -4,7 +4,7 @@ import { createStore, setDebug } from './simpl-ws'
 setDebug(true)
 
 // Websocket connections
-export const ActivityPage = createStore({ ip: '192.168.1.69', port: 10000, path: 'activitypage' })
+// export const ws = createStore({ ip: '192.168.1.69', port: 10001, path: 'ActivityPage' })
 
 /* Examples
 
@@ -32,5 +32,19 @@ ActivityPage.digital(join, false)
 ActivityPage.digitalPulse(join)
 ActivityPage.analog(join, value)
 ActivityPage.serial(join, string)
+
+{
+  "id":"ActivityPage",
+  "method":"get",
+  "data": ""
+}
+{
+  "id":"ActivityPage",
+  "method":"set",
+  "data": {
+    "index": 1,
+    "value": true
+  }
+}
 
 */

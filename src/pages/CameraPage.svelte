@@ -5,8 +5,7 @@
   import { global, router } from '../js/global.js';
 
   // Configuration
-  export let config
-  const examplConfig = {
+  export let config = {
     "name": "Video Call",
     "file": "CameraPage",
     "SIMPL": {
@@ -22,8 +21,8 @@
         "name": "Camera 0"
       },
       {
-        "id": 1,
-        "name": "Camera 1",
+        "id": 7,
+        "name": "Camera 7",
         "controls": {
           "show": true
         }
