@@ -43,8 +43,8 @@
 
   // Variables
   export let editMode = false
-  let popups = config.popups
-  let toggles = config.toggles
+  let popups = config.popups ? config.popups : []
+  let toggles = config.toggles ? config.toggles : []
   let showdarkMode = config.darkMode
 
 </script>

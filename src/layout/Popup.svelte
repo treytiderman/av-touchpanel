@@ -129,7 +129,7 @@
   }
   section {
     position: relative;
-    min-height: 50vh;
+    /* min-height: 50vh; */
     /* max-height: 90vh; */
     /* overflow: auto; */
     /* display: flex; */

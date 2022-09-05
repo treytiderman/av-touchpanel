@@ -69,13 +69,6 @@
       on:offPress={() => offPress(device)}
     />
   {/each}
-  <button
-    class="lowerLeft"
-    on:click={() => location.reload()}
-  >
-    <Icon name="refresh" size=2/>
-    Reload
-  </button>
 </section>
 
 <!-- CSS -->
@@ -85,19 +78,5 @@
     flex-wrap: wrap;
     gap: var(--gap);
     justify-content: center;
-  }
-  .lowerLeft {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    background-color: var(--color-bg);
-    opacity: 75%;
-    color: var(--color-text-dim);
-    margin: var(--pad);
-    padding: .5rem;
-
-    display: flex;
-    gap: var(--pad);
-    align-items: center;
   }
 </style>

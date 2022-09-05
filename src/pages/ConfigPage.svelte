@@ -24,8 +24,10 @@
     if (isJSON(text)) badConfig = false
     else badConfig = true
   }
-  function reformat() {
-    obj = JSON.parse(text)
+  function format() {
+    if (isJSON(text)) {
+      obj = JSON.parse(text)
+    }
   }
   function reload() {
     location.reload()
@@ -34,13 +36,13 @@
     if (isJSON(text)) {
       obj = JSON.parse(text)
       configFile.set(obj)
-      console.log("Temp Config", $configFile)
+      console.log("live config", $configFile)
     }
   }
   function save() {
     if (isJSON(text)) {
       obj = JSON.parse(text)
-      console.log("Saved Config", $configFile)
+      console.log("saved config", $configFile)
     }
   }
   
@@ -56,8 +58,9 @@
 <section>
   <div>
     <button on:click={reload}>Reload</button>
-    <button on:click={reformat}>Reformat</button>
-    <button on:click={use} class="right">Use Live</button>
+    <button on:click={format}>Format</button>
+    <button on:click={use} class="right">Live</button>
+    <!-- <button on:click={save}>Save</button> -->
     <button on:click={save} disabled>Save</button>
   </div>
   <code
@@ -88,7 +91,6 @@
     background-color: black;
     padding: var(--gap);
     border: var(--border);
-    /* border-radius: var(--radius-2); */
     border-radius: calc(1rem / 8);
     min-width: 55vw;
     max-height: 70vh;

@@ -66,5 +66,6 @@ npm run archive
 # To add a custom page
 
 1. Make a page file in ./src/pages
-2. Add page to ./App.svelte
-3. Add page to config.json
+2. Add page to "pageFiles" array in ./App.svelte 
+3. Add page to pages in config.json
+4. Add to activity page or quick access top bar

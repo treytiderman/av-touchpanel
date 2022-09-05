@@ -35,6 +35,7 @@ export async function getJSON(uri) {
   }
   try {
     let res = await response.json()
+    console.log("config file", res)
     return res
   }
   catch (error) {

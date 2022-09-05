@@ -1,0 +1,206 @@
+{
+  "processor": {
+    "offline": true,
+    "ip": "192.168.1.69",
+    "websocket": {
+      "port": 10000,
+      "path": "tp"
+    }
+  },
+  "view": {    
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1,
+    "rotate": 0
+  },
+  "startup": {
+    "page": "activities",
+    "popup": ""
+  },
+  "topBar": {
+    "show": true,
+    "homePage": "activities",
+    "powerPage": "system off",
+    "quickAccess": {
+      "popups": [
+        {
+          "id": 1,
+          "name": "Room State",
+          "page": "walls",
+          "icon": "join_full"
+        }
+      ],
+      "toggles": [
+        {
+          "id": 1,
+          "state": false,
+          "onState": {
+            "icon": "mic_off",
+            "name": "Privacy",
+            "color": "red"
+          },
+          "offState": {
+            "icon": "mic",
+            "name": "Privacy"
+          }
+        }
+      ]
+    }
+  },
+  "pages": {
+    "activities": {
+      "name": "Home",
+      "file": "ActivityPage",
+      "SIMPL": {
+        "subscription": "ActivityPage"
+      },
+      "heading": "Power the system on?",
+      "lowerLeftButton": {
+        "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "settings power"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "name": "Power ON",
+          "page": "video",
+          "icon": "power_rounded",
+          "color": "green"
+        }
+      ]
+    },
+    "video": {
+      "name": "Video",
+      "file": "VideoPage",
+      "SIMPL": {
+        "subscription": "VideoPage"
+      },
+      "advancedOption": true,
+      "advancedRouting": false,
+      "inputColumns": 1,
+      "outputColumns": 2,
+      "inputs": [
+        {
+          "id": 1,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 2,
+          "name": "Laptop Room A",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 3,
+          "name": "Laptop Room B",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 4,
+          "name": "Laptop Room C",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 0,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 1,
+          "name": "Display Room A"
+        },
+        {
+          "id": 2,
+          "name": "Display Room B"
+        },
+        {
+          "id": 3,
+          "name": "Display Room C"
+        }
+      ]
+    },
+    "walls": {
+      "name": "Room Combining",
+      "file": "WallsPage",
+      "roomName": "A+B+C",
+      "walls": [ 0, 0 ],
+      "rooms": [
+        {
+          "id": 1,
+          "name": "A"
+        },
+        {
+          "id": 2,
+          "name": "B"
+        },
+        {
+          "id": 3,
+          "name": "C"
+        }
+      ],
+      "roomStates": [
+        {
+          "id": 1,
+          "name": "A",
+          "configFile": "a.json",
+          "walls": [ 1, 0 ],
+          "roomNames": [ "A" ]
+        },
+        {
+          "id": 1,
+          "name": "A",
+          "configFile": "a.json",
+          "walls": [ 1, 1 ],
+          "roomNames": [ "A" ]
+        },
+        {
+          "id": 2,
+          "name": "A+B",
+          "configFile": "a-b.json",
+          "walls": [ 0, 1 ],
+          "roomNames": [ "A", "B" ]
+        },
+        {
+          "id": 3,
+          "name": "A+B+C",
+          "configFile": "a-b-c.json",
+          "walls": [ 0, 0 ],
+          "roomNames": [ "A", "B", "C" ]
+        }
+      ]
+    },
+    "settings power": {
+      "name": "Device Power",
+      "file": "DevicePowerPage",
+      "SIMPL": {
+        "subscription": "DevicePowerPage"
+      },
+      "devices": [
+        {
+          "id": 1,
+          "name": "Display Room A"
+        },
+        {
+          "id": 2,
+          "name": "Display Room B"
+        },
+        {
+          "id": 3,
+          "name": "Display Room C"
+        }
+      ]
+    },
+    "system off": {
+      "name": "System Off",
+      "file": "SystemOffPage",
+      "SIMPL": {
+        "subscription": "SystemOffPage"
+      },
+      "offPage": "activities"
+    }
+  }
+}

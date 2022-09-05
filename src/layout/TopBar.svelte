@@ -7,22 +7,22 @@
   // Configuration
   export let config = {
     "show": true,
-    "homePage": "Activities",
-    "powerPage": "Power Down",
+    "homePage": "activities",
+    "powerPage": "system off",
     "quickAccess": {
       "darkMode": true,
       "popups": [
         {
           "id": 1,
           "name": "Audio",
-          "page": "Audio",
+          "page": "audio",
           "icon": "volume_up"
         },
         {
           "id": 2,
-          "name": "Pres",
-          "page": "Presentation",
-          "icon": "co_present"
+          "name": "Camera",
+          "page": "camera",
+          "icon": "videocam"
         }
       ],
       "toggles": [
@@ -107,7 +107,6 @@
     font-size: 2em;
     color: var(--color-text-bright);
     background-color: var(--color-header);
-    /* border-bottom: var(--border); */
   }
   div {
     margin-left: auto;
@@ -116,7 +115,8 @@
   }
   button {
     padding: var(--gap);
-    background-color: transparent;
+    display: grid;
+    align-items: center;
   }
   h4 {
     white-space: nowrap;

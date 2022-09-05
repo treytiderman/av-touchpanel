@@ -15,8 +15,6 @@
       subpage: $config.startup.subpage
     }
     $global = {
-      advancedRouting: false,
-      privacyMute: $config.privacyMute,
       screen: {
         width: document.documentElement.offsetWidth,
         height: document.documentElement.offsetHeight,
@@ -28,6 +26,15 @@
       },
     }
     
+    // Screen Resize
+    window.addEventListener('resize', event => {
+      $global.screen = {
+        width: document.documentElement.offsetWidth,
+        height: document.documentElement.offsetHeight,
+        portrait: document.documentElement.offsetWidth < document.documentElement.offsetHeight
+      }
+    })
+    
     // Start Websocket
     setDebug(true)
     if ($config.processor.offline !== true ) {      
@@ -37,15 +44,6 @@
         path: $config.processor.websocket.path
       })
     }
-
-    // Screen Resize
-    window.addEventListener('resize', event => {
-      $global.screen = {
-        width: document.documentElement.offsetWidth,
-        height: document.documentElement.offsetHeight,
-        portrait: document.documentElement.offsetWidth < document.documentElement.offsetHeight
-      }
-    })
 
     // Handle History
     let lastPage
@@ -114,6 +112,10 @@
       file: "SystemOffPage",
       component: () => import("./pages/SystemOffPage.svelte")
     },
+    "WallsPage": {
+      file: "WallsPage",
+      component: () => import("./pages/WallsPage.svelte")
+    },
     "ConfigPage": {
       file: "ConfigPage",
       component: () => import("./pages/ConfigPage.svelte")
@@ -134,7 +136,6 @@
   $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.view?.scaleMobile*14}px` || "14px" : `${$config.view?.scale*20}px` || "20px"
 
   // Debug
-  $: $config?.pages ? console.log("config", $config) : ""
   $: $router?.page ? console.log("router", $router) : ""
   $: $global?.url ? console.log("global", $global) : ""
 

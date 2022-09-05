@@ -105,7 +105,7 @@
   outputs.forEach(output => output.input = inputSelected)
 
   // Dynamic Variables
-  $: inputColumns = $global.screen.width > 550 ? config.inputColumns || "auto" : 2
+  $: inputColumns = $global.screen.width > 550 ? config.inputColumns || "auto" : 1
   $: outputColumns = $global.screen.width > 550 ? config.outputColumns || "auto" : 1
 
   // Functions
@@ -196,7 +196,6 @@
   }
   @media (max-width: 550px) { section { gap: var(--gap); } }
   button {
-    position: relative;
     white-space: nowrap;
     background-color: var(--color-bg-secondary);
   }

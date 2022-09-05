@@ -12,6 +12,7 @@
     "SIMPL": {
       "subscription": "ActivityPage"
     },
+    "heading": "Select an activity to get started...",
     "lowerLeftButton": {
       "show": true,
       "icon": "settings",
@@ -55,6 +56,7 @@
 
   // Variables
   let sub = config.SIMPL.subscription
+  let heading = config.heading
   let activities = config.activities
   let show = config.lowerLeftButton.show
   let icon = config.lowerLeftButton.icon
@@ -78,7 +80,7 @@
 
 <!-- HTML -->
 <section>
-  <h2>Select an activity to get started...</h2>
+  <h2>{heading}</h2>
   <div>
     {#each activities as activity}
       <Activity {...activity} on:click={() => pressActivity(activity) }/>

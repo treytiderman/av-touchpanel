@@ -27,11 +27,6 @@
   $: activeSubpageName = hasSubpages ? activePageConfig.subpages[0] : ""
   $: activeSubpageFiles = getSubpageFiles(hasSubpages)
 
-  // Get all the file names
-  $config.files = []
-  $config.pages["AllPages"] = {name: "All Pages", file: "AllPages"}
-  $config.pageFiles = pageFiles
-
 </script>
 
 <!-- HTML -->
