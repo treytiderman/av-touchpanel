@@ -3,15 +3,12 @@
 
   // Stores
   import { global, router } from '../js/global.js';
-  import { ws } from '../js/simpl-ws'
 
   // Configuration
   export let config = {
     "name": "Device Power",
     "file": "DevicePowerPage",
-    "SIMPL": {
-      "subscription": "DevicePowerPage"
-    },
+    "simplSubscriptionID": "DevicePowerPage",
     "devices": [
       {
         "id": 1,
@@ -28,31 +25,40 @@
     ]
   }
 
-  // Imports Components
+  // Components
   import Icon from '../components/Icon.svelte'
   import CardPower from '../components/CardToggle.svelte'
 
-  // Variables
-  let devices = config.devices
-  let sub = config.SIMPL.subscription
-
-  // Functions
-  function wsRX(rx) {
+  // Websocket
+  import { ws } from '../js/simpl-ws'
+  let wsSub = config.simplSubscriptionID ?? ""
+  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
+    ws.addSubscription(wsSub)
+  }
+  
+  // Websocket Feedback
+  $: if ($ws.subscriptions[wsSub]?.analog) subscriptions($ws.subscriptions[wsSub])
+  function subscriptions(rx) {
     devices.forEach(device => {
       device.state = rx.digital[device.id]
     })
+    devices = devices
   }
+
+  // Variables
+  let devices = config.devices
+
+  // Functions
   function onPress(device) {
     device.state = true
-    ws.digital(sub, device.id, true)
+    ws.digital(wsSub, device.id, true)
     devices = devices
   }
   function offPress(device) {
     device.state = false
-    ws.digital(sub, device.id, false)
+    ws.digital(wsSub, device.id, false)
     devices = devices
   }
-  $: $ws?.DevicePowerPage ? wsRX($ws.DevicePowerPage) : ""
 
   // Debug
   $: console.log("devices", devices)

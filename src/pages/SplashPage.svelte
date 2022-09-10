@@ -9,15 +9,19 @@
     "name": "Splash",
     "file": "SplashPage",
     "png": "images/FordAV_BlackBG_1920_1080.png",
-    "backgroundColor": "#000000"
+    "backgroundColor": "#000000",
+    "page": "home",
+    "popup": "passcode",
   }
 
   // Functions
-  export function close() {
-    $router.page = homePage
+  function close() {
+    $router.page = page
+    $router.popup = popup
   }
 
-  let homePage = $configFile.topBar.homePage
+  let page = config.page || $configFile.topBar.homePage
+  let popup = config.popup || ""
 
 </script>
 
@@ -33,7 +37,7 @@
 <!-- CSS -->
 <style>
   .fixed {
-    z-index: 99;
+    z-index: 19;
     position: fixed;
     top: 0;
     left: 0;

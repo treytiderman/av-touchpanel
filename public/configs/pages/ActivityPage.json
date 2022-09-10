@@ -1,0 +1,160 @@
+{
+  "processor": {
+    "offline": true
+  },
+  "view": {    
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1
+  },
+  "startup": {
+    "page": "ActivityPage",
+    "popup": ""
+  },
+  "topBar": {
+    "show": false,
+    "quickAccess": {
+      "popups": [],
+      "toggles": []
+    }
+  },
+  "pages": {
+    "ActivityPage": {
+      "name": "ActivityPage",
+      "subpages": [
+        "ActivityPage 1",
+        "ActivityPage 2"
+      ]
+    },
+    "ActivityPage 1": {
+      "name": "Example",
+      "file": "ActivityPage",
+      "SIMPL": {
+        "subscription": "ActivityPage"
+      },
+      "heading": "Select an activity to get started...",
+      "lowerLeftButton": {
+        "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "ActivityPage"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "page": "ActivityPage",
+          "name": "Presentation",
+          "icon": "co_present",
+          "color": "green"
+        },
+        {
+          "id": 2,
+          "page": "ActivityPage",
+          "name": "Video Call",
+          "icon": "videocam",
+          "color": "yellow"
+        },
+        {
+          "id": 3,
+          "page": "ActivityPage",
+          "name": "Volumes",
+          "icon": "volume_up",
+          "color": "orange"
+        },
+        {
+          "id": 4,
+          "page": "ActivityPage",
+          "name": "Phone",
+          "icon": "phone",
+          "color": "purple"
+        }
+      ]
+    },
+    "ActivityPage 2": {
+      "name": "All the colors",
+      "file": "ActivityPage",
+      "SIMPL": {
+        "subscription": "ActivityPage"
+      },
+      "heading": "",
+      "lowerLeftButton": {
+        "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "ActivityPage"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "page": "ActivityPage",
+          "name": "Settings",
+          "icon": "settings",
+          "color": "grey"
+        },
+        {
+          "id": 2,
+          "page": "ActivityPage",
+          "name": "Record",
+          "icon": "fiber_manual_record",
+          "color": "red"
+        },
+        {
+          "id": 3,
+          "page": "ActivityPage",
+          "name": "Volumes",
+          "icon": "volume_up",
+          "color": "orange"
+        },
+        {
+          "id": 4,
+          "page": "ActivityPage",
+          "name": "Video Call",
+          "icon": "videocam",
+          "color": "yellow"
+        },
+        {
+          "id": 5,
+          "page": "ActivityPage",
+          "name": "Video Wall",
+          "icon": "grid_view",
+          "color": "lime"
+        },
+        {
+          "id": 6,
+          "page": "ActivityPage",
+          "name": "Power ON",
+          "icon": "power_rounded",
+          "color": "green"
+        },
+        {
+          "id": 7,
+          "page": "ActivityPage",
+          "name": "Presentation",
+          "icon": "co_present",
+          "color": "cyan"
+        },
+        {
+          "id": 8,
+          "page": "ActivityPage",
+          "name": "Music Streaming",
+          "icon": "music_note",
+          "color": "blue"
+        },
+        {
+          "id": 9,
+          "page": "ActivityPage",
+          "name": "Phone",
+          "icon": "phone",
+          "color": "purple"
+        },
+        {
+          "id": 10,
+          "page": "ActivityPage",
+          "name": "Camera Controls",
+          "icon": "control_camera",
+          "color": "pink"
+        }
+      ]
+    }
+  }
+}

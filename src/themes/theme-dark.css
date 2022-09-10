@@ -71,7 +71,7 @@ body {
   /* box-shadow: offset-x | offset-y | blur-radius | spread-radius | color */
   /* text-shadow: offset-x | offset-y | blur-radius | color */
   --text-shadow: 1px 1px 4px var(--color-shadow);
-  --shadow: 2px 2px 4px 0px var(--color-shadow);
+  --shadow: 1px 1px 6px 0px var(--color-shadow);
   --shadow-2:
       2px 2px 2px 0px var(--color-shadow),
       0px 0px 10px 10px var(--color-shadow);

@@ -7,7 +7,7 @@
   color: inherit;
   border: none;
   outline: none;
-  line-height: 1;
+  line-height: inherit;
 }
 
 /* Base */
@@ -34,12 +34,12 @@ h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word; /* Avoid text/url overflows */
   font-weight: lighter;
 }
-h1 { font-size: 2.0rem; line-height: 1.0; }
-h2 { font-size: 1.8rem; line-height: 1.0; }
-h3 { font-size: 1.6rem; line-height: 1.0; }
-h4 { font-size: 1.4rem; line-height: 1.0; }
-h5 { font-size: 1.2rem; line-height: 1.0; }
-h6 { font-size: 1.0rem; line-height: 1.0; }
+h1 { font-size: 2.0rem; line-height: 1.2; }
+h2 { font-size: 1.8rem; line-height: 1.2; }
+h3 { font-size: 1.6rem; line-height: 1.2; }
+h4 { font-size: 1.4rem; line-height: 1.2; }
+h5 { font-size: 1.2rem; line-height: 1.2; }
+h6 { font-size: 1.0rem; line-height: 1.2; }
 p {
   overflow-wrap: break-word; /* Avoid text/url overflows */
   line-height: var(--line-height);
@@ -281,10 +281,10 @@ tr:hover {
   height: 100vw;
 }
 
-/* Lower Left */
-.lowerLeft {
+/* Lower Right */
+.extraButton {
   position: fixed;
-  left: 0;
+  right: 0;
   bottom: 0;
   background-color: var(--color-bg);
   color: var(--color-text-dim);

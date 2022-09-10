@@ -12,7 +12,7 @@
 
   // Components
   import Icon from '../components/Icon.svelte'
-  import Keypad from '../components/Keypad.svelte'
+  import Numpad from '../components/Numpad.svelte'
 
   // Functions
   function printNumber(num) {
@@ -68,7 +68,7 @@
         <button class="back hide"><Icon name="arrow_back" size=2/></button>
       {/if}
     </div>
-    <Keypad
+    <Numpad
       on:press={(event) => {
         const pressed = event.detail
         if (inCall) dtmf += pressed

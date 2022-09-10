@@ -3,7 +3,12 @@
   let counter = 0
 </script>
 <script>
-  // Export
+
+  // Event Dispatcher
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+
+  // Exports
   export let label = ""
   export let value = 50
   export let max = 100
@@ -13,8 +18,11 @@
 
   // Variables
   let id = "slider_" + counter++;
+
+  // Dynamic Variables
   $: percent = ((value - min) / (max - min)) * 100;
   $: background = `linear-gradient(to right, var(--color-bg-primary) 0% ${percent}%, var(--color-bg-secondary) ${percent}% 100%)`
+
 </script>
 
 <!-- HTML -->
@@ -35,6 +43,7 @@
     disabled={disabled}
     style="background: {background}"
     bind:value={value}
+    on:input
   >
 </div>
 
@@ -81,5 +90,4 @@
   output {
     margin-left: auto;
   }
-  /* div { border: 1px solid red; } */
 </style>

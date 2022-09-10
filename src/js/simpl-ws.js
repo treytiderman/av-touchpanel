@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import { debounce } from '../js/helper.js';
 
 // Debug
 let debug = false;
@@ -12,29 +13,24 @@ let reconnectInterval
 function parseMessage(message) {
   /* Structure
   {
-    "id":"pageName",
-    "method":"get",
-    "data": ""
-  }
-  {
-    "id": "pageName",
     "method": "set",
+    "subscriptionID": "pageName",
     "data": {
       "index": 1,
       "value": true
     }
   }
   {
-    "id": "pageName",
     "method": "set",
+    "subscriptionID": "pageName",
     "data": {
       "index": 1,
       "value": 420
     }
   }
   {
-    "id": "pageName",
     "method": "set",
+    "subscriptionID": "pageName",
     "data": {
       "index": 1,
       "value": "Strings"
@@ -99,12 +95,26 @@ function createStore() {
       }
     }
   })
+
+  // Private Function
+  const backToRealFeedback = debounce(sub => {
+    update(val => {
+      if (val.subscriptions[sub]?.analog) {
+        val.subscriptions[sub].analog[0] += 1
+      }
+      return val
+    })
+  }, 2000)
 	
   // Return functions to listen to changes and send messages to the processor
   return {
 		subscribe,
-    // set,
-    // update,
+    addSubscription: (sub) => {
+      if (sub !== "") {
+        const obj = { "method": "subscribe", "subscriptionID": sub }
+        websocket.send(JSON.stringify(obj))
+      }
+    },
     connect: (options) => {
       // Connect to Websocket
       wsConnect(options)
@@ -113,24 +123,23 @@ function createStore() {
       websocket.addEventListener('open', (event) => {
         // Update Status
         update(val => { val.status = "open"; return val })
-        // Request all values
-        const get = { "method": "get", "data": "" }
-        websocket.send(JSON.stringify(get))
       })
 
       // Recive message
       websocket.addEventListener('message', (event) => {
-        const obj = parseMessage(event.data)
-        log(`RX[${obj.id}]: ${obj.type} ${obj.data.index} = ${obj.data.value}`)
-        update(val => {
-          // Create a object for the recived data if it doesn't exist
-          if (!val[obj.id]) {
-            val[obj.id] = {"digital": [false],"analog": [0],"serial": [""]}
-          }
-          // Update the ws store with the new value
-          val[obj.id][obj.type][obj.data.index] = obj.data.value
-          return val
-        })
+        if (JSON.parse(event.data).method === "set") {
+          const obj = parseMessage(event.data)
+          log(`RX[${obj.subscriptionID}]: ${obj.type} ${obj.data.index} = ${obj.data.value}`)
+          update(val => {
+            // Create a object for the recived data if it doesn't exist
+            if (!val.subscriptions[obj.subscriptionID]) {
+              val.subscriptions[obj.subscriptionID] = {"digital": [false],"analog": [0],"serial": [""]}
+            }
+            // Update the ws store with the new value
+            val.subscriptions[obj.subscriptionID][obj.type][obj.data.index] = obj.data.value
+            return val
+          })
+        }
       })
 
       // Error / Close
@@ -148,14 +157,15 @@ function createStore() {
       if (websocket.readyState === 1) {        
         log(`TX[${sub}]: digital ${join} = ${value}`)
         const data = {
-          "id": sub,
           "method": "set",
+          "subscriptionID": sub,
           "data": {
             "index": join,
             "value": value
           }
         }
         websocket.send(JSON.stringify(data))
+        backToRealFeedback(sub)
       }
       else log(`SEND FAILED. TX[${sub}]: digital ${join} = ${value}`)
     },
@@ -163,16 +173,16 @@ function createStore() {
       if (websocket.readyState === 1) {    
         log(`TX[${sub}]: digital pulse ${join} for ${time_ms} ms`)
         const dataPress = {
-          "id": sub,
           "method": "set",
+          "subscriptionID": sub,
           "data": {
             "index": join,
             "value": true
           }
         }
         const dataRelease = {
-          "id": sub,
           "method": "set",
+          "subscriptionID": sub,
           "data": {
             "index": join,
             "value": false
@@ -180,6 +190,7 @@ function createStore() {
         }
         websocket.send(JSON.stringify(dataPress))
         setTimeout(() => websocket.send(JSON.stringify(dataRelease)), time_ms)
+        backToRealFeedback(sub)
       }
       else log(`SEND FAILED. TX[${sub}]: digital pulse ${join} for ${time_ms} ms`)
     },
@@ -187,14 +198,15 @@ function createStore() {
       if (websocket.readyState === 1) {    
         log(`TX[${sub}]: analog ${join} = ${value}`)
         const data = {
-          "id": sub,
           "method": "set",
+          "subscriptionID": sub,
           "data": {
             "index": join,
             "value": value
           }
         }
-        websocket.send(JSON.stringify(data));
+        websocket.send(JSON.stringify(data))
+        backToRealFeedback(sub)
       }
       else log(`SEND FAILED. TX[${sub}]: analog ${join} = ${value}`)
     },
@@ -202,14 +214,15 @@ function createStore() {
       if (websocket.readyState === 1) {    
         log(`TX[${sub}]: serial ${join} = ${value}`)
         const data = {
-          "id": sub,
           "method": "set",
+          "subscriptionID": sub,
           "data": {
             "index": join,
             "value": value
           }
         }
-        websocket.send(JSON.stringify(data));
+        websocket.send(JSON.stringify(data))
+        backToRealFeedback(sub)
       }
       else log(`SEND FAILED. TX[${sub}]: serial ${join} = ${value}`)
     }

@@ -1,0 +1,28 @@
+{
+  "processor": {
+    "offline": true
+  },
+  "view": {    
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1
+  },
+  "startup": {
+    "page": "passcode",
+    "popup": ""
+  },
+  "topBar": {
+    "show": true,
+    "quickAccess": {
+      "popups": [],
+      "toggles": []
+    }
+  },
+  "pages": {
+    "passcode": {
+      "name": "YouTube",
+      "file": "UrlEmbedPage",
+      "url": "https://www.youtube.com/embed/CRP2qWp8CAU"
+    }
+  }
+}

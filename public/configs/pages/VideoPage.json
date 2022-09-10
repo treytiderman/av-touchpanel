@@ -1,0 +1,111 @@
+{
+  "processor": {
+    "offline": true
+  },
+  "view": {    
+    "theme": "dark",
+    "scale": 0.85,
+    "scaleMobile": 1
+  },
+  "startup": {
+    "page": "video",
+    "popup": ""
+  },
+  "topBar": {
+    "show": false,
+    "quickAccess": {
+      "popups": [],
+      "toggles": []
+    }
+  },
+  "pages": {
+    "video": {
+      "name": "Video",
+      "file": "VideoPage",
+      "SIMPL": {
+        "subscription": "VideoPage"
+      },
+      "advancedOption": true,
+      "advancedRouting": true,
+      "inputHeading": "Inputs",
+      "outputHeading": "Outputs",
+      "inputColumns": 1,
+      "outputColumns": 3,
+      "inputs": [
+        {
+          "id": 3,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 5,
+          "name": "Wireless",
+          "icon": "cast"
+        },
+        {
+          "id": 1,
+          "name": "Laptop Front",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 2,
+          "name": "Laptop Back",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 4,
+          "name": "Apple TV",
+          "icon": "Cast"
+        },
+        {
+          "id": 6,
+          "name": "VCR",
+          "icon": "settings_input_component"
+        },
+        {
+          "id": 0,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 1,
+          "name": "Display 1"
+        },
+        {
+          "id": 2,
+          "name": "Display 2"
+        },
+        {
+          "id": 3,
+          "name": "Display 3"
+        },
+        {
+          "id": 4,
+          "name": "Display 4"
+        },
+        {
+          "id": 5,
+          "name": "Display 5"
+        },
+        {
+          "id": 6,
+          "name": "Display 6"
+        },
+        {
+          "id": 7,
+          "name": "Display 7"
+        },
+        {
+          "id": 8,
+          "name": "Display 8"
+        },
+        {
+          "id": 9,
+          "name": "Display 9"
+        }
+      ]
+    }
+  }
+}

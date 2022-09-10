@@ -38,13 +38,15 @@
     background-color: var(--color-header);
     border-radius: var(--radius-2);
     padding: var(--gap);
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: var(--gap);
   }
   span {
     display: flex;
     gap: var(--gap);
     flex-wrap: wrap;
+    margin-top: auto;
   }
   button {
     border: var(--border);
@@ -53,6 +55,7 @@
   h6 {
     font-weight: normal;
     color: var(--color-text-bright);
+    white-space: pre;
   }
   .on {
     border-color: var(--color-bg-green);

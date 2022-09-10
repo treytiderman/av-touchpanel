@@ -3,21 +3,16 @@
 
   // Stores
   import { global, router } from '../js/global.js';
-  // import { PresentationPage } from '../js/simpl-ws-connections.js';
 
   // Configuration
   export let config = {
-    "name": "Video 2",
-    "file": "PresentationPage",
-    "SIMPL": {
-      "ip": "192.168.1.69",
-      "port": 10000,
-      "path": "PresentationPage"
-    },
-    "advancedOption": false,
+    "name": "Video",
+    "file": "VideoPage",
+    "simplSubscriptionID": "VideoPage",
+    "advancedOption": true,
     "advancedRouting": true,
     "inputColumns": 1,
-    "outputColumns": 2,
+    "outputColumns": 3,
     "inputs": [
       {
         "id": 3,
@@ -87,6 +82,10 @@
       {
         "id": 8,
         "name": "Display 8"
+      },
+      {
+        "id": 9,
+        "name": "Display 9"
       }
     ]
   }
@@ -95,30 +94,78 @@
   import Icon from '../components/Icon.svelte'
 
   // Variables
-  let iconSize = 2
+  const iconSize = 2
+  const noInput = { "id": 999, "name": "No Input", "icon": "close" }
   let advancedRouting = config.advancedRouting
   let advancedOption = config.advancedOption
-  // let directionVertial = config.directionVertial
   let inputs = config.inputs
-  let inputSelected = inputs.find(input => input.id === 0)
   let outputs = config.outputs
-  outputs.forEach(output => output.input = inputSelected)
+  let inputHeading = config.inputHeading ?? "Select source..."
+  let outputHeading = config.outputHeading ?? "Then destination..."
+  let inputSelected = inputs.find(input => input.id === 0)
 
   // Dynamic Variables
   $: inputColumns = $global.screen.width > 550 ? config.inputColumns || "auto" : 1
   $: outputColumns = $global.screen.width > 550 ? config.outputColumns || "auto" : 1
 
+  // Websocket
+  import { ws } from '../js/simpl-ws'
+  let wsSub = config.simplSubscriptionID ?? ""
+  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
+    ws.addSubscription(wsSub)
+  }
+
+  // Websocket Feedback
+  $: if ($ws.subscriptions[wsSub]?.analog) subscriptions($ws.subscriptions[wsSub])
+  function subscriptions(rx) {
+  
+    // Set the outputs to the real feedback
+    outputs.forEach(output => {
+      let input = inputs.find(input => input.id === rx.analog[output.id])
+      output.input = input
+    })
+
+    // Simple mode input feedback
+    if (!advancedRouting && outputs.every(output => output?.input)) {
+      let firstOutputsInputId = outputs[0].input.id
+      let allSameInput = outputs.every(output => firstOutputsInputId === output.input.id)
+      if (allSameInput) inputSelected = inputs.find(input => input.id === firstOutputsInputId)
+      else inputSelected = noInput
+    }
+
+    // Advanced Routing
+    else if (advancedRouting && outputs.every(output => output?.input) && inputSelected === noInput) {
+      inputSelected = inputs.find(input => input.id === 0)
+    }
+
+    outputs = outputs
+  }
+
   // Functions
   function inputSelect(input) {
     inputSelected = input
-    // PresentationPage.digitalPulse(inputSelected.id)
+    if (advancedRouting) {
+      ws.digitalPulse(wsSub, inputSelected.id)
+      ws.serial(wsSub, inputSelected.id, `Input id ${inputSelected.id} "${inputSelected.name}" was pressed`)
+    }
+    else {
+      ws.digitalPulse(wsSub, inputSelected.id)
+      ws.serial(wsSub, inputSelected.id, `Input id ${inputSelected.id} "${inputSelected.name}" was pressed and routed to all displays`)
+      outputs.forEach(output => {
+        output.input = inputSelected
+        ws.analog(wsSub, output.id, inputSelected.id)
+      })
+    }
   }
   function outputSelect(output) {
     output.input = inputSelected
+    ws.analog(wsSub, output.id, inputSelected.id)
+    ws.serial(wsSub, output.id, `Input id ${inputSelected.id} "${inputSelected.name}" was routed to Output id ${output.id} "${output.name}"`)
     outputs = outputs
   }
   function advancedToggle() {
     advancedRouting = !advancedRouting
+    subscriptions($ws.subscriptions[wsSub])
   }
 
   // Debug
@@ -134,7 +181,7 @@
   
   <!-- Inputs -->
   <div class="colunm">
-    <h4>Select source...</h4>
+    <h4>{inputHeading}</h4>
     <div
       class="inputList"
       style="grid-template-columns: repeat({inputColumns}, 1fr);"
@@ -154,7 +201,7 @@
   <!-- Outputs -->
   {#if advancedRouting}
     <div class="colunm">
-      <h4>Then destination...</h4>
+      <h4>{outputHeading}</h4>
       <div 
         class="outputList"
         style="grid-template-columns: repeat({outputColumns}, 1fr);"
@@ -176,15 +223,13 @@
 
   <!-- Advanced Routing Toggle -->
   {#if advancedOption}
-  <button class="lowerLeft" on:click={advancedToggle}>
-    <Icon name="display_settings" size={iconSize}/>
-    {advancedRouting ? "Simple" : "Advanced"}
-  </button>
+    <button class="extraButton" on:click={advancedToggle}>
+      {advancedRouting ? "Simple" : "Advanced"}
+      <Icon name="display_settings" size={iconSize}/>
+    </button>
   {/if}
     
 </section>
-
-
 
 <!-- CSS -->
 <style>
@@ -251,9 +296,9 @@
     height: 100%;
   }
 
-  .lowerLeft {
+  .extraButton {
     position: fixed;
-    left: 0;
+    right: 0;
     bottom: 0;
     background-color: var(--color-bg);
     color: var(--color-text-dim);

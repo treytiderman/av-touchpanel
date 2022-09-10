@@ -2,10 +2,11 @@ import { writable } from 'svelte/store'
 
 // Config to load if can't pull config from server (processor)
 let failedConfig = {
-  "theme": "default",
+  "processor": {
+    "offline": true
+  },
   "topBar": {
-    "show": true,
-    "quickAccess": {}
+    "show": false,
   },
   "startup": {
     "page": "ConfigPage",
@@ -59,8 +60,10 @@ export function getConfigFileName() {
   let configFileName = getUrlSearchs().config || "config"
   
   // Add "/" to the start of the file name if it isn't there already
+  // Add "/configs" to the start of the file name if it isn't there already
   // Add ".json" to the end of the file name if it isn't there already
   configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
+  configFileName = configFileName.startsWith("/configs") ? configFileName : `/configs${configFileName}`
   configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
   // Return the file name to get from the server
@@ -76,7 +79,8 @@ export function getUrlSearchs() {
   // Example: 192.168.1.1/html/index.html?config=tp1.json&edit=true
   // where "?config=tp1.json&edit=true" are the key value pairs we are looking for
   let searchObj = {}
-  const urlSearchs = document.location.search.toLowerCase().split('&')
+  // const urlSearchs = document.location.search.toLowerCase().split('&')
+  const urlSearchs = document.location.search.split('&')
   urlSearchs[0] = urlSearchs[0].substring(1) // remove first char
   urlSearchs.forEach(urlSearch => {
     let pair = urlSearch.split("=")

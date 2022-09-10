@@ -14,6 +14,7 @@
   export function powerOff() {
     $router.page = config.offPage
     $router.popup = ""
+    location.reload()
   }
   export function close() {
     $router.popup = ""

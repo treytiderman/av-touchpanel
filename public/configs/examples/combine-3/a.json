@@ -1,11 +1,6 @@
 {
   "processor": {
-    "offline": true,
-    "ip": "192.168.1.69",
-    "websocket": {
-      "port": 10000,
-      "path": "tp"
-    }
+    "offline": true
   },
   "view": {    
     "theme": "dark",
@@ -77,10 +72,8 @@
       "SIMPL": {
         "subscription": "VideoPage"
       },
-      "advancedOption": true,
+      "advancedOption": false,
       "advancedRouting": false,
-      "inputColumns": 1,
-      "outputColumns": 2,
       "inputs": [
         {
           "id": 1,
@@ -89,12 +82,7 @@
         },
         {
           "id": 2,
-          "name": "Laptop Room A",
-          "icon": "settings_input_hdmi"
-        },
-        {
-          "id": 3,
-          "name": "Laptop Room B",
+          "name": "Laptop",
           "icon": "settings_input_hdmi"
         },
         {
@@ -106,19 +94,16 @@
       "outputs": [
         {
           "id": 1,
-          "name": "Display Room A"
-        },
-        {
-          "id": 2,
-          "name": "Display Room B"
+          "name": "Display"
         }
       ]
     },
     "walls": {
       "name": "Room Combining",
       "file": "WallsPage",
-      "roomName": "A+B",
-      "walls": [ 0, 1 ],
+      "roomName": "A",
+      "walls": [ 1, 1 ],
+      "wallSensor": false,
       "rooms": [
         {
           "id": 1,
@@ -137,28 +122,28 @@
         {
           "id": 1,
           "name": "A",
-          "configFile": "a.json",
+          "configFile": "examples/combine-3/a.json",
           "walls": [ 1, 0 ],
           "roomNames": [ "A" ]
         },
         {
-          "id": 1,
+          "id": 2,
           "name": "A",
-          "configFile": "a.json",
+          "configFile": "examples/combine-3/a.json",
           "walls": [ 1, 1 ],
           "roomNames": [ "A" ]
         },
         {
-          "id": 2,
+          "id": 3,
           "name": "A+B",
-          "configFile": "a-b.json",
+          "configFile": "examples/combine-3/a-b.json",
           "walls": [ 0, 1 ],
           "roomNames": [ "A", "B" ]
         },
         {
-          "id": 3,
+          "id": 4,
           "name": "A+B+C",
-          "configFile": "a-b-c.json",
+          "configFile": "examples/combine-3/a-b-c.json",
           "walls": [ 0, 0 ],
           "roomNames": [ "A", "B", "C" ]
         }
@@ -173,11 +158,7 @@
       "devices": [
         {
           "id": 1,
-          "name": "Display Room A"
-        },
-        {
-          "id": 2,
-          "name": "Display Room B"
+          "name": "Display"
         }
       ]
     },

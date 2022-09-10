@@ -1,0 +1,65 @@
+{
+  "processor": {
+    "offline": true
+  },
+  "view": {    
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1
+  },
+  "startup": {
+    "page": "splash",
+    "popup": ""
+  },
+  "topBar": {
+    "show": false,
+    "quickAccess": {
+      "popups": [],
+      "toggles": []
+    }
+  },
+  "pages": {
+    "splash": {
+      "name": "Splash",
+      "file": "SplashPage",
+      "image": "images/FordAV_BlackBG_1920_1080.png",
+      "backgroundColor": "#000000",
+      "page": "splash",
+      "popup": "passcode"
+    },
+    "passcode": {
+      "name": "Login | Try: 123, 777",
+      "file": "PasscodePage",
+      "passcodes": [
+        {
+          "code": "123",
+          "page": "home"
+        },
+        {
+          "code": "777",
+          "configFile": "examples/small.json"
+        }
+      ]
+    },
+    "home": {
+      "name": "Home",
+      "file": "ActivityPage",
+      "SIMPL": {
+        "subscription": "ActivityPage"
+      },
+      "heading": "Sucessfull login.",
+      "lowerLeftButton": {
+        "show": false
+      },
+      "activities": [
+        {
+          "id": 1,
+          "name": "Go Back",
+          "page": "splash",
+          "icon": "arrow_back",
+          "color": "red"
+        }
+      ]
+    }
+  }
+}

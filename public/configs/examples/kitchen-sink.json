@@ -1,9 +1,9 @@
 {
   "processor": {
-    "offline": true,
+    "offline": false,
     "ip": "192.168.1.69",
     "websocket": {
-      "port": 10000,
+      "port": 50001,
       "path": "tp"
     }
   },
@@ -35,12 +35,6 @@
           "name": "Camera",
           "page": "camera",
           "icon": "videocam"
-        },
-        {
-          "id": 3,
-          "name": "Room State",
-          "page": "walls",
-          "icon": "join_full"
         }
       ],
       "toggles": [
@@ -71,7 +65,7 @@
       "name": "Home",
       "file": "ActivityPage",
       "SIMPL": {
-        "subscription": "ActivityPage"
+        "subscription": "test1"
       },
       "heading": "Select an activity to get started...",
       "lowerLeftButton": {
@@ -202,7 +196,7 @@
       "name": "Video 1",
       "file": "VideoPage",
       "SIMPL": {
-        "subscription": "VideoPage"
+        "subscription": "test2"
       },
       "advancedOption": true,
       "advancedRouting": false,
@@ -457,56 +451,6 @@
         "subscription": "SystemOffPage"
       },
       "offPage": "splash screen"
-    },
-    "walls": {
-      "name": "Room Combining",
-      "file": "WallsPage",
-      "roomName": "A",
-      "walls": [ 1, 1 ],
-      "rooms": [
-        {
-          "id": 1,
-          "name": "A"
-        },
-        {
-          "id": 2,
-          "name": "B"
-        },
-        {
-          "id": 3,
-          "name": "C"
-        }
-      ],
-      "roomStates": [
-        {
-          "id": 1,
-          "name": "A",
-          "configFile": "a.json",
-          "walls": [ 1, 0 ],
-          "roomNames": [ "A" ]
-        },
-        {
-          "id": 2,
-          "name": "A",
-          "configFile": "a.json",
-          "walls": [ 1, 1 ],
-          "roomNames": [ "A" ]
-        },
-        {
-          "id": 3,
-          "name": "A+B",
-          "configFile": "a-b.json",
-          "walls": [ 0, 1 ],
-          "roomNames": [ "A", "B" ]
-        },
-        {
-          "id": 4,
-          "name": "A+B+C",
-          "configFile": "a-b-c.json",
-          "walls": [ 0, 0 ],
-          "roomNames": [ "A", "B", "C" ]
-        }
-      ]
     }
   }
 }

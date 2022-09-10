@@ -15,6 +15,7 @@
       subpage: $config.startup.subpage
     }
     $global = {
+      offlineWithProcessor: $config.processor.offline,
       screen: {
         width: document.documentElement.offsetWidth,
         height: document.documentElement.offsetHeight,
@@ -36,8 +37,8 @@
     })
     
     // Start Websocket
-    setDebug(true)
-    if ($config.processor.offline !== true ) {      
+    if ($global.offlineWithProcessor !== true ) {
+      // setDebug(true)
       ws.connect({ 
         ip: $config.processor.ip,
         port: $config.processor.websocket.port,
@@ -112,6 +113,10 @@
       file: "SystemOffPage",
       component: () => import("./pages/SystemOffPage.svelte")
     },
+    "PasscodePage": {
+      file: "PasscodePage",
+      component: () => import("./pages/PasscodePage.svelte")
+    },
     "WallsPage": {
       file: "WallsPage",
       component: () => import("./pages/WallsPage.svelte")
@@ -119,6 +124,10 @@
     "ConfigPage": {
       file: "ConfigPage",
       component: () => import("./pages/ConfigPage.svelte")
+    },
+    "UrlEmbedPage": {
+      file: "UrlEmbedPage",
+      component: () => import("./pages/UrlEmbedPage.svelte")
     },
     "MissingPage": {
       file: "MissingPage",

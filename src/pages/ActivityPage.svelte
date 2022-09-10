@@ -3,15 +3,12 @@
 
   // Stores
   import { global, router } from '../js/global.js';
-  import { ws } from '../js/simpl-ws'
 
   // Configuration
   export let config = {
     "name": "Home",
     "file": "ActivityPage",
-    "SIMPL": {
-      "subscription": "ActivityPage"
-    },
+    "simplSubscriptionID": "ActivityPage",
     "heading": "Select an activity to get started...",
     "lowerLeftButton": {
       "show": true,
@@ -54,8 +51,14 @@
   import Icon from '../components/Icon.svelte'
   import Activity from '../components/Activity.svelte'
 
+  // Websocket
+  import { ws } from '../js/simpl-ws'
+  let wsSub = config.simplSubscriptionID ?? ""
+  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
+    ws.addSubscription(wsSub)
+  }
+
   // Variables
-  let sub = config.SIMPL.subscription
   let heading = config.heading
   let activities = config.activities
   let show = config.lowerLeftButton.show
@@ -66,8 +69,9 @@
   // Functions
   function pressActivity(activity) {
     $router.page = activity.page
-    ws.analog(sub, 1, activity.id)
-    ws.digitalPulse(sub, activity.id)
+    ws.analog(wsSub, 1, activity.id)
+    ws.digitalPulse(wsSub, activity.id)
+    ws.serial(wsSub, 1, `${activity.name}, id ${activity.id} was pressed`)
   }
   function pressLowerLeftButton() {
     $router.page = page
@@ -87,9 +91,9 @@
     {/each}
   </div>
   {#if show}
-    <button class="lowerLeft" on:click={pressLowerLeftButton}>
-      <Icon name={icon} size=2/>
+    <button class="extraButton" on:click={pressLowerLeftButton}>
       {label}
+      <Icon name={icon} size=2/>
     </button>
   {/if}
 

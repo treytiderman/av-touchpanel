@@ -10,6 +10,7 @@
     "file": "WallsPage",
     "roomName": "A",
     "walls": [ 1, 1 ],
+    "wallSensor": false,
     "rooms": [
       {
         "id": 1,
@@ -28,28 +29,28 @@
       {
         "id": 1,
         "name": "A",
-        "configFile": "a.json",
+        "configFile": "configs/a.json",
         "walls": [ 1, 0 ],
         "roomNames": [ "A" ]
       },
       {
-        "id": 1,
+        "id": 2,
         "name": "A",
-        "configFile": "a.json",
+        "configFile": "configs/a.json",
         "walls": [ 1, 1 ],
         "roomNames": [ "A" ]
       },
       {
-        "id": 2,
+        "id": 3,
         "name": "A+B",
-        "configFile": "a-b.json",
+        "configFile": "configs/a-b.json",
         "walls": [ 0, 1 ],
         "roomNames": [ "A", "B" ]
       },
       {
-        "id": 3,
+        "id": 4,
         "name": "A+B+C",
-        "configFile": "a-b-c.json",
+        "configFile": "configs/a-b-c.json",
         "walls": [ 0, 0 ],
         "roomNames": [ "A", "B", "C" ]
       }
@@ -61,6 +62,7 @@
   let rooms = config.rooms
   let roomStates = config.roomStates
   let walls = config.walls
+  let wallSensor = config.wallSensor
 
   // Functions
   function arrayEquals(a, b) {
@@ -77,9 +79,11 @@
   function confirmRoomState() {
 
     // Add "/" to the start of the file name if it isn't there already
+    // Add "/configs" to the start of the file name if it isn't there already
     // Add ".json" to the end of the file name if it isn't there already
     let configFileName = currentState.configFile
     configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
+    configFileName = configFileName.startsWith("/configs") ? configFileName : `/configs${configFileName}`
     configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
     // GET the JSON and load it as the current config
@@ -88,7 +92,7 @@
     let timeout = setInterval(() => {
       confimButtonText += "."
       if (confimButtonText.length > 12) confimButtonText = "Loading."
-    }, 500);
+    }, 250);
     getJSON(configFileName).then(json => {
       setTimeout(() => {        
         clearInterval(timeout);
@@ -158,10 +162,16 @@
         > {room.name}
 
           <!-- Wall -->
-          <button 
-            class:noWall={!walls[index]}
-            on:click={() => wallClick(index)}
-          ></button>
+          {#if wallSensor}
+            <button class:noWall={!walls[index]}></button>
+          {:else}
+            <button 
+              class:noWall={!walls[index]}
+              on:click={() => wallClick(index)}
+            >
+              <span>{walls[index] ? "close" : "add"}</span>
+            </button>
+          {/if}
 
         </div>
       {/if}
@@ -182,39 +192,40 @@
     gap: var(--gap);
   }
   .confirm {
-    /* margin-left: auto; */
     margin-right: auto;
     color: var(--color-text-green);
     background-color: var(--color-bg-green);
   }
   .rooms {
-    --wallWidth: .5rem;
+    --wallWidth: .20rem;
     display: flex;
     gap: var(--wallWidth);
     border: var(--border);
-    border-color: var(--color-text);
+    border-color: var(--color-text-dim);
     border-radius: var(--radius);
+    border-width: var(--wallWidth);
     overflow: hidden;
+    box-shadow: inset 1px 1px var(--color-text-dim), inset -1px -1px var(--color-text-dim);
   }
-  div > div {
+  div.rooms > div {
     position: relative;
     width: 16rem;
-    min-height: 8rem;
+    min-height: 16rem;
     aspect-ratio: 1;
     display: grid;
     place-items: center;
     font-size: 2rem;
     border-radius: 0;
-    color: var(--color-text-dim);
+    color: var(--color-text);
     background-color: var(--color-bg);
     /* border: var(--border); border-color: red; */
   }
-  div > div.connectedRoom {
-    color: var(--color-text);
+  div.rooms > div.connectedRoom {
+    color: var(--color-text-bright);
     background-color: var(--color-header);
   }
   div.rooms > div.thisRoom {
-    color: var(--color-text);
+    color: var(--color-text-bright);
     background-color: var(--color-header);
   }
   div.rooms > div.thisRoom::before {
@@ -233,10 +244,9 @@
     width: 4rem;
     height: 16rem;
     border-radius: 0;
-    opacity: .8;
     top: 0;
     bottom: 0;
-    right: -2.25rem;
+    right: -2.1rem;
     background-color: transparent;
   }
   div > button::before {
@@ -247,7 +257,34 @@
     left: 50%;
     transform: translate(-50%, 0%);
     width: var(--wallWidth);
-    background-color: var(--color-text-bright);
+    background-color: var(--color-text-dim);
+  }
+  button > span {
+    font-family: "Material Symbols Rounded";
+    font-size: 1rem;
+    display: grid;
+    place-items: center;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.6rem;
+    height: 1.6rem;
+    border: var(--border);
+    border-color: var(--color-text-dim);
+    border-width: var(--wallWidth);
+    border-radius: var(--radius);
+    border-radius: 99px;
+    box-shadow: var(--shadow);
+    color: var(--color-bg);
+    background-color: var(--color-text-dim);
+  }
+  button.noWall > span {
+    font-size: 1rem;
+    border-color: var(--color-bg-secondary);
+    color: var(--color-text-dim);
+    background-color: var(--color-bg-secondary);
   }
   div > button.noWall::before {
     content: "";
