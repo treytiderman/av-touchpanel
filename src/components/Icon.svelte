@@ -1,21 +1,69 @@
+<!-- Examples
+<Icon name="add_circle-fill" color='red'/>
+<Icon svgPath="/svgs/font_awesome/comment.svg" size=2 />
+<Icon imagePath="/images/Yo.png" />
+<Icon imagePath="/images/FordAV_BlackBG_1920_1080.png" width=4 height=2.25 />
+-->
+
 <!-- Javascript -->
 <script>
-  export let fill = true
-  export let name = "star"
+
+  // Exports
   export let size = 1
+  export let width = undefined
+  export let height = undefined
+  export let color = "currentColor"
+
+  // SVG
+  export let svgPath = undefined
+  export let name = undefined // same as material_symbols
+  let svgUsed = svgPath || name
+  // If "name" prop was used update the svgPath
+  if (name) svgPath = `/svgs/material_symbols/${name.toLowerCase()}`
+  // Add ".svg" to the end of the svgPath is it isn't there already
+  if (svgUsed && !svgPath.endsWith(".svg")) svgPath += ".svg"
+  
+  // Image
+  export let imagePath = undefined
+  let imageUsed = imagePath
+
 </script>
 
-<!-- HTML -->
-<i 
-  class="icon {fill ? "fill" : ""}" 
-  style={`font-size: ${size}em; ${$$props.style}`}
->
-  {name}
-</i>
+<!-- SVG -->
+{#if svgUsed}
+<div>
+  <img
+    src={svgPath}
+    alt="SVG Icon"
+    onload="SVGInject(this)"
+    style="
+      width: {width ?? size}em;
+      height: {height ?? size}em;
+      fill: {color};
+      shape-rendering: optimizeSpeed;
+      shape-rendering: geometricPrecision;
+      {$$props.style}
+    "
+  >
+</div>
+<!-- Image | .png .jpeg .gif .jpg .ico .cur .apng -->
+{:else if imageUsed}
+  <img 
+    src={imagePath}
+    alt="SVG Icon"
+    style="
+      width: {width ?? size}em;
+      height: {height ?? size}em;
+      display: block;
+      object-fit: contain;
+      {$$props.style}
+    "
+  >
+{/if}
 
-<!-- CSS -->
 <style>
-  i {
-    vertical-align: -4px;
+  div {
+    display: grid;
+    place-items: center;
   }
 </style>

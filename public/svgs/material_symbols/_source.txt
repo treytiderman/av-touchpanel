@@ -1,0 +1,2 @@
+https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Symbols
+https://github.com/marella/material-symbols

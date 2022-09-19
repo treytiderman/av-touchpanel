@@ -79,11 +79,9 @@
   function confirmRoomState() {
 
     // Add "/" to the start of the file name if it isn't there already
-    // Add "/configs" to the start of the file name if it isn't there already
     // Add ".json" to the end of the file name if it isn't there already
     let configFileName = currentState.configFile
     configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
-    configFileName = configFileName.startsWith("/configs") ? configFileName : `/configs${configFileName}`
     configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
     // GET the JSON and load it as the current config

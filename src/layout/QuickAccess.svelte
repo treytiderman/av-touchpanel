@@ -53,12 +53,12 @@
 {#if showdarkMode}
   {#if $configFile.view.theme === "light"}
     <button on:click={() => $configFile.view.theme = 'dark'}>
-      <Icon name="dark_mode" />
+      <Icon name="dark_mode-fill" />
       <small>Dark Mode</small>
     </button>
   {:else}
     <button on:click={() => $configFile.view.theme = 'light'}>
-      <Icon name="light_mode" />
+      <Icon name="light_mode-fill" />
       <small>Light Mode</small>
     </button>
   {/if}
@@ -103,7 +103,7 @@
     }
     $router.page = "config"
   }}>
-    <Icon name="edit"/>
+    <Icon name="edit-fill"/>
     <small>Edit Config</small>
   </button>
 {/if}
@@ -113,5 +113,6 @@
   button {
     display: grid;
     align-items: center;
+    justify-content: center;
   }
 </style>

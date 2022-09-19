@@ -1,8 +1,13 @@
 <!-- Javascript -->
 <script>
 
-  // Stores
+  // Imports
   import { global, router } from '../js/global.js';
+  import { ws } from '../js/simpl-ws'
+
+  // Import Components
+  import Icon from '../components/Icon.svelte'
+  import CardPower from '../components/CardToggle.svelte'
 
   // Configuration
   export let config = {
@@ -25,43 +30,35 @@
     ]
   }
 
-  // Components
-  import Icon from '../components/Icon.svelte'
-  import CardPower from '../components/CardToggle.svelte'
-
-  // Websocket
-  import { ws } from '../js/simpl-ws'
-  let wsSub = config.simplSubscriptionID ?? ""
-  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
-    ws.addSubscription(wsSub)
-  }
-  
-  // Websocket Feedback
-  $: if ($ws.subscriptions[wsSub]?.analog) subscriptions($ws.subscriptions[wsSub])
-  function subscriptions(rx) {
-    devices.forEach(device => {
-      device.state = rx.digital[device.id]
-    })
-    devices = devices
-  }
-
   // Variables
+  let editMode = $global.url.search.edit === "true"
   let devices = config.devices
 
   // Functions
   function onPress(device) {
     device.state = true
-    ws.digital(wsSub, device.id, true)
+    ws.serial(wsSub, 1, `Device id ${device.id} "${device.name}" was powered ON`)
+    ws.digitalPulse(wsSub, device.id*2-1)
     devices = devices
   }
   function offPress(device) {
     device.state = false
-    ws.digital(wsSub, device.id, false)
+    ws.serial(wsSub, 1, `Device id ${device.id} "${device.name}" was powered OFF`)
+    ws.digitalPulse(wsSub, device.id*2)
     devices = devices
   }
 
+  // Websocket - SIMPL Feedback
+  let wsSub = config.simplSubscriptionID ?? config.file
+  ws.addSubscription(wsSub, () => {
+    devices.forEach(device => {
+      device.state = rx.digital[device.id]
+    })
+    devices = devices
+  })
+
   // Debug
-  $: console.log("devices", devices)
+  $: console.log("DevicePowerPage config", config)
 
 </script>
 
@@ -70,7 +67,7 @@
   {#each devices as device}
     <CardPower
       state={device.state}
-      label={device.name}
+      label={editMode ? `${device.name} [${device.id}]` : device.name}
       on:onPress={() => onPress(device)}
       on:offPress={() => offPress(device)}
     />

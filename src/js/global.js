@@ -24,8 +24,13 @@ let failedConfig = {
 export async function getJSON(uri) {
 
   // Fetch options
+  // console.log("document.location", document.location);
   const origin = document.location.origin
-  const url = `${origin}${uri}`
+  let pathname = document.location.pathname
+  pathname = pathname.replace('index.html','')
+  const baseUrl = origin + pathname
+  const url = `${baseUrl}configs${uri}`
+  console.log("config file url", url);
   const options = { method: 'GET' }
 
   // Fetch JSON
@@ -60,10 +65,8 @@ export function getConfigFileName() {
   let configFileName = getUrlSearchs().config || "config"
   
   // Add "/" to the start of the file name if it isn't there already
-  // Add "/configs" to the start of the file name if it isn't there already
   // Add ".json" to the end of the file name if it isn't there already
   configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
-  configFileName = configFileName.startsWith("/configs") ? configFileName : `/configs${configFileName}`
   configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
   // Return the file name to get from the server

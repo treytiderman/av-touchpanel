@@ -2,19 +2,39 @@
 <script>
 
   // Stores
-  import { global, router } from '../js/global.js';
+  import { global, router, config as configFile } from '../js/global.js';
 
   // Configuration
   export let config = {
     "name": "System Off",
-    "file": "PowerDownPage"
+    "file": "SystemOffPage",
+    "simplSubscriptionID": "SystemOffPage",
+    "offList": [
+      "Power down all Displays & Projectors",
+      "Mute the Microphones and Speakers",
+      "Lock out the Touch Panel"
+    ],
+    "offTimer_sec": 30,
+    "offPage": "home"
   }
+
+  // Variables
+  let offPage = config.offPage
+  let offTimer_sec = config.offTimer_sec
+  let offList = config.offList
+
+  // Websocket
+  import { ws } from '../js/simpl-ws'
+  let wsSub = config.simplSubscriptionID ?? "TouchPanel"
+  ws.addSubscription(wsSub)
 
   // Functions
   export function powerOff() {
-    $router.page = config.offPage
+    ws.serial(wsSub, 1, `System Off was pressed`)
+    ws.digitalPulse(wsSub, 1)
+    $router.page = offPage
     $router.popup = ""
-    location.reload()
+    // location.reload()
   }
   export function close() {
     $router.popup = ""
@@ -25,9 +45,9 @@
 <!-- HTML -->
 <section>
   <ol style="margin-right: var(--gap);">
-    <li>Power down all Displays & Projectors</li>
-    <li>Mute the Microphones and Speakers</li>
-    <li>Lock out the Touch Panel</li>
+    {#each offList as listItem}
+      <li>{listItem}</li>
+    {/each}
   </ol>
   <div>
     <button class="confirm" on:click={powerOff}>Confirm</button>

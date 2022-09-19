@@ -10,6 +10,10 @@
   export let file = ""
   export let page = ""
 
+  // Stores
+  import { global } from '../js/global.js';
+  let editMode = $global.url.search.edit === "true"
+
 </script>
 
 <!-- HTML -->
@@ -21,14 +25,8 @@
     background-color: var(--color-bg-{color});
   "
 >
-  <Icon
-    name="{icon}"
-    style="
-      font-size: 3.5em;
-      padding-bottom: var(--pad);
-    "
-  />
-  <div> {name} </div>
+  <Icon name="{icon}" size=3.5/>
+  <div> {name} {editMode ? `[${id}]` : ""} </div>
   <div hidden> {file} </div>
   <div hidden> {page} </div>
 </button>

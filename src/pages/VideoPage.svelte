@@ -1,8 +1,12 @@
 <!-- Javascript -->
 <script>
 
-  // Stores
+  // Imports
   import { global, router } from '../js/global.js';
+  import { ws } from '../js/simpl-ws'
+
+  // Import Components
+  import Icon from '../components/Icon.svelte'
 
   // Configuration
   export let config = {
@@ -90,67 +94,33 @@
     ]
   }
 
-  // Components
-  import Icon from '../components/Icon.svelte'
-
   // Variables
   const iconSize = 2
-  const noInput = { "id": 999, "name": "No Input", "icon": "close" }
+  const noInput = { "id": 999, "name": "Fake Input", "icon": "error" }
+  let editMode = $global.url.search.edit === "true"
   let advancedRouting = config.advancedRouting
   let advancedOption = config.advancedOption
   let inputs = config.inputs
   let outputs = config.outputs
   let inputHeading = config.inputHeading ?? "Select source..."
   let outputHeading = config.outputHeading ?? "Then destination..."
-  let inputSelected = inputs.find(input => input.id === 0)
+  let inputSelected = inputs[0]
+  outputs.forEach(output => output.input = inputSelected);
 
   // Dynamic Variables
   $: inputColumns = $global.screen.width > 550 ? config.inputColumns || "auto" : 1
   $: outputColumns = $global.screen.width > 550 ? config.outputColumns || "auto" : 1
 
-  // Websocket
-  import { ws } from '../js/simpl-ws'
-  let wsSub = config.simplSubscriptionID ?? ""
-  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
-    ws.addSubscription(wsSub)
-  }
-
-  // Websocket Feedback
-  $: if ($ws.subscriptions[wsSub]?.analog) subscriptions($ws.subscriptions[wsSub])
-  function subscriptions(rx) {
-  
-    // Set the outputs to the real feedback
-    outputs.forEach(output => {
-      let input = inputs.find(input => input.id === rx.analog[output.id])
-      output.input = input
-    })
-
-    // Simple mode input feedback
-    if (!advancedRouting && outputs.every(output => output?.input)) {
-      let firstOutputsInputId = outputs[0].input.id
-      let allSameInput = outputs.every(output => firstOutputsInputId === output.input.id)
-      if (allSameInput) inputSelected = inputs.find(input => input.id === firstOutputsInputId)
-      else inputSelected = noInput
-    }
-
-    // Advanced Routing
-    else if (advancedRouting && outputs.every(output => output?.input) && inputSelected === noInput) {
-      inputSelected = inputs.find(input => input.id === 0)
-    }
-
-    outputs = outputs
-  }
-
   // Functions
   function inputSelect(input) {
     inputSelected = input
     if (advancedRouting) {
+      ws.debug(`Input id ${inputSelected.id} "${inputSelected.name}" was pressed`)
       ws.digitalPulse(wsSub, inputSelected.id)
-      ws.serial(wsSub, inputSelected.id, `Input id ${inputSelected.id} "${inputSelected.name}" was pressed`)
     }
     else {
+      ws.debug(`Input id ${inputSelected.id} "${inputSelected.name}" was pressed and routed to all displays`)
       ws.digitalPulse(wsSub, inputSelected.id)
-      ws.serial(wsSub, inputSelected.id, `Input id ${inputSelected.id} "${inputSelected.name}" was pressed and routed to all displays`)
       outputs.forEach(output => {
         output.input = inputSelected
         ws.analog(wsSub, output.id, inputSelected.id)
@@ -159,20 +129,43 @@
   }
   function outputSelect(output) {
     output.input = inputSelected
+    ws.debug(`Input id ${inputSelected.id} "${inputSelected.name}" was routed to Output id ${output.id} "${output.name}"`)
     ws.analog(wsSub, output.id, inputSelected.id)
-    ws.serial(wsSub, output.id, `Input id ${inputSelected.id} "${inputSelected.name}" was routed to Output id ${output.id} "${output.name}"`)
     outputs = outputs
   }
   function advancedToggle() {
     advancedRouting = !advancedRouting
-    subscriptions($ws.subscriptions[wsSub])
+    if (advancedRouting && inputSelected === noInput) inputSelected = inputs[0]
+    if ($ws.subscriptions[wsSub]) $ws.subscriptions[wsSub].forceUpdate = true
   }
+
+  // Websocket - SIMPL Feedback
+  let wsSub = config.simplSubscriptionID ?? config.file
+  ws.addSubscription(wsSub, rx => {
+
+    // Set the outputs to the real feedback
+    outputs.forEach(output => {
+      let input = inputs.find(input => input.id === rx.analog[output.id])
+      if (!input) {input = noInput; input.name = "No input at id " + rx.analog[output.id]}
+      output.input = input
+    })
+
+    // Simple mode input feedback
+    if (!advancedRouting) {
+      let firstOutputsInputId = outputs[0].input.id
+      let allSameInput = outputs.every(output => firstOutputsInputId === output?.input?.id)
+      if (allSameInput) inputSelected = inputs.find(input => input.id === firstOutputsInputId)
+      else inputSelected = noInput
+    }
+
+    outputs = outputs
+  })
 
   // Debug
   $: console.log("config", config)
-  $: console.log("inputSelected", inputSelected)
+  // $: console.log("inputSelected", inputSelected)
   $: console.log("advancedRouting", advancedRouting)
-  $: console.log("outputs", outputs)
+  // $: console.log("outputs", outputs)
 
 </script>
 
@@ -189,10 +182,10 @@
       {#each inputs as input}        
         <button 
           on:click={() => inputSelect(input)}
-          class:selected={inputSelected.id === input.id}
+          class:selected={inputSelected?.id === input.id}
         >
           <Icon name={input.icon} size={iconSize} />
-          {input.name}
+          {input.name} {editMode ? `[${input.id}]` : ""}
         </button>
       {/each}
     </div>
@@ -209,10 +202,10 @@
         {#key outputs}
           {#each outputs as output}      
             <button on:click={() => outputSelect(output)} class="tv">
-              <span>{output.name}</span>
+              <span>{output.name} {editMode ? `[${output.id}]` : ""}</span>
               <div>
-                <Icon name={output.input.icon} size={iconSize} />
-                {output.input.name}
+                <Icon name={output.input?.icon} size={iconSize} />
+                {output.input?.name}
               </div>
             </button>
           {/each}

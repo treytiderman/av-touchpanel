@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { router, config } from "../js/global.js"
+  import { global, router, config } from "../js/global.js"
 
   // Components
   import Icon from '../components/Icon.svelte'
@@ -33,6 +33,7 @@
   }
 
   // Variables
+  let editMode = $global.url.search.edit === "true"
   $: hasSubpages = activePopupConfig?.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePopupConfig.subpages[0] : ""
   $: activeSubpageConfig = $config.pages[activeSubpageName]
@@ -53,7 +54,7 @@
           <button
             on:click={() => activeSubpageName = subpage}
             class:active={subpage === activeSubpageName}>
-            {$config.pages[subpage]?.name}
+            {editMode ? `${$config.pages[subpage]?.name} [${$config.pages[subpage]?.file}]` : $config.pages[subpage]?.name}
           </button>
         {/each}
       </nav>
@@ -79,7 +80,7 @@
   <!-- Just Popup -->
   {:else}
     <section style={$$props.style}>
-      <h4>{activePopupConfig?.name || "Page Not Found"}</h4>
+      <h4>{editMode ? `${activePopupConfig?.name} [${activePopupConfig?.file}]` : activePopupConfig?.name}</h4>
       {#if closeIcon}
         <button class="dialogExit" on:click={close}>
           <Icon name="close" />

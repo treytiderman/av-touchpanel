@@ -2,7 +2,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-  import Icon from '../components/Icon.svelte'
+  import Icon from './Icon.svelte'
 
   // Variables
   let timeout

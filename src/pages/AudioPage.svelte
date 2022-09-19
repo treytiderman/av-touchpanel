@@ -1,9 +1,14 @@
 <!-- Javascript -->
 <script>
 
-  // Stores
+  // Imports
   import { global, router } from '../js/global.js';
   import { throttle } from '../js/helper.js';
+  import { ws } from '../js/simpl-ws'
+  
+  // Import Components
+  import Mute from "../components/Mute.svelte";
+  import Slider from "../components/Slider.svelte";
 
   // Configuration
   export let config = {
@@ -46,45 +51,35 @@
       }
     ]
   }
-  
-  // Components
-  import Mute from "../components/Mute.svelte";
-  import Slider from "../components/Slider.svelte";
 
-  // Websocket
-  import { ws } from '../js/simpl-ws'
-  let wsSub = config.simplSubscriptionID ?? ""
-  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
-    ws.addSubscription(wsSub)
-  }
-
-  // Websocket Feedback
-  $: if ($ws.subscriptions[wsSub]?.analog) subscriptions($ws.subscriptions[wsSub])
-  function subscriptions(rx) {
-    volumes.forEach(volume => {
-      volume.mute.state = rx.digital[volume.id]
-      volume.slider.value = rx.analog[volume.id]
-    })
-    volumes = volumes
-  }
-  
   // Variables
+  let editMode = $global.url.search.edit === "true"
   let volumes = config.volumes
 
   // Functions
   function mutePress(volume) {
     volume.mute.state = !volume.mute.state
+    ws.debug(`Audio id ${volume.id} "${volume.label}" mute press`)
     ws.digitalPulse(wsSub, volume.id)
-    ws.serial(wsSub, volume.id, `${volume.label} mute press`)
     volumes = volumes
   }
   const sliderChange = throttle(volume => {
+    ws.debug(`Audio id ${volume.id} "${volume.label}" set to ${volume.slider.value}${volume.slider.units}`)
     ws.analog(wsSub, volume.id, volume.slider.value)
-    ws.serial(wsSub, volume.id, `${volume.label} set to ${volume.slider.value}${volume.slider.units}`)
   }, 100)
 
+  // Websocket - SIMPL Feedback
+  let wsSub = config.simplSubscriptionID ?? config.file
+  ws.addSubscription(wsSub, rx => {
+    volumes.forEach(volume => {
+      volume.mute.state = rx.digital[volume.id]
+      volume.slider.value = rx.analog[volume.id]
+    })
+    volumes = volumes
+  })
+
   // Debug
-  $: console.log("config", config)
+  $: console.log("AudioPage config", config)
   // $: console.log("volumes", volumes)
 
 </script>
@@ -108,7 +103,7 @@
       <!-- Slider -->
       {#if volume.slider.show}
         <Slider
-          label={volume.label}
+          label={editMode ? `${volume.label} [${volume.id}]` : volume.label}
           max={volume.slider.max}
           min={volume.slider.min}
           units={volume.slider.units}
@@ -117,7 +112,7 @@
           on:input={() => sliderChange(volume)}
         />
       {:else}
-        <p>{volume.label}</p>
+        <p>{editMode ? `${volume.label} [${volume.id}]` : volume.label}</p>
       {/if}
 
     </div>

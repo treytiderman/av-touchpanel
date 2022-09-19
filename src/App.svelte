@@ -10,12 +10,11 @@
   onMount(async () => {
     $config = await getJSON(getConfigFileName())
     $router = {
-      page: $config.startup.page,
-      popup: $config.startup.popup,
-      subpage: $config.startup.subpage
+      page: $config.client.startup.page,
+      popup: $config.client.startup.popup,
+      subpage: $config.client.startup.subpage
     }
     $global = {
-      offlineWithProcessor: $config.processor.offline,
       screen: {
         width: document.documentElement.offsetWidth,
         height: document.documentElement.offsetHeight,
@@ -37,12 +36,12 @@
     })
     
     // Start Websocket
-    if ($global.offlineWithProcessor !== true ) {
-      // setDebug(true)
+    if ($config.server.online) {
+      setDebug(true)
       ws.connect({ 
-        ip: $config.processor.ip,
-        port: $config.processor.websocket.port,
-        path: $config.processor.websocket.path
+        ip: $config.server.ip,
+        port: $config.server.websocket.port,
+        path: $config.server.websocket.path,
       })
     }
 
@@ -52,7 +51,8 @@
       if (lastPage !== obj.page) {
         const state = {}
         const label = ""
-        const url = obj.page + document.location.search + document.location.hash
+        // const url = obj.page + document.location.search + document.location.hash
+        const url = document.location.search + "#" + obj.page
         history.pushState(state, label, url)
       }
       lastPage = obj.page
@@ -60,10 +60,11 @@
     window.addEventListener('popstate', event => {
       if ($router.popup !== "") $router.popup = ""
       else { 
-        const url = $router.page + document.location.search + document.location.hash
+        // const url = $router.page + document.location.search + document.location.hash
+        const url = document.location.search + "#" + $router.page
         const currentUrl = event.target.location.pathname.substring(1)
-        if(currentUrl !== $router.page) history.pushState({}, "", url)
-        $router.page = $config.startup.page
+        if (currentUrl !== $router.page) history.pushState({}, "", url)
+        $router.page = $config.client.startup.page
       }
     })
 
@@ -136,13 +137,13 @@
   }
   
   // Connecting to server...
-  let dot = "."
-  setInterval(() => dot.length > 5 ? dot = "." : dot += ".", 500);
+  let dots = "."
+  setInterval(() => dots.length > 5 ? dots = "." : dots += ".", 500);
 
   // Dynamic css classes
-  $: document.querySelector("body").classList = $config.view?.theme || "dark"
-  $: document.documentElement.classList = `rotate${$config.view?.rotate}` || ""
-  $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.view?.scaleMobile*14}px` || "14px" : `${$config.view?.scale*20}px` || "20px"
+  $: document.querySelector("body").classList = $config.client?.theme || "dark"
+  $: document.documentElement.classList = `rotate${$config.client?.rotate}` || ""
+  $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.client?.scaleMobile*14}px` || "14px" : `${$config.client?.scale*20}px` || "20px"
 
   // Debug
   $: $router?.page ? console.log("router", $router) : ""
@@ -151,7 +152,7 @@
 </script>
 
 <!-- Don't render untill the config file is found and websocket is connected -->
-{#if $config?.pages && ($config.processor.offline || $ws.status === "open")}
+{#if $config?.pages && (!$config.server.online || $ws.status === "open")}
 
   <!-- Redraw if any of the router properties change -->
   {#key $router}
@@ -174,7 +175,7 @@
 {:else}
 
   <div style="padding: 3rem; display: grid; gap: 2rem">
-    <h4>Connecting to server{dot}</h4>
+    <h4>Connecting to server{dots}</h4>
     <div>
       <button style="background-color: var(--color-bg-secondary);"
         on:click={() => location.reload()}

@@ -1,8 +1,13 @@
 <!-- Javascript -->
 <script>
 
-  // Stores
+  // Imports
   import { global, router } from '../js/global.js';
+  import { ws } from '../js/simpl-ws'
+
+  // Import Components
+  import Icon from '../components/Icon.svelte'
+  import Activity from '../components/Activity.svelte'
 
   // Configuration
   export let config = {
@@ -21,7 +26,7 @@
         "id": 1,
         "name": "Presentation",
         "page": "Presentation",
-        "icon": "co_present",
+        "icon": "co_present-fill",
         "color": "green"
       },
       {
@@ -47,17 +52,6 @@
     ]
   }
 
-  // Components
-  import Icon from '../components/Icon.svelte'
-  import Activity from '../components/Activity.svelte'
-
-  // Websocket
-  import { ws } from '../js/simpl-ws'
-  let wsSub = config.simplSubscriptionID ?? ""
-  if ($global.offlineWithProcessor !== true && !$ws?.subscriptions[config.simplSubscriptionID]) {
-    ws.addSubscription(wsSub)
-  }
-
   // Variables
   let heading = config.heading
   let activities = config.activities
@@ -66,19 +60,25 @@
   let label = config.lowerLeftButton.label
   let page = config.lowerLeftButton.page
 
+  // Websocket
+  let wsSub = config.simplSubscriptionID ?? config.file
+  ws.addSubscription(wsSub, rx => {
+    // Handel recived data
+  })
+
   // Functions
   function pressActivity(activity) {
     $router.page = activity.page
+    ws.debug(`Activity id ${activity.id} "${activity.name}" was pressed`)
     ws.analog(wsSub, 1, activity.id)
     ws.digitalPulse(wsSub, activity.id)
-    ws.serial(wsSub, 1, `${activity.name}, id ${activity.id} was pressed`)
   }
   function pressLowerLeftButton() {
     $router.page = page
   }
 
   // Debug
-  $: console.log("activities", activities)
+  $: console.log("ActivityPage activities", activities)
 
 </script>
 

@@ -7,7 +7,18 @@ function log(text) { if (debug) console.log(text) }
 
 // Global variables
 let websocket = { readyState: 3 }
+let subs = []
 let reconnectInterval
+
+// Check if config says the server is online
+import { config } from './global.js';
+let serverOnline = false
+let tpId = 1
+let tpSub = "TouchPanel"
+config.subscribe(obj => {
+  tpId = obj?.client?.id ?? 1
+  serverOnline = obj?.server?.online ?? false
+})
 
 // Functions
 function parseMessage(message) {
@@ -55,7 +66,6 @@ function wsConnect(options) {
   const reconnectTimeout_ms = options.reconnectTimeout_ms || 5000;
   const protocol = options.protocol || document.location.protocol === 'http:' ? 'ws' : 'wss';
   const host = options.protocol === 'wss' ? `${ip}` : `${ip}:${port}`
-  // const url = `${protocol}://${ip}:${port}/${path}`
   const url = `${protocol}://${host}/${path}`
 
   // Failed to Connect, Start reconnect Timer
@@ -84,11 +94,13 @@ function wsConnect(options) {
   })
 }
 function createStore() {
+
   // Create Store
 	const { subscribe, set, update } = writable({
     "status": "",
     "subscriptions": {
-      "pageName": {
+      "example": {
+        "ready": true,
         "digital": [false],
         "analog": [0],
         "serial": [""]
@@ -108,12 +120,28 @@ function createStore() {
 	
   // Return functions to listen to changes and send messages to the processor
   return {
+    set,
+		update,
 		subscribe,
-    addSubscription: (sub) => {
-      if (sub !== "") {
+    addSubscription: (sub, cb) => {
+      // is not a blank name
+      // config says the server is online
+      // is not already subscribed
+      if (sub !== "" && serverOnline && subs.every(alreadySub => alreadySub !== sub)) {
         const obj = { "method": "subscribe", "subscriptionID": sub }
         websocket.send(JSON.stringify(obj))
+        subs.push(sub)
       }
+      subscribe(obj => {
+        let subscriptionsAreReady = true
+        Object.values(obj.subscriptions).forEach(subscription => {
+          if (subscription.ready !== true) subscriptionsAreReady = false
+        })
+        if (subscriptionsAreReady && obj.subscriptions[sub]?.ready === true) {
+          log({ [sub]: obj.subscriptions[sub]});
+          cb(obj.subscriptions[sub])
+        }
+      })
     },
     connect: (options) => {
       // Connect to Websocket
@@ -137,6 +165,15 @@ function createStore() {
             }
             // Update the ws store with the new value
             val.subscriptions[obj.subscriptionID][obj.type][obj.data.index] = obj.data.value
+            return val
+          })
+        }
+        else if (JSON.parse(event.data).subscribed === true) {
+          // Example { "subscribed": true, "subscriptionID": "VideoPage"}	
+          const obj = JSON.parse(event.data)
+          log(`RX[${obj.subscriptionID}]: subscribed = ${obj.subscribed}`)
+          update(val => {
+            val.subscriptions[obj.subscriptionID].ready = true
             return val
           })
         }
@@ -225,6 +262,22 @@ function createStore() {
         backToRealFeedback(sub)
       }
       else log(`SEND FAILED. TX[${sub}]: serial ${join} = ${value}`)
+    },
+		debug: (value) => {
+      if (websocket.readyState === 1) {    
+        log(`TX[${tpSub}]: serial ${tpId} = ${value}`)
+        const data = {
+          "method": "set",
+          "subscriptionID": tpSub,
+          "data": {
+            "index": tpId,
+            "value": value
+          }
+        }
+        websocket.send(JSON.stringify(data))
+        backToRealFeedback(tpSub)
+      }
+      else log(`SEND FAILED. TX[${tpSub}]: serial ${tpId} = ${value}`)
     }
 	}
 }

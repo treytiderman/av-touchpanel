@@ -81,7 +81,7 @@
   >
     <Icon name="home"/>
   </button>
-  <h4>{title} {editMode ? `- [${file}]` : ""}</h4>
+  <h4>{title} {editMode ? `[${file}]` : ""}</h4>
   <div>
     <QuickAccess config={quickAccessConfig} editMode={editMode}/>
     <button on:click={() => $router.popup = powerPage}>

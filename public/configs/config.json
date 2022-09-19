@@ -1,21 +1,22 @@
 {
-  "processor": {
-    "offline": false,
+  "server": {
+    "online": false,
     "ip": "192.168.1.69",
     "websocket": {
       "port": 10000,
       "path": "ws"
     }
   },
-  "view": {    
+  "client": {
+    "id": 1,
     "theme": "dark",
     "scale": 1,
     "scaleMobile": 1,
-    "rotate": 0
-  },
-  "startup": {
-    "page": "home",
-    "popup": ""
+    "rotate": 0,
+    "startup": {
+      "page": "home",
+      "popup": ""
+    }
   },
   "topBar": {
     "show": true,
@@ -37,7 +38,6 @@
     "home": {
       "name": "Home",
       "file": "ActivityPage",
-      "simplSubscriptionID": "ActivityPage",
       "heading": "Select an activity to get started...",
       "lowerLeftButton": {
         "show": true,
@@ -58,7 +58,6 @@
     "audio": {
       "name": "Volumes",
       "file": "AudioPage",
-      "simplSubscriptionID": "AudioPage",
       "volumes": [
         {
           "id": 1,
@@ -121,7 +120,6 @@
     "video": {
       "name": "Video",
       "file": "VideoPage",
-      "simplSubscriptionID": "VideoPage",
       "advancedOption": true,
       "advancedRouting": false,
       "inputs": [
@@ -131,12 +129,12 @@
           "icon": "computer"
         },
         {
-          "id": 2,
+          "id": 4,
           "name": "Laptop",
           "icon": "settings_input_hdmi"
         },
         {
-          "id": 3,
+          "id": 6,
           "name": "Wireless",
           "icon": "cast"
         },
@@ -160,7 +158,6 @@
     "settings power": {
       "name": "Device Power",
       "file": "DevicePowerPage",
-      "simplSubscriptionID": "DevicePowerPage",
       "devices": [
         {
           "id": 1,
@@ -168,14 +165,18 @@
         },
         {
           "id": 2,
-          "name": "Confidence Monitor"
+          "name": "Confidence\nMonitor"
         }
       ]
     },
     "system off": {
       "name": "System Off",
       "file": "SystemOffPage",
-      "simplSubscriptionID": "SystemOffPage",
+      "offList": [
+        "Power down the displays",
+        "Mute the Microphones and Speakers"
+      ],
+      "offTimer_sec": 30,
       "offPage": "home"
     }
   }

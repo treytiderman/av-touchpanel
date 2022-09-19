@@ -92,3 +92,17 @@ npm run archive
 ```
 journalctl -u virtualcontrol -f --all
 ```
+
+# 
+
+```
+openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out certificate.pem -keyout privatekey.pem
+openssl pkcs12 -export -out wss-cert.pfx -inkey privatekey.pem -in certificate.pem
+
+```
+
+```
+"/opt/crestron/virtualcontrol/data/ssl/certs/server.crt"
+openssl pkcs12 -export -out wss-cert.pfx -inkey server.key -in server.csr -in server.crt
+
+```
