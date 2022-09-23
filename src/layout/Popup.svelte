@@ -33,6 +33,7 @@
   }
 
   // Variables
+  let timeout
   let editMode = $global.url.search.edit === "true"
   $: hasSubpages = activePopupConfig?.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePopupConfig.subpages[0] : ""
@@ -59,7 +60,11 @@
         {/each}
       </nav>
       {#if closeIcon}
-        <button class="dialogExit" on:click={close}>
+        <button class="dialogExit" 
+          on:click={close}
+          on:pointerup={() => clearTimeout(timeout)}
+          on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+        >
           <Icon name="close" />
         </button>
       {/if}
@@ -82,7 +87,11 @@
     <section style={$$props.style}>
       <h4>{editMode ? `${activePopupConfig?.name} [${activePopupConfig?.file}]` : activePopupConfig?.name}</h4>
       {#if closeIcon}
-        <button class="dialogExit" on:click={close}>
+        <button class="dialogExit" 
+          on:click={close}
+          on:pointerup={() => clearTimeout(timeout)}
+          on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+        >
           <Icon name="close" />
         </button>
       {/if}

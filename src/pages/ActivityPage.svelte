@@ -45,7 +45,7 @@
       {
         "id": 4,
         "name": "Phone",
-        "page": "Phone",
+        "popup": "Phone",
         "icon": "phone",
         "color": "purple"
       }
@@ -68,7 +68,8 @@
 
   // Functions
   function pressActivity(activity) {
-    $router.page = activity.page
+    if (activity.page) $router.page = activity.page
+    if (activity.popup) $router.popup = activity.popup
     ws.debug(`Activity id ${activity.id} "${activity.name}" was pressed`)
     ws.analog(wsSub, 1, activity.id)
     ws.digitalPulse(wsSub, activity.id)

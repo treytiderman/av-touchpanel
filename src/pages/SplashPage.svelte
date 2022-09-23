@@ -22,12 +22,19 @@
 
   let page = config.page || $configFile.topBar.homePage
   let popup = config.popup || ""
+  let timeout
 
 </script>
 
 <!-- HTML -->
-<section on:click={close} class="fixed" style="background-color: {config.backgroundColor};">
-  <img src="./{config.image}" alt="Splash Page Logo">
+<section 
+  on:click={close}
+  on:pointerup={() => clearTimeout(timeout)}
+  on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+  class="fixed"
+  style="background-color: {config.backgroundColor};"
+>
+  <img src=".{config.image}" alt="Splash Page Logo">
   <div>
     <h1>Welcome :)</h1>
     <p>Press to begin</p>

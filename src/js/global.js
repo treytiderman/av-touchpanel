@@ -20,7 +20,7 @@ let failedConfig = {
   }
 }
 
-// Make a GET request for the config file
+// Make a GET request for a JSON
 export async function getJSON(uri) {
 
   // Fetch options
@@ -29,7 +29,8 @@ export async function getJSON(uri) {
   let pathname = document.location.pathname
   pathname = pathname.replace('index.html','')
   const baseUrl = origin + pathname
-  const url = `${baseUrl}configs${uri}`
+  console.log("pathname", pathname);
+  const url = `${baseUrl}${uri}`
   console.log("config file url", url);
   const options = { method: 'GET' }
 
@@ -62,11 +63,11 @@ export function getConfigFileName() {
   // where "config=tp1" is the key value pair we are looking for
   // If the key is "config" then use the value 
   // Else default to "config" for the file name
-  let configFileName = getUrlSearchs().config || "config"
+  let configFileName = getUrlSearchs().config || "/configs/config.json"
   
-  // Add "/" to the start of the file name if it isn't there already
+  // Remove "/" from the start of the file name if it isn't there already
   // Add ".json" to the end of the file name if it isn't there already
-  configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
+  configFileName = configFileName[0] === "/" ? configFileName.substring(1) : configFileName
   configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
   // Return the file name to get from the server

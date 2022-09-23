@@ -3,6 +3,9 @@
 
   // Stores
   import { global, router, config as configFile, getJSON } from '../js/global.js'
+ 
+  // Components
+  import Icon from '../components/Icon.svelte'
 
   // Configuration
   export let config = {
@@ -78,10 +81,10 @@
   }
   function confirmRoomState() {
 
-    // Add "/" to the start of the file name if it isn't there already
+    // Remove "/" to the start of the file name if it isn't there already
     // Add ".json" to the end of the file name if it isn't there already
     let configFileName = currentState.configFile
-    configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
+    configFileName = configFileName[0] === "/" ? configFileName.substring(1) : configFileName
     configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
     // GET the JSON and load it as the current config
@@ -96,7 +99,7 @@
         clearInterval(timeout);
         $configFile = json
         $router.popup = ""
-        $router.page = $configFile.startup.page
+        $router.page = $configFile.client.startup.page
       }, 2000);
     })
 
@@ -167,7 +170,11 @@
               class:noWall={!walls[index]}
               on:click={() => wallClick(index)}
             >
-              <span>{walls[index] ? "close" : "add"}</span>
+              {#if walls[index]}
+                <span><Icon name="close"/></span>
+              {:else}
+                <span><Icon name="add"/></span>
+              {/if}
             </button>
           {/if}
 
@@ -258,7 +265,6 @@
     background-color: var(--color-text-dim);
   }
   button > span {
-    font-family: "Material Symbols Rounded";
     font-size: 1rem;
     display: grid;
     place-items: center;

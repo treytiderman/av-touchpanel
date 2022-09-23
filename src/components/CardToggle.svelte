@@ -1,11 +1,25 @@
 <!-- Javascript -->
 <script>
+  import { global } from '../js/global.js'
+
+  // Import Components
+  import Icon from '../components/Icon.svelte'
 
   // Export
-  export let label = "Toggle"
-  export let labelOn = "ON"
-  export let labelOff = "OFF"
   export let state = false
+  export let name = "Toggle"
+  export let onButton = {
+    icon: "circle",
+    label: "ON",
+    activeLabel: "ON",
+    color: "green"
+  }
+  export let offButton = {
+    icon: "square",
+    label: "OFF",
+    activeLabel: "OFF",
+    color: "red"
+  }
 
   // Functions
   import { createEventDispatcher } from 'svelte';
@@ -15,19 +29,29 @@
 
 <!-- HTML -->
 <div>
-  <h6>{label}</h6>
+  <h6>{name}</h6>
   <span>
     <button
-      class:on={state}
       on:click={() => dispatch('onPress')}
+      style="
+        border-color: {state ? `var(--color-bg-${onButton.color ?? "green"})` : ""};
+        background-color: {state ? `var(--color-bg-${onButton.color ?? "green"})` : ""};
+        color: {state ? `var(--color-text-${onButton.color ?? "green"})` : ""};
+      "
     >
-      {labelOn}
+      <Icon name={onButton.icon ?? ""} size=2/>
+      {state ? onButton.activeLabel ?? onButton.label : onButton.label ?? ""}
     </button>
     <button
-      class:off={!state}
       on:click={() => dispatch('offPress')}
+      style="
+        border-color: {!state ? `var(--color-bg-${offButton.color ?? "red"})` : ""};
+        background-color: {!state ? `var(--color-bg-${offButton.color ?? "red"})` : ""};
+        color: {!state ? `var(--color-text-${offButton.color ?? "red"})` : ""};
+      "
     >
-      {labelOff}
+      <Icon name={offButton.icon ?? ""} size=2/>
+      {!state ? offButton.activeLabel ?? offButton.label : offButton.label ?? ""}
     </button>
   </span>
 </div>
@@ -48,23 +72,21 @@
     flex-wrap: wrap;
     margin-top: auto;
   }
+  span > button {
+    flex: 1 0 0%;
+  }
   button {
     border: var(--border);
     border-color: var(--color-border-bright);
+    color: var(--color-text);
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--pad);
   }
   h6 {
     font-weight: normal;
     color: var(--color-text-bright);
     white-space: pre;
-  }
-  .on {
-    border-color: var(--color-bg-green);
-    background-color: var(--color-bg-green);
-    color: var(--color-text-green);
-  }
-  .off {
-    border-color: var(--color-bg-red);
-    background-color: var(--color-bg-red);
-    color: var(--color-text-red);
   }
 </style>

@@ -31,12 +31,10 @@
   // Functions
   function confirmRoomState(configFilePath) {
 
-    // Add "/" to the start of the file name if it isn't there already
-    // Add "/configs" to the start of the file name if it isn't there already
+    // Remove "/" to the start of the file name if it isn't there already
     // Add ".json" to the end of the file name if it isn't there already
     let configFileName = configFilePath
-    configFileName = configFileName.startsWith("/") ? configFileName : `/${configFileName}`
-    configFileName = configFileName.startsWith("/configs") ? configFileName : `/configs${configFileName}`
+    configFileName = configFileName[0] === "/" ? configFileName.substring(1) : configFileName
     configFileName = configFileName.endsWith(".json") ? configFileName : `${configFileName}.json`
 
     // GET the JSON and load it as the current config
@@ -51,26 +49,31 @@
         clearInterval(timeout);
         $configFile = json
         $router.popup = ""
-        $router.page = $configFile.startup.page
+        $router.page = $configFile.client.startup.page
       }, 2000);
     })
 
   }
   function keypadEnter(event) {
     const codeEntered = event.detail
-    console.log("codeEntered", codeEntered)
+    // console.log("codeEntered", codeEntered)
     passcodes.forEach(passcode => {      
       if (codeEntered === passcode.code) {
         if (passcode.configFile) {
           textFeedback = "Loading..."
-          console.log(passcode.configFile)
+          console.log("passcode.configFile", passcode.configFile)
           confirmRoomState(passcode.configFile)
         }
         else if (passcode.page) {
           textFeedback = "Sucess"
-          console.log(passcode.page)
+          console.log("passcode.page", passcode.page)
           $router.popup = ""
           $router.page = passcode.page
+        }
+        if (passcode.popup) {
+          textFeedback = "Sucess"
+          console.log("passcode.popup", passcode.popup)
+          $router.popup = passcode.popup
         }
       }
       else textFeedback = "Wrong code. Try again..."

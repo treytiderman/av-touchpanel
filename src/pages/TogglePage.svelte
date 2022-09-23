@@ -12,49 +12,59 @@
   // Configuration
   export let config = {
     "name": "Device Power",
-    "file": "DevicePowerPage",
-    "simplSubscriptionID": "DevicePowerPage",
-    "devices": [
+    "file": "TogglePage",
+    "cardWidth": "500px",
+    "toggles": [
       {
         "id": 1,
-        "name": "Display Left"
+        "name": "Display",
       },
       {
         "id": 2,
-        "name": "Display Right"
-      },
-      {
-        "id": 3,
-        "name": "Projector"
+        "name": "Audio Recorder",
+        "state": false,
+        "onButton": {
+          "icon": "circle",
+          "label": "Record",
+          "activeLabel": "Recording",
+          "color": "red"
+        },
+        "offButton": {
+          "icon": "square",
+          "label": "Stop",
+          "activeLabel": "Stopped",
+          "color": "grey"
+        }
       }
     ]
   }
 
   // Variables
   let editMode = $global.url.search.edit === "true"
-  let devices = config.devices
+  let cardWidth = config.cardWidth
+  let toggles = config.toggles
 
   // Functions
   function onPress(device) {
     device.state = true
     ws.serial(wsSub, 1, `Device id ${device.id} "${device.name}" was powered ON`)
     ws.digitalPulse(wsSub, device.id*2-1)
-    devices = devices
+    toggles = toggles
   }
   function offPress(device) {
     device.state = false
     ws.serial(wsSub, 1, `Device id ${device.id} "${device.name}" was powered OFF`)
     ws.digitalPulse(wsSub, device.id*2)
-    devices = devices
+    toggles = toggles
   }
 
   // Websocket - SIMPL Feedback
   let wsSub = config.simplSubscriptionID ?? config.file
   ws.addSubscription(wsSub, () => {
-    devices.forEach(device => {
+    toggles.forEach(device => {
       device.state = rx.digital[device.id]
     })
-    devices = devices
+    toggles = toggles
   })
 
   // Debug
@@ -63,13 +73,15 @@
 </script>
 
 <!-- HTML -->
-<section>
-  {#each devices as device}
+<section style="grid-template-columns: repeat(auto-fit, minmax(min({cardWidth ?? "200px"}, 100%), .4fr));">
+  {#each toggles as toggle}
     <CardPower
-      state={device.state}
-      label={editMode ? `${device.name} [${device.id}]` : device.name}
-      on:onPress={() => onPress(device)}
-      on:offPress={() => offPress(device)}
+      state={toggle.state}
+      name={editMode ? `${toggle.name} [${toggle.id}]` : toggle.name}
+      onButton={toggle.onButton ?? {icon: "", label: "ON", activeLabel: "ON", color: "green"}}
+      offButton={toggle.offButton ?? {icon: "", label: "OFF", activeLabel: "OFF", color: "red"}}
+      on:onPress={() => onPress(toggle)}
+      on:offPress={() => offPress(toggle)}
     />
   {/each}
 </section>
@@ -77,9 +89,10 @@
 <!-- CSS -->
 <style>
   section {
-    display: flex;
-    flex-wrap: wrap;
+    width: 70%;
+    display: grid;
     gap: var(--gap);
     justify-content: center;
   }
+  @media (max-width: 550px) {section {width: 100%}}
 </style>

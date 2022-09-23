@@ -79,20 +79,13 @@
   import TopBar from "./layout/TopBar.svelte"
   import Main from "./layout/Main.svelte"
   import Popup from "./layout/Popup.svelte"
+  import { fade } from 'svelte/transition';
 
   // Pages
   const pageFiles = {
-    "SplashPage": {
-      file: "SplashPage",
-      component: () => import("./pages/SplashPage.svelte")
-    },
     "ActivityPage": {
       file: "ActivityPage",
       component: () => import("./pages/ActivityPage.svelte")
-    },
-    "VideoPage": {
-      file: "VideoPage",
-      component: () => import("./pages/VideoPage.svelte")
     },
     "AudioPage": {
       file: "AudioPage",
@@ -102,48 +95,62 @@
       file: "CameraPage",
       component: () => import("./pages/CameraPage.svelte")
     },
-    "PhonePage": {
-      file: "PhonePage",
-      component: () => import("./pages/PhonePage.svelte")
+    "ConfigPage": {
+      file: "ConfigPage",
+      component: () => import("./pages/ConfigPage.svelte")
     },
-    "DevicePowerPage": {
-      file: "DevicePowerPage",
-      component: () => import("./pages/DevicePowerPage.svelte")
+    "EmbedPage": {
+      file: "EmbedPage",
+      component: () => import("./pages/EmbedPage.svelte")
     },
-    "SystemOffPage": {
-      file: "SystemOffPage",
-      component: () => import("./pages/SystemOffPage.svelte")
+    "MissingPage": {
+      file: "MissingPage",
+      component: () => import("./pages/MissingPage.svelte")
     },
     "PasscodePage": {
       file: "PasscodePage",
       component: () => import("./pages/PasscodePage.svelte")
     },
+    "PhonePage": {
+      file: "PhonePage",
+      component: () => import("./pages/PhonePage.svelte")
+    },
+    "SplashPage": {
+      file: "SplashPage",
+      component: () => import("./pages/SplashPage.svelte")
+    },
+    "SystemOffPage": {
+      file: "SystemOffPage",
+      component: () => import("./pages/SystemOffPage.svelte")
+    },
+    "TogglePage": {
+      file: "TogglePage",
+      component: () => import("./pages/TogglePage.svelte")
+    },
+    "VideoPage": {
+      file: "VideoPage",
+      component: () => import("./pages/VideoPage.svelte")
+    },
     "WallsPage": {
       file: "WallsPage",
       component: () => import("./pages/WallsPage.svelte")
     },
-    "ConfigPage": {
-      file: "ConfigPage",
-      component: () => import("./pages/ConfigPage.svelte")
-    },
-    "UrlEmbedPage": {
-      file: "UrlEmbedPage",
-      component: () => import("./pages/UrlEmbedPage.svelte")
-    },
-    "MissingPage": {
-      file: "MissingPage",
-      component: () => import("./pages/MissingPage.svelte")
-    }
   }
   
   // Connecting to server...
   let dots = "."
   setInterval(() => dots.length > 5 ? dots = "." : dots += ".", 500);
+  let timePassed = false;
+  const fadeTime = 1000
+  setTimeout(() => timePassed = true, fadeTime);
 
   // Dynamic css classes
   $: document.querySelector("body").classList = $config.client?.theme || "dark"
   $: document.documentElement.classList = `rotate${$config.client?.rotate}` || ""
   $: document.documentElement.style.fontSize = $global.screen?.width < 550 ? `${$config.client?.scaleMobile*14}px` || "14px" : `${$config.client?.scale*20}px` || "20px"
+  
+  // Redraw / Render conditions
+  $: renderReady = $config?.pages && (!$config.server.online || $ws.status === "open")
 
   // Debug
   $: $router?.page ? console.log("router", $router) : ""
@@ -152,28 +159,27 @@
 </script>
 
 <!-- Don't render untill the config file is found and websocket is connected -->
-{#if $config?.pages && (!$config.server.online || $ws.status === "open")}
-
-  <!-- Redraw if any of the router properties change -->
-  {#key $router}
-    <TopBar config={$config.topBar} />
-    <Main 
-      pageFiles={pageFiles}
-      activePageFile={pageFiles[$config.pages[$router.page]?.file] || pageFiles["MissingPage"]}
-      activePageConfig={$config.pages[$router.page]}
-    />
-    {#if $router.popup !== ""}
-      <Popup 
+{#if renderReady}
+  {#key $config}
+    <div class="body" in:fade={{duration: timePassed ? 0 : fadeTime}} >
+      {#if $router.popup !== ""}
+        <Popup 
+          pageFiles={pageFiles}
+          activePopupFile={pageFiles[$config.pages[$router.popup]?.file] || pageFiles["MissingPage"]}
+          activePopupConfig={$config.pages[$router.popup]}
+        />
+      {/if}
+      <TopBar config={$config.topBar}/>
+      <Main 
         pageFiles={pageFiles}
-        activePopupFile={pageFiles[$config.pages[$router.popup]?.file] || pageFiles["MissingPage"]}
-        activePopupConfig={$config.pages[$router.popup]}
+        activePageFile={pageFiles[$config.pages[$router.page]?.file] || pageFiles["MissingPage"]}
+        activePageConfig={$config.pages[$router.page]}
       />
-    {/if}
+    </div>
   {/key}
 
-<!-- Websocket failed to connect  -->
-{:else}
-
+<!-- Config / Websocket failed to connect  -->
+{:else if timePassed}
   <div style="padding: 3rem; display: grid; gap: 2rem">
     <h4>Connecting to server{dots}</h4>
     <div>
@@ -182,5 +188,4 @@
       >Reload?</button>
     </div>
   </div>
-
 {/if}

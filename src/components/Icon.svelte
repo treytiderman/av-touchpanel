@@ -20,6 +20,8 @@
   let svgUsed = svgPath || name
   // If "name" prop was used update the svgPath
   if (name) svgPath = `/svgs/material_symbols/${name.toLowerCase()}`
+  // If "name" prop is the svgPath
+  if (name && name.startsWith("/")) svgPath = name
   // Add ".svg" to the end of the svgPath is it isn't there already
   if (svgUsed && !svgPath.endsWith(".svg")) svgPath += ".svg"
   

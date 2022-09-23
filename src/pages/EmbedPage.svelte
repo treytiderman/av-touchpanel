@@ -23,13 +23,13 @@
 </script>
 
 <!-- HTML -->
-<iframe title={url} src={url} frameborder="0"></iframe>
-
+<embed title={url} src={url} type="application/pdf">
 
 <!-- CSS -->
 <style>
-  iframe {
+  embed {
     width: 100%;
     height: 100%;
+    background-color: black;
   }
 </style>

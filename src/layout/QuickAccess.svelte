@@ -51,14 +51,14 @@
 
 <!-- Dark Mode -->
 {#if showdarkMode}
-  {#if $configFile.view.theme === "light"}
-    <button on:click={() => $configFile.view.theme = 'dark'}>
-      <Icon name="dark_mode-fill" />
+  {#if $configFile.client.theme === "light"}
+    <button on:click={() => $configFile.client.theme = 'dark'}>
+      <Icon name="dark_mode" />
       <small>Dark Mode</small>
     </button>
   {:else}
-    <button on:click={() => $configFile.view.theme = 'light'}>
-      <Icon name="light_mode-fill" />
+    <button on:click={() => $configFile.client.theme = 'light'}>
+      <Icon name="light_mode" />
       <small>Light Mode</small>
     </button>
   {/if}
@@ -96,14 +96,11 @@
   <button on:click={() => {
     $configFile.pages["config"] = {
       "name": "Configuration Edit",
-      "file": "ConfigPage",
-      "SIMPL": {
-        "subscription": "ConfigPage"
-      }
+      "file": "ConfigPage"
     }
     $router.page = "config"
   }}>
-    <Icon name="edit-fill"/>
+    <Icon name="edit"/>
     <small>Edit Config</small>
   </button>
 {/if}

@@ -1,40 +1,59 @@
 {
-  "processor": {
-    "offline": true,
+  "server": {
+    "online": false,
     "ip": "192.168.1.69",
     "websocket": {
-      "port": 50001,
-      "path": "tp"
+      "port": 10000,
+      "path": "ws"
     }
   },
-  "view": {    
+  "client": {
+    "id": 1,
     "theme": "dark",
     "scale": 1,
     "scaleMobile": 1,
-    "rotate": 0
-  },
-  "startup": {
-    "page": "activities",
-    "popup": ""
+    "rotate": 0,
+    "startup": {
+      "page": "ActivityPage",
+      "popup": ""
+    }
   },
   "topBar": {
     "show": true,
-    "homePage": "activities",
-    "powerPage": "system off",
+    "homePage": "ActivityPage",
+    "powerPage": "SystemOffPage",
     "quickAccess": {
       "darkMode": true,
       "popups": [
         {
           "id": 1,
           "name": "Audio",
-          "page": "audio",
+          "page": "AudioPage",
           "icon": "volume_up"
         },
         {
           "id": 2,
           "name": "Camera",
-          "page": "camera",
+          "page": "CameraPage",
           "icon": "videocam"
+        },
+        {
+          "id": 3,
+          "name": "Phone",
+          "page": "PhonePage",
+          "icon": "call"
+        },
+        {
+          "id": 4,
+          "name": "Video",
+          "page": "VideoPage",
+          "icon": "co_present"
+        },
+        {
+          "id": 5,
+          "name": "Walls",
+          "page": "WallsPage",
+          "icon": "safety_divider"
         }
       ],
       "toggles": [
@@ -55,149 +74,430 @@
     }
   },
   "pages": {
-    "splash screen": {
-      "name": "Splash",
-      "file": "SplashPage",
-      "image": "images/FordAV_BlackBG_1920_1080.png",
-      "backgroundColor": "#000000"
+    "ActivityPage": {
+      "name": "Activities",
+      "subpages": [
+        "ActivityPage 1",
+        "ActivityPage 2"
+      ]
     },
-    "activities": {
-      "name": "Home",
+    "ActivityPage 1": {
+      "name": "Common",
       "file": "ActivityPage",
-      "SIMPL": {
-        "subscription": "test1"
-      },
       "heading": "Select an activity to get started...",
       "lowerLeftButton": {
         "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "TogglePage"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "name": "Video",
+          "page": "VideoPage",
+          "icon": "co_present",
+          "color": "green"
+        },
+        {
+          "id": 2,
+          "name": "Camera",
+          "page": "CameraPage",
+          "icon": "videocam",
+          "color": "yellow"
+        },
+        {
+          "id": 3,
+          "name": "Audio",
+          "page": "AudioPage",
+          "icon": "volume_up",
+          "color": "orange"
+        },
+        {
+          "id": 4,
+          "name": "Phone",
+          "page": "PhonePage",
+          "icon": "call",
+          "color": "purple"
+        }
+      ]
+    },
+    "ActivityPage 2": {
+      "name": "Other",
+      "file": "ActivityPage",
+      "heading": "Select an activity to get started...",
+      "lowerLeftButton": {
+        "show": false,
         "icon": "settings",
         "label": "Settings",
         "page": "settings power"
       },
       "activities": [
         {
-          "id": 1,
-          "name": "Presentation",
-          "page": "video",
-          "icon": "co_present",
-          "color": "green"
+          "id": 11,
+          "name": "Splash Page",
+          "page": "SplashPage",
+          "icon": "image",
+          "color": "cyan"
         },
         {
-          "id": 2,
-          "name": "Video Call",
-          "page": "video call",
-          "icon": "videocam",
-          "color": "yellow"
+          "id": 12,
+          "name": "Embed",
+          "page": "EmbedPage",
+          "icon": "link",
+          "color": "lime"
         },
         {
-          "id": 4,
-          "name": "Phone",
-          "page": "phone",
-          "icon": "phone",
-          "color": "purple"
+          "id": 13,
+          "name": "Walls",
+          "page": "WallsPage",
+          "icon": "safety_divider",
+          "color": "pink"
+        },
+        {
+          "id": 14,
+          "name": "Passcode",
+          "popup": "PasscodePage",
+          "icon": "lock",
+          "color": "red"
         }
       ]
     },
-    "audio": {
-      "name": "Volumes",
+    "AudioPage": {
+      "name": "Audio",
       "subpages": [
-        "audio sub 1",
-        "audio sub 2",
-        "audio sub 3"
+        "AudioPage 1",
+        "AudioPage 2",
+        "AudioPage 3"
       ]
     },
-    "audio sub 1": {
+    "AudioPage 1": {
       "name": "Audio 1",
       "file": "AudioPage",
-      "SIMPL": {
-        "subscription": "AudioPage"
-      },
       "volumes": [
         {
-          "id": 1,
+          "id": 2,
           "label": "Video",
-          "type": "slider",
-          "iconMic": false,
-          "value": 0,
-          "max": 6,
-          "min": -24,
-          "units": "dB"
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
+          }
+        },
+        {
+          "id": 1,
+          "label": "Privacy",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": false
+          }
+        }
+      ]
+    },
+    "AudioPage 2": {
+      "name": "Audio 2",
+      "file": "AudioPage",
+      "volumes": [
+        {
+          "id": 11,
+          "label": "Wireless Microphone 1",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 0,
+            "max": 6,
+            "min": -36,
+            "units": "dB"
+          }
+        },
+        {
+          "id": 12,
+          "label": "Wireless Microphone 2",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 0,
+            "max": 6,
+            "min": -36,
+            "units": "dB"
+          }
+        },
+        {
+          "id": 13,
+          "label": "Wireless Microphone 3",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 0,
+            "max": 6,
+            "min": -36,
+            "units": "dB"
+          }
+        }
+      ]
+    },
+    "AudioPage 3": {
+      "name": "Audio 3",
+      "file": "AudioPage",
+      "volumes": [
+        {
+          "id": 21,
+          "label": "Background Music - Zone 1",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 1,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 22,
+          "label": "Background Music - Zone 2",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 2,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 23,
+          "label": "Background Music - Zone 3",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 3,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 24,
+          "label": "Background Music - Zone 4",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 4,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 25,
+          "label": "Background Music - Zone 5",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 5,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 26,
+          "label": "Background Music - Zone 6",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 6,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 27,
+          "label": "Background Music - Zone 7",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 7,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 28,
+          "label": "Background Music - Zone 8",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 8,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        }
+      ]
+    },
+    "CameraPage": {
+      "name": "Camera",
+      "subpages": [
+        "CameraPage 1",
+        "CameraPage 2"
+      ]
+    },
+    "CameraPage 1": {
+      "name": "Control",
+      "file": "CameraPage",
+      "cameras": [
+        {
+          "id": 1,
+          "name": "Front Camera",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            },
+            "bottomRight": {
+              "show": true,
+              "label": "Auto Track",
+              "icon": "auto_mode",
+              "toggle": true
+            }
+          }
+        }
+      ]
+    },
+    "CameraPage 2": {
+      "name": "Video Call",
+      "file": "CameraPage",
+      "shareListShow": true,
+      "savePresetHoldTime_sec": 2,
+      "cameras": [
+        {
+          "id": 0,
+          "name": "Overhead"
+        },
+        {
+          "id": 1,
+          "name": "Presenter",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            },
+            "bottomRight": {
+              "show": true,
+              "label": "Auto Track",
+              "icon": "auto_mode",
+              "toggle": true
+            }
+          }
         },
         {
           "id": 2,
-          "label": "TV",
-          "type": "slider",
-          "iconMic": false,
-          "value": 5,
-          "max": 10,
-          "min": 0,
-          "units": "/ 10"
-        },
-        {
-          "id": 3,
-          "label": "Wireless Microphone",
-          "type": "slider",
-          "value": 75,
-          "iconMic": true
-        },
-        {
-          "id": 4,
-          "label": "Privacy",
-          "iconMic": true,
-          "type": "mute"
-        },
-        {
-          "id": 5,
-          "label": "All",
-          "type": "mute"
+          "name": "Audience",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            }
+          }
         }
       ]
     },
-    "audio sub 2": {
-      "name": "Audio 2",
-      "file": "AudioPage",
-      "SIMPL": {
-        "subscription": "AudioPage"
-      },
-      "volumes": [
+    "EmbedPage": {
+      "name": "QSG",
+      "file": "EmbedPage",
+      "url": "./images/ExampleQSG.pdf"
+    },
+    "PasscodePage": {
+      "name": "Try: 0000, 1973, 7777",
+      "file": "PasscodePage",
+      "passcodes": [
         {
-          "id": 1,
-          "label": "Fake Mic 2",
-          "type": "slider",
-          "value": 75,
-          "iconMic": true
+          "code": "0000",
+          "page": "ActivityPage"
+        },
+        {
+          "code": "1973",
+          "page": "VideoPage",
+          "popup": "AudioPage 1"
+        },
+        {
+          "code": "7777",
+          "configFile": "/configs/examples/small.json"
         }
       ]
     },
-    "audio sub 3": {
-      "name": "Audio 3",
-      "file": "AudioPage",
-      "SIMPL": {
-        "subscription": "AudioPage"
-      },
-      "volumes": [
-        {
-          "id": 1,
-          "label": "Fake Mic 3",
-          "type": "slider",
-          "value": 75,
-          "iconMic": true
-        }
-      ]
+    "PhonePage": {
+      "name": "Phone",
+      "file": "PhonePage",
+      "placeholder": "405-123-4567"
     },
-    "video": {
+    "SplashPage": {
+      "name": "Splash",
+      "file": "SplashPage",
+      "image": "/images/FordAV_BlackBG_1920_1080.png",
+      "backgroundColor": "#000000",
+      "page": "SplashPage",
+      "popup": "PasscodePage"
+    },
+    "VideoPage": {
       "name": "Video",
       "subpages": [
-        "video sub 1",
-        "video sub 2"
+        "VideoPage 1",
+        "VideoPage 2",
+        "VideoPage 3"
       ]
     },
-    "video sub 1": {
+    "VideoPage 1": {
       "name": "Video 1",
       "file": "VideoPage",
-      "SIMPL": {
-        "subscription": "test2"
-      },
       "advancedOption": true,
       "advancedRouting": false,
       "inputColumns": 1,
@@ -235,12 +535,9 @@
         }
       ]
     },
-    "video sub 2": {
+    "VideoPage 2": {
       "name": "Video 2",
       "file": "VideoPage",
-      "SIMPL": {
-        "subscription": "VideoPage"
-      },
       "advancedOption": false,
       "advancedRouting": true,
       "inputColumns": 1,
@@ -317,140 +614,212 @@
         }
       ]
     },
-    "phone": {
-      "name": "Phone",
-      "file": "PhonePage",
-      "SIMPL": {
-        "subscription": "PhonePage"
-      },
-      "placeholder": "405-123-4567"
-    },
-    "camera": {
-      "name": "Camera",
-      "file": "CameraPage",
-      "SIMPL": {
-        "subscription": "CameraPage"
-      },
-      "cameras": [
+    "VideoPage 3": {
+      "name": "Video 3",
+      "file": "VideoPage",
+      "inputColumns": 2,
+      "outputColumns": 1,
+      "advancedOption": true,
+      "advancedRouting": true,
+      "inputs": [
         {
           "id": 1,
-          "name": "Front Camera",
-          "controls": {
-            "show": true,
-            "bottomLeft": {
-              "show": true,
-              "icon": "home"
-            },
-            "bottomRight": {
-              "show": true,
-              "label": "Auto Track",
-              "icon": "auto_mode",
-              "toggle": true
-            }
-          }
-        }
-      ]
-    },
-    "video call": {
-      "name": "Video Call",
-      "file": "CameraPage",
-      "SIMPL": {
-        "subscription": "CameraPage"
-      },
-      "shareListShow": true,
-      "savePresetHoldTime_sec": 2,
-      "cameras": [
-        {
-          "id": 0,
-          "name": "Camera 0"
-        },
-        {
-          "id": 1,
-          "name": "Camera 1",
-          "controls": {
-            "show": true
-          }
+          "name": "Playstation",
+          "icon": "/svgs/logos/playstation.svg"
         },
         {
           "id": 2,
-          "name": "Camera 2",
-          "controls": {
-            "show": true,
-            "showPresets": false
-          }
+          "name": "Apple TV",
+          "icon": "/svgs/logos/appletv.svg"
         },
         {
           "id": 3,
-          "name": "Camera 3",
-          "controls": {
-            "show": true,
-            "showDpad": false
-          }
+          "name": "HBO",
+          "icon": "/svgs/logos/hbo.svg"
         },
         {
           "id": 4,
-          "name": "Camera 4",
-          "controls": {
-            "show": true,
-            "bottomLeft": {
-              "show": true,
-              "icon": "home"
-            }
-          }
+          "name": "Teams",
+          "icon": "/svgs/logos/microsoft-teams.svg"
         },
         {
           "id": 5,
-          "name": "Camera 5",
-          "controls": {
-            "show": true,
-            "bottomLeft": {
-              "show": true,
-              "icon": "home"
-            },
-            "bottomRight": {
-              "show": true,
-              "label": "Auto Track",
-              "icon": "auto_mode",
-              "toggle": true
-            }
+          "name": "Switch",
+          "icon": "/svgs/logos/nintendoswitch.svg"
+        },
+        {
+          "id": 6,
+          "name": "Xbox",
+          "icon": "/svgs/logos/xbox.svg"
+        },
+        {
+          "id": 0,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 1,
+          "name": "Front"
+        },
+        {
+          "id": 2,
+          "name": "Rear"
+        }
+      ]
+    },
+    "TogglePage": {
+      "name": "Device Power",
+      "subpages": [
+        "TogglePage 1",
+        "TogglePage 2"
+      ]
+    },
+    "TogglePage 1": {
+      "name": "Device Power",
+      "file": "TogglePage",
+      "cardWidth": "200px",
+      "toggles": [
+        {
+          "id": 1,
+          "name": "Display 1"
+        },
+        {
+          "id": 2,
+          "name": "Display 2"
+        },
+        {
+          "id": 3,
+          "name": "Display 3"
+        },
+        {
+          "id": 4,
+          "name": "Display 4"
+        },
+        {
+          "id": 5,
+          "name": "Display 5"
+        },
+        {
+          "id": 6,
+          "name": "Display 6"
+        },
+        {
+          "id": 7,
+          "name": "Display 7"
+        },
+        {
+          "id": 8,
+          "name": "Display 8"
+        },
+        {
+          "id": 9,
+          "name": "Display 9"
+        }
+      ]
+    },
+    "TogglePage 2": {
+      "name": "Recorders",
+      "file": "TogglePage",
+      "cardWidth": "500px",
+      "toggles": [
+        {
+          "id": 11,
+          "name": "Audio Recorder",
+          "state": true,
+          "onButton": {
+            "icon": "circle",
+            "label": "Record",
+            "activeLabel": "Recording",
+            "color": "red"
+          },
+          "offButton": {
+            "icon": "square",
+            "label": "Stop",
+            "activeLabel": "Stopped",
+            "color": "grey"
+          }
+        },
+        {
+          "id": 12,
+          "name": "Video Recorder",
+          "state": false,
+          "onButton": {
+            "icon": "circle",
+            "label": "Record",
+            "activeLabel": "Recording",
+            "color": "red"
+          },
+          "offButton": {
+            "icon": "square",
+            "label": "Stop",
+            "activeLabel": "Stopped",
+            "color": "grey"
           }
         }
       ]
     },
-    "settings": {
-      "name": "Settings",
-      "subpages": [
-        "settings power"
-      ]
-    },
-    "settings power": {
-      "name": "Device Power",
-      "file": "DevicePowerPage",
-      "SIMPL": {
-        "subscription": "DevicePowerPage"
-      },
-      "devices": [
+    "WallsPage": {
+      "name": "Room Combining",
+      "file": "WallsPage",
+      "walls": [ 1, 0 ],
+      "wallSensor": false,
+      "roomName": "A",
+      "rooms": [
         {
           "id": 1,
-          "name": "Display Left"
+          "name": "A"
         },
         {
           "id": 2,
-          "name": "Display Right"
+          "name": "B"
         },
         {
           "id": 3,
-          "name": "Projector"
+          "name": "C"
+        }
+      ],
+      "roomStates": [
+        {
+          "id": 1,
+          "name": "A",
+          "configFile": "/configs/examples/a.json",
+          "walls": [ 1, 0 ],
+          "roomNames": [ "A" ]
+        },
+        {
+          "id": 2,
+          "name": "A",
+          "configFile": "/configs/examples/a.json",
+          "walls": [ 1, 1 ],
+          "roomNames": [ "A" ]
+        },
+        {
+          "id": 3,
+          "name": "A+B",
+          "configFile": "/configs/examples/a-b.json",
+          "walls": [ 0, 1 ],
+          "roomNames": [ "A", "B" ]
+        },
+        {
+          "id": 4,
+          "name": "A+B+C",
+          "configFile": "/configs/examples/a-b-c.json",
+          "walls": [ 0, 0 ],
+          "roomNames": [ "A", "B", "C" ]
         }
       ]
     },
-    "system off": {
+    "SystemOffPage": {
       "name": "System Off",
       "file": "SystemOffPage",
-      "SIMPL": {
-        "subscription": "SystemOffPage"
-      },
-      "offPage": "splash screen"
+      "offList": [
+        "Power down the displays",
+        "Mute the Microphones and Speakers"
+      ],
+      "offTimer_sec": 30,
+      "offPage": "SplashPage"
     }
   }
 }

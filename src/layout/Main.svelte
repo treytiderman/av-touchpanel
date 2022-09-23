@@ -10,7 +10,7 @@
   export let activePageConfig
   
   // Function
-  function getSubpageFiles(hasSubpages) {
+  function getSubpageFiles(hasSubpages, activePageConfig) {
     if (hasSubpages) {
       let subpages = {}
       activePageConfig.subpages.forEach(subpage => {
@@ -25,7 +25,12 @@
   // Dynamic Variables
   $: hasSubpages = activePageConfig.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePageConfig.subpages[0] : ""
-  $: activeSubpageFiles = getSubpageFiles(hasSubpages)
+  $: activeSubpageFiles = getSubpageFiles(hasSubpages, activePageConfig)
+  
+  // Debug
+  // $: console.log("hasSubpages", hasSubpages)
+  // $: console.log("activeSubpageName", activeSubpageName)
+  // $: console.log("activeSubpageFiles", activeSubpageFiles)
 
 </script>
 
@@ -89,7 +94,8 @@
     border-color: var(--color-text-dim);
     filter: brightness(100%);
   }
-  :global(body) {
+  :global(.body) {
+    height: 100%;
     display: flex;
     flex-direction: column;
   }

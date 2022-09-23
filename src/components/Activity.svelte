@@ -9,6 +9,7 @@
   export let color = "grey"
   export let file = ""
   export let page = ""
+  export let popup = ""
 
   // Stores
   import { global } from '../js/global.js';

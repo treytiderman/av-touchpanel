@@ -11,7 +11,7 @@ body.light {
   --color-bg-secondary: hsl(220, 10%, 75%);
   --color-text-secondary: var(--color-text-bright);
 
-  --color-bg-primary: hsl(265, 75%, 65%);
+  --color-bg-primary: hsl(265, 75%, 70%);
   --color-text-primary: hsl(265, 90%, 10%);
 
   --filter-brightness-hover: brightness(80%);
