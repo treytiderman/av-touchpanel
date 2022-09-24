@@ -3,6 +3,7 @@
 
   // Stores
   import { global, router, config } from "../js/global.js"
+  import { fade } from 'svelte/transition';
 
   // Components
   import Icon from '../components/Icon.svelte'
@@ -34,6 +35,7 @@
 
   // Variables
   let timeout
+  let fadeTime = 100
   let editMode = $global.url.search.edit === "true"
   $: hasSubpages = activePopupConfig?.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePopupConfig.subpages[0] : ""
@@ -43,11 +45,19 @@
 </script>
 
 <!-- HTML -->
-<dialog on:mousedown={closeIfBackground}>
+<dialog 
+  in:fade={{duration: fadeTime}}
+  out:fade={{duration: fadeTime}}
+  on:mousedown={closeIfBackground}
+>
   
   <!-- Nav and Subpages -->
   {#if hasSubpages}
-    <section style={$$props.style}>
+    <section 
+      in:fade={{duration: fadeTime}}
+      out:fade={{duration: fadeTime}}
+      style={$$props.style}
+    >
 
       <!-- Nav -->
       <nav>
@@ -63,7 +73,7 @@
         <button class="dialogExit" 
           on:click={close}
           on:pointerup={() => clearTimeout(timeout)}
-          on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+          on:pointerdown={() => timeout = setTimeout(() => location.reload(true), 1000)}
         >
           <Icon name="close" />
         </button>
@@ -84,13 +94,17 @@
 
   <!-- Just Popup -->
   {:else}
-    <section style={$$props.style}>
+    <section 
+      in:fade={{duration: fadeTime}}
+      out:fade={{duration: fadeTime}}
+      style={$$props.style}
+    >
       <h4>{editMode ? `${activePopupConfig?.name} [${activePopupConfig?.file}]` : activePopupConfig?.name}</h4>
       {#if closeIcon}
         <button class="dialogExit" 
           on:click={close}
           on:pointerup={() => clearTimeout(timeout)}
-          on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+          on:pointerdown={() => timeout = setTimeout(() => location.reload(true), 1000)}
         >
           <Icon name="close" />
         </button>

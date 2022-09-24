@@ -2,8 +2,9 @@
 <script>
 
   // Stores
-  import { router, config } from "../js/global.js";
-  
+  import {global, router, config } from "../js/global.js";
+  import { fade } from 'svelte/transition';
+
   // Exports
   export let pageFiles
   export let activePageFile
@@ -23,6 +24,7 @@
   }
 
   // Dynamic Variables
+  let editMode = $global.url.search.edit === "true"
   $: hasSubpages = activePageConfig.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePageConfig.subpages[0] : ""
   $: activeSubpageFiles = getSubpageFiles(hasSubpages, activePageConfig)
@@ -41,10 +43,10 @@
   <nav>
     {#each activePageConfig.subpages as subpage}
       <button
-        on:click={() => activeSubpageName = subpage}
+        on:click={() => {activeSubpageName = subpage; $router.subpage = subpage}}
         class:active={subpage === activeSubpageName}
       >
-        {$config.pages[subpage]?.name}
+        {editMode ? `${$config.pages[subpage]?.name} [${$config.pages[subpage]?.file}]` : $config.pages[subpage]?.name}
       </button>
     {/each}
   </nav>

@@ -2,9 +2,9 @@
 body {
 
   /* Colors */
-  --color-bg: hsl(220, 10%, 5%);
+  --color-bg: hsl(220, 12%, 5%);
   --color-header: hsl(220, 10%, 10%);
-  --color-text-bright: hsl(220, 10%, 90%);
+  --color-text-bright: hsl(216, 10%, 90%);
   --color-text: hsl(220, 10%, 65%);
   --color-text-dim: hsl(220, 10%, 45%);
   

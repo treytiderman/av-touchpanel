@@ -34,7 +34,7 @@
     ws.digitalPulse(wsSub, 1)
     $router.page = offPage
     $router.popup = ""
-    // location.reload()
+    // location.reload(true)
   }
   export function close() {
     $router.popup = ""

@@ -30,7 +30,7 @@
     }
   }
   function reload() {
-    location.reload()
+    location.reload(true)
   }
   function use() {
     if (isJSON(text)) {

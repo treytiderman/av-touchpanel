@@ -52,8 +52,9 @@
         const state = {}
         const label = ""
         // const url = obj.page + document.location.search + document.location.hash
-        const url = document.location.search + "#" + obj.page
-        history.pushState(state, label, url)
+        let url = document.location.search + "#" + obj.page
+        // history.pushState(state, label, url)
+        history.pushState(state, label, "")
       }
       lastPage = obj.page
     })
@@ -61,13 +62,31 @@
       if ($router.popup !== "") $router.popup = ""
       else { 
         // const url = $router.page + document.location.search + document.location.hash
-        const url = document.location.search + "#" + $router.page
+        let url = document.location.search + "#" + $router.page
         const currentUrl = event.target.location.pathname.substring(1)
-        if (currentUrl !== $router.page) history.pushState({}, "", url)
+        // if (currentUrl !== $router.page) history.pushState({}, "", url)
+        if (currentUrl !== $router.page) history.pushState({}, "", "")
         $router.page = $config.client.startup.page
       }
     })
 
+    // Inactivity Timeout
+    let idleTimeout
+    const idleDuration_min = $config.client.blackout_min ?? 5
+    const resetIdleTimeout = function() {
+      if(idleTimeout) clearTimeout(idleTimeout) // Clears the existing timeout
+      idleTimeout = setTimeout(() => {
+        // timeout
+        console.log(`Blackout triggered after ${idleDuration_min} minutes of inactivity`);
+        blackout = true
+      }, idleDuration_min * 60 * 1000);
+    };
+    // Init on page load
+    resetIdleTimeout();
+    // Reset the idle timeout on any of the events listed below
+    ['click', 'touchstart', 'mousemove'].forEach(evt => 
+      document.addEventListener(evt, resetIdleTimeout, false)
+    );
   })
 
   // Theme
@@ -115,9 +134,17 @@
       file: "PhonePage",
       component: () => import("./pages/PhonePage.svelte")
     },
+    "QRCodePage": {
+      file: "QRCodePage",
+      component: () => import("./pages/QRCodePage.svelte")
+    },
     "SplashPage": {
       file: "SplashPage",
       component: () => import("./pages/SplashPage.svelte")
+    },
+    "StreamPage": {
+      file: "StreamPage",
+      component: () => import("./pages/StreamPage.svelte")
     },
     "SystemOffPage": {
       file: "SystemOffPage",
@@ -151,6 +178,13 @@
   
   // Redraw / Render conditions
   $: renderReady = $config?.pages && (!$config.server.online || $ws.status === "open")
+  let blackout = false
+  let page = $router.page
+  let popup = $router.popup
+  router.subscribe(router => {
+    if (page !== router.page) page = router.page
+    if (popup !== router.popup) popup = router.popup
+  })
 
   // Debug
   $: $router?.page ? console.log("router", $router) : ""
@@ -158,22 +192,36 @@
 
 </script>
 
+<!-- Blackout -->
+{#if blackout}  
+  <div 
+    on:click={() => blackout = false}
+    style="
+      z-index: 99;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: black;
+    "
+  >
+  </div>
+{/if}
+
 <!-- Don't render untill the config file is found and websocket is connected -->
 {#if renderReady}
   {#key $config}
     <div class="body" in:fade={{duration: timePassed ? 0 : fadeTime}} >
-      {#if $router.popup !== ""}
+      {#if popup !== ""}
         <Popup 
           pageFiles={pageFiles}
-          activePopupFile={pageFiles[$config.pages[$router.popup]?.file] || pageFiles["MissingPage"]}
-          activePopupConfig={$config.pages[$router.popup]}
+          activePopupFile={pageFiles[$config.pages[popup]?.file] || pageFiles["MissingPage"]}
+          activePopupConfig={$config.pages[popup]}
         />
       {/if}
       <TopBar config={$config.topBar}/>
       <Main 
         pageFiles={pageFiles}
-        activePageFile={pageFiles[$config.pages[$router.page]?.file] || pageFiles["MissingPage"]}
-        activePageConfig={$config.pages[$router.page]}
+        activePageFile={pageFiles[$config.pages[page]?.file] || pageFiles["MissingPage"]}
+        activePageConfig={$config.pages[page]}
       />
     </div>
   {/key}
@@ -184,7 +232,7 @@
     <h4>Connecting to server{dots}</h4>
     <div>
       <button style="background-color: var(--color-bg-secondary);"
-        on:click={() => location.reload()}
+        on:click={() => location.reload(true)}
       >Reload?</button>
     </div>
   </div>

@@ -3,7 +3,7 @@ export async function get(uri) {
   
   // Fetch options
   const origin = document.location.origin;
-  const url = `${origin}/api${uri}`;
+  const url = `${origin}${uri}`;
   const options = {
     method: 'GET',
   };
@@ -21,7 +21,7 @@ export async function post(uri, data) {
 
   // Fetch options
   const origin = document.location.origin;
-  const url = `${origin}/api${uri}`;
+  const url = `${origin}${uri}`;
   const options = {
     method: 'POST',
     body: JSON.stringify(data)

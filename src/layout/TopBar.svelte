@@ -59,9 +59,9 @@
   import Icon from '../components/Icon.svelte'
   import QuickAccess from './QuickAccess.svelte'
   
-  // Exports
+  // Variables
   $: title = $configFile.pages[$router.page].name || $configFile.pages[$router.page].subpages
-  $: file = $configFile.pages[$router.page].file || $configFile.pages[$router.page].subpages
+  $: file = $configFile.pages[$router.page].file || "subpages..."
   let editMode = $global.url.search.edit === "true"
   let timeout
   let show = config.show
@@ -77,7 +77,7 @@
   <button 
     on:click={() => $router.page = homePage}
     on:pointerup={() => clearTimeout(timeout)}
-    on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+    on:pointerdown={() => timeout = setTimeout(() => location.reload(true), 1000)}
   >
     <Icon name="home"/>
   </button>

@@ -1,5 +1,6 @@
 /* Theme */
 body.light {
+  color-scheme: light;
 
   /* Colors */
   --color-bg: hsl(220, 10%, 90%);

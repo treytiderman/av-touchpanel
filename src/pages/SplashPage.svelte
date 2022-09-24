@@ -30,7 +30,7 @@
 <section 
   on:click={close}
   on:pointerup={() => clearTimeout(timeout)}
-  on:pointerdown={() => timeout = setTimeout(() => location.reload(), 1000)}
+  on:pointerdown={() => timeout = setTimeout(() => location.reload(true), 1000)}
   class="fixed"
   style="background-color: {config.backgroundColor};"
 >
