@@ -6,10 +6,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev-public": "vite --host",
+    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite build && vite preview",
+    "preview": "vite build && vite preview --host",
     "zip": "vite build && tar.exe -a -cf archive/tp.zip build",
     "zip-linux": "vite build && zip -r archive/tp.zip build",
     "archive": "vite build && ch5-cli archive -p tp -d build -o archive"

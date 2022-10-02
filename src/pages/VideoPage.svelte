@@ -7,6 +7,7 @@
 
   // Import Components
   import Icon from '../components/Icon.svelte'
+  import Loading from '../components/Loading.svelte'
 
   // Configuration
   export let config = {
@@ -105,6 +106,7 @@
   let inputHeading = config.inputHeading ?? "Select source..."
   let outputHeading = config.outputHeading ?? "Then destination..."
   let inputSelected = inputs[0]
+  let updateId = 0
   outputs.forEach(output => output.input = inputSelected);
 
   // Dynamic Variables
@@ -131,7 +133,8 @@
     output.input = inputSelected
     ws.debug(`Input id ${inputSelected.id} "${inputSelected.name}" was routed to Output id ${output.id} "${output.name}"`)
     ws.analog(wsSub, output.id, inputSelected.id)
-    outputs = outputs
+    updateId = output.id
+    setTimeout(() => updateId = 0, 1)
   }
   function advancedToggle() {
     advancedRouting = !advancedRouting
@@ -170,6 +173,7 @@
 </script>
 
 <!-- HTML -->
+<Loading show={!$ws.subscriptions[wsSub]?.ready}/>
 <section class:advancedSection={advancedRouting}>
   
   <!-- Inputs -->
@@ -199,17 +203,17 @@
         class="outputList"
         style="grid-template-columns: repeat({outputColumns}, 1fr);"
       >
-        {#key outputs}
-          {#each outputs as output}      
-            <button on:click={() => outputSelect(output)} class="tv">
+        {#each outputs as output}      
+          <button on:click={() => outputSelect(output)} class="tv">
+            {#key output.id === updateId}
               <span>{output.name} {editMode ? `[${output.id}]` : ""}</span>
               <div>
                 <Icon name={output.input?.icon} size={iconSize} />
                 {output.input?.name}
               </div>
-            </button>
-          {/each}
-        {/key}
+            {/key}
+          </button>
+        {/each}
       </div>
     </div>
   {/if}

@@ -13,6 +13,7 @@
     "scale": 1,
     "scaleMobile": 1,
     "rotate": 0,
+    "blackout_min": 1,
     "startup": {
       "page": "ActivityPage",
       "popup": ""
@@ -40,7 +41,7 @@
         {
           "id": 3,
           "name": "Phone",
-          "page": "PhonePage",
+          "page": "PhonePage 1",
           "icon": "call"
         },
         {
@@ -54,6 +55,18 @@
           "name": "Walls",
           "page": "WallsPage",
           "icon": "safety_divider"
+        },
+        {
+          "id": 6,
+          "name": "QRCodes",
+          "page": "QRCodePage",
+          "icon": "qr_code"
+        },
+        {
+          "id": 7,
+          "name": "Stream",
+          "page": "StreamPage",
+          "icon": "stream"
         }
       ],
       "toggles": [
@@ -78,7 +91,8 @@
       "name": "Activities",
       "subpages": [
         "ActivityPage 1",
-        "ActivityPage 2"
+        "ActivityPage 2",
+        "Recursion"
       ]
     },
     "ActivityPage 1": {
@@ -116,7 +130,7 @@
         {
           "id": 4,
           "name": "Phone",
-          "page": "PhonePage",
+          "page": "PhonePage 1",
           "icon": "call",
           "color": "purple"
         }
@@ -142,9 +156,9 @@
         },
         {
           "id": 12,
-          "name": "Embed",
-          "page": "EmbedPage",
-          "icon": "link",
+          "name": "Stream",
+          "page": "StreamPage",
+          "icon": "stream",
           "color": "lime"
         },
         {
@@ -450,10 +464,27 @@
         }
       ]
     },
-    "EmbedPage": {
-      "name": "QSG",
-      "file": "EmbedPage",
-      "url": "./images/ExampleQSG.pdf"
+    "QRCodePage": {
+      "name": "QRCodes",
+      "subpages": [
+        "QRCodePage 1",
+        "QRCodePage 2"
+      ]
+    },
+    "QRCodePage 1": {
+      "name": "Wifi Login",
+      "file": "QRCodePage",
+      "wifi": {
+        "ssid": "Trey-ATT",
+        "auth": "WPA",
+        "password": "password",
+        "hidden": false
+      }
+    },
+    "QRCodePage 2": {
+      "name": "Link",
+      "file": "QRCodePage",
+      "url": "https://trey.app/"
     },
     "PasscodePage": {
       "name": "Try: 0000, 1973, 7777",
@@ -474,10 +505,18 @@
         }
       ]
     },
-    "PhonePage": {
+    "PhonePage 1": {
       "name": "Phone",
       "file": "PhonePage",
       "placeholder": "405-123-4567"
+    },
+    "Recursion": {
+      "name": "Recursion",
+      "subpages": [
+        "AudioPage",
+        "CameraPage",
+        "VideoPage"
+      ]
     },
     "SplashPage": {
       "name": "Splash",
@@ -487,187 +526,35 @@
       "page": "SplashPage",
       "popup": "PasscodePage"
     },
-    "VideoPage": {
-      "name": "Video",
-      "subpages": [
-        "VideoPage 1",
-        "VideoPage 2",
-        "VideoPage 3"
-      ]
+    "StreamPage": {
+      "name": "Stream WS",
+      "file": "StreamPage",
+      "ws": "wss://stream.trey.app"
     },
-    "VideoPage 1": {
-      "name": "Video 1",
-      "file": "VideoPage",
-      "advancedOption": true,
-      "advancedRouting": false,
-      "inputColumns": 1,
-      "outputColumns": 2,
-      "inputs": [
-        {
-          "id": 3,
-          "name": "Room PC",
-          "icon": "computer"
-        },
-        {
-          "id": 5,
-          "name": "Wireless",
-          "icon": "cast"
-        },
-        {
-          "id": 1,
-          "name": "Laptop Front",
-          "icon": "settings_input_hdmi"
-        },
-        {
-          "id": 0,
-          "name": "Blank",
-          "icon": "close"
-        }
-      ],
-      "outputs": [
-        {
-          "id": 1,
-          "name": "Display Left"
-        },
-        {
-          "id": 2,
-          "name": "Display Right"
-        }
-      ]
+    "StreamPage WS": {
+      "name": "Stream WS",
+      "file": "StreamPage",
+      "ws": "ws://192.168.1.1:9999"
     },
-    "VideoPage 2": {
-      "name": "Video 2",
-      "file": "VideoPage",
-      "advancedOption": false,
-      "advancedRouting": true,
-      "inputColumns": 1,
-      "outputColumns": 2,
-      "inputs": [
-        {
-          "id": 3,
-          "name": "Room PC",
-          "icon": "computer"
-        },
-        {
-          "id": 5,
-          "name": "Wireless",
-          "icon": "cast"
-        },
-        {
-          "id": 1,
-          "name": "Laptop Front",
-          "icon": "settings_input_hdmi"
-        },
-        {
-          "id": 2,
-          "name": "Laptop Back",
-          "icon": "settings_input_hdmi"
-        },
-        {
-          "id": 4,
-          "name": "Apple TV",
-          "icon": "Cast"
-        },
-        {
-          "id": 6,
-          "name": "VCR",
-          "icon": "settings_input_component"
-        },
-        {
-          "id": 0,
-          "name": "Blank",
-          "icon": "close"
-        }
-      ],
-      "outputs": [
-        {
-          "id": 1,
-          "name": "Display 1"
-        },
-        {
-          "id": 2,
-          "name": "Display 2"
-        },
-        {
-          "id": 3,
-          "name": "Display 3"
-        },
-        {
-          "id": 4,
-          "name": "Display 4"
-        },
-        {
-          "id": 5,
-          "name": "Display 5"
-        },
-        {
-          "id": 6,
-          "name": "Display 6"
-        },
-        {
-          "id": 7,
-          "name": "Display 7"
-        },
-        {
-          "id": 8,
-          "name": "Display 8"
-        }
-      ]
+    "StreamPage HLS": {
+      "name": "Stream HLS",
+      "file": "StreamPage",
+      "hls": "https://stream.trey.app/memfs/a22dfe17-c714-459e-b2d5-7c252093d445.m3u8"
     },
-    "VideoPage 3": {
-      "name": "Video 3",
-      "file": "VideoPage",
-      "inputColumns": 2,
-      "outputColumns": 1,
-      "advancedOption": true,
-      "advancedRouting": true,
-      "inputs": [
-        {
-          "id": 1,
-          "name": "Playstation",
-          "icon": "/svgs/logos/playstation.svg"
-        },
-        {
-          "id": 2,
-          "name": "Apple TV",
-          "icon": "/svgs/logos/appletv.svg"
-        },
-        {
-          "id": 3,
-          "name": "HBO",
-          "icon": "/svgs/logos/hbo.svg"
-        },
-        {
-          "id": 4,
-          "name": "Teams",
-          "icon": "/svgs/logos/microsoft-teams.svg"
-        },
-        {
-          "id": 5,
-          "name": "Switch",
-          "icon": "/svgs/logos/nintendoswitch.svg"
-        },
-        {
-          "id": 6,
-          "name": "Xbox",
-          "icon": "/svgs/logos/xbox.svg"
-        },
-        {
-          "id": 0,
-          "name": "Blank",
-          "icon": "close"
-        }
+    "StreamPage MJPEG": {
+      "name": "Stream MJPEG",
+      "file": "StreamPage",
+      "mjpeg": "Not used"
+    },
+    "SystemOffPage": {
+      "name": "System Off",
+      "file": "SystemOffPage",
+      "offList": [
+        "Power down the displays",
+        "Mute the Microphones and Speakers"
       ],
-      "outputs": [
-        {
-          "id": 1,
-          "name": "Front"
-        },
-        {
-          "id": 2,
-          "name": "Rear"
-        }
-      ]
+      "offTimer_sec": 30,
+      "offPage": "SplashPage"
     },
     "TogglePage": {
       "name": "Device Power",
@@ -760,12 +647,194 @@
         }
       ]
     },
+    "VideoPage": {
+      "name": "Video",
+      "subpages": [
+        "VideoPage 1",
+        "VideoPage 2",
+        "VideoPage 3"
+      ]
+    },
+    "VideoPage 1": {
+      "name": "Video 1",
+      "file": "VideoPage",
+      "advancedOption": true,
+      "advancedRouting": false,
+      "inputColumns": 1,
+      "outputColumns": 2,
+      "inputs": [
+        {
+          "id": 3,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 5,
+          "name": "Wireless",
+          "icon": "cast"
+        },
+        {
+          "id": 2,
+          "name": "Laptop Front",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 1,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 1,
+          "name": "Display Left"
+        },
+        {
+          "id": 2,
+          "name": "Display Right"
+        }
+      ]
+    },
+    "VideoPage 2": {
+      "name": "Video 2",
+      "file": "VideoPage",
+      "advancedOption": false,
+      "advancedRouting": true,
+      "inputColumns": 1,
+      "outputColumns": 2,
+      "inputs": [
+        {
+          "id": 11,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 12,
+          "name": "Wireless",
+          "icon": "cast"
+        },
+        {
+          "id": 13,
+          "name": "Laptop Front",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 14,
+          "name": "Laptop Back",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 15,
+          "name": "Apple TV",
+          "icon": "Cast"
+        },
+        {
+          "id": 16,
+          "name": "VCR",
+          "icon": "settings_input_component"
+        },
+        {
+          "id": 17,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 11,
+          "name": "Display 1"
+        },
+        {
+          "id": 12,
+          "name": "Display 2"
+        },
+        {
+          "id": 13,
+          "name": "Display 3"
+        },
+        {
+          "id": 14,
+          "name": "Display 4"
+        },
+        {
+          "id": 15,
+          "name": "Display 5"
+        },
+        {
+          "id": 16,
+          "name": "Display 6"
+        },
+        {
+          "id": 17,
+          "name": "Display 7"
+        },
+        {
+          "id": 18,
+          "name": "Display 8"
+        }
+      ]
+    },
+    "VideoPage 3": {
+      "name": "Video 3",
+      "file": "VideoPage",
+      "inputColumns": 2,
+      "outputColumns": 1,
+      "advancedOption": true,
+      "advancedRouting": true,
+      "inputs": [
+        {
+          "id": 22,
+          "name": "Playstation",
+          "icon": "/svgs/logos/playstation.svg"
+        },
+        {
+          "id": 23,
+          "name": "Apple TV",
+          "icon": "/svgs/logos/appletv.svg"
+        },
+        {
+          "id": 24,
+          "name": "HBO",
+          "icon": "/svgs/logos/hbo.svg"
+        },
+        {
+          "id": 25,
+          "name": "Teams",
+          "icon": "/svgs/logos/microsoft-teams.svg"
+        },
+        {
+          "id": 26,
+          "name": "Switch",
+          "icon": "/svgs/logos/nintendoswitch.svg"
+        },
+        {
+          "id": 27,
+          "name": "Xbox",
+          "icon": "/svgs/logos/xbox.svg"
+        },
+        {
+          "id": 21,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 21,
+          "name": "Front"
+        },
+        {
+          "id": 22,
+          "name": "Rear"
+        }
+      ]
+    },
     "WallsPage": {
       "name": "Room Combining",
       "file": "WallsPage",
+      "roomName": "A",
       "walls": [ 1, 0 ],
       "wallSensor": false,
-      "roomName": "A",
       "rooms": [
         {
           "id": 1,
@@ -810,16 +879,6 @@
           "roomNames": [ "A", "B", "C" ]
         }
       ]
-    },
-    "SystemOffPage": {
-      "name": "System Off",
-      "file": "SystemOffPage",
-      "offList": [
-        "Power down the displays",
-        "Mute the Microphones and Speakers"
-      ],
-      "offTimer_sec": 30,
-      "offPage": "SplashPage"
     }
   }
 }

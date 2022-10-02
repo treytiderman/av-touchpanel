@@ -58,7 +58,7 @@ function parseMessage(message) {
   // Return
   return obj
 }
-function wsConnect(options) {
+function wsConnect(options, restart = false) {
   // Options
   const path = options.path || '';
   const port = options.port || 10000;
@@ -83,14 +83,14 @@ function wsConnect(options) {
     log(`WebSocket: OPEN at ${url}`)
     // Connection active, Clear reconnect timer
     clearTimeout(reconnectInterval)
+    if (restart) location.reload(true)
   })
   websocket.addEventListener('error', (event) => {
     log(`WebSocket: ERROR at ${url}`)
-    log(event)
   })
   websocket.addEventListener('close', (event) => {
     log(`WebSocket: CLOSE at ${url}`)
-    setTimeout(() => wsConnect(options), reconnectTimeout_ms)
+    setTimeout(() => wsConnect(options, true), reconnectTimeout_ms)
   })
 }
 function createStore() {
@@ -138,7 +138,7 @@ function createStore() {
           if (subscription.ready !== true) subscriptionsAreReady = false
         })
         if (subscriptionsAreReady && obj.subscriptions[sub]?.ready === true) {
-          log({ [sub]: obj.subscriptions[sub]});
+          // log({ [sub]: obj.subscriptions[sub]});
           cb(obj.subscriptions[sub])
         }
       })
@@ -150,7 +150,7 @@ function createStore() {
       // Connected
       websocket.addEventListener('open', (event) => {
         // Update Status
-        update(val => { val.status = "open"; return val })
+        update(val => { val.status = "open"; console.log(val); return val })
       })
 
       // Recive message
@@ -181,10 +181,10 @@ function createStore() {
 
       // Error / Close
       websocket.addEventListener('error', (event) => {
-        update(val => { val.status = "error"; return val })
+        update(val => { val.status = "error"; console.log(val); return val })
       })
       websocket.addEventListener('close', (event) => {
-        update(val => { val.status = "closed"; return val })
+        update(val => { val.status = "closed"; console.log(val); return val })
       })
 
     },

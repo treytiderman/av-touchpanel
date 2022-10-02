@@ -73,20 +73,21 @@
     // Inactivity Timeout
     let idleTimeout
     const idleDuration_min = $config.client.blackout_min ?? 5
-    const resetIdleTimeout = function() {
-      if(idleTimeout) clearTimeout(idleTimeout) // Clears the existing timeout
+    const resetIdleTimeout = () => {
+      if (idleTimeout) clearTimeout(idleTimeout) // Clears the existing timeout
       idleTimeout = setTimeout(() => {
-        // timeout
-        console.log(`Blackout triggered after ${idleDuration_min} minutes of inactivity`);
+        console.log(`Blackout triggered after ${idleDuration_min} minute(s) of inactivity`);
         blackout = true
       }, idleDuration_min * 60 * 1000);
     };
-    // Init on page load
-    resetIdleTimeout();
-    // Reset the idle timeout on any of the events listed below
-    ['click', 'touchstart', 'mousemove'].forEach(evt => 
-      document.addEventListener(evt, resetIdleTimeout, false)
-    );
+    if ($config.client?.blackout_min && $config.client.blackout_min > 0) {      
+      // Init on page load
+      resetIdleTimeout();
+      // Reset the idle timeout on any of the events listed below
+      ['click', 'touchstart', 'mousemove'].forEach(evt => 
+        document.addEventListener(evt, resetIdleTimeout, false)
+      );
+    }
   })
 
   // Theme
@@ -178,6 +179,7 @@
   
   // Redraw / Render conditions
   $: renderReady = $config?.pages && (!$config.server.online || $ws.status === "open")
+  $: timePassed = $ws.status !== "open"
   let blackout = false
   let page = $router.page
   let popup = $router.popup

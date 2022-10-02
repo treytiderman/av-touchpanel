@@ -30,6 +30,7 @@
   <div> {name} {editMode ? `[${id}]` : ""} </div>
   <div hidden> {file} </div>
   <div hidden> {page} </div>
+  <div hidden> {popup} </div>
 </button>
 
 <!-- CSS -->

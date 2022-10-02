@@ -15,8 +15,10 @@
     if (hasSubpages) {
       let subpages = {}
       activePageConfig.subpages.forEach(subpage => {
-        let subpageFile = pageFiles[$config.pages[subpage]?.file] || pageFiles["MissingPage"]
+        let subpageFile = pageFiles[$config.pages[subpage]?.file] ?? pageFiles["MissingPage"]
+        let subpageSubpages = $config.pages[subpage]?.subpages
         subpages[subpage] = subpageFile
+        if (subpageSubpages) subpages[subpage].subpages = subpageSubpages
       });
       return subpages
     }
@@ -51,13 +53,21 @@
     {/each}
   </nav>
   {#each activePageConfig.subpages as subpage}
-    {#await activeSubpageFiles[subpage].component() then component}
-      {#if activeSubpageName === subpage}        
-        <main>
-          <svelte:component this={component.default} config={$config.pages[subpage]}/>
-        </main>
-      {/if}
-    {/await}
+    {#if activeSubpageFiles[subpage].subpages && activeSubpageName === subpage}
+      <svelte:self 
+        pageFiles={pageFiles}
+        activePageFile={pageFiles[$config.pages[subpage]?.file] || pageFiles["MissingPage"]}
+        activePageConfig={$config.pages[subpage]}
+      />
+    {:else}
+      {#await activeSubpageFiles[subpage].component() then component}
+        {#if activeSubpageName === subpage}        
+          <main>
+            <svelte:component this={component.default} config={$config.pages[subpage]}/>
+          </main>
+        {/if}
+      {/await}
+    {/if}
   {/each}
 
 {:else}

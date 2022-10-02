@@ -7,6 +7,7 @@
 
   // Import Components
   import Icon from '../components/Icon.svelte'
+  import Loading from '../components/Loading.svelte'
   import CardPower from '../components/CardToggle.svelte'
 
   // Configuration
@@ -60,9 +61,9 @@
 
   // Websocket - SIMPL Feedback
   let wsSub = config.simplSubscriptionID ?? config.file
-  ws.addSubscription(wsSub, () => {
-    toggles.forEach(device => {
-      device.state = rx.digital[device.id]
+  ws.addSubscription(wsSub, rx => {
+    toggles.forEach(toggle => {
+      toggle.state = rx.digital[toggle.id]
     })
     toggles = toggles
   })
@@ -73,6 +74,7 @@
 </script>
 
 <!-- HTML -->
+<Loading show={!$ws.subscriptions[wsSub]?.ready}/>
 <section style="grid-template-columns: repeat(auto-fit, minmax(min({cardWidth ?? "200px"}, 100%), .4fr));">
   {#each toggles as toggle}
     <CardPower

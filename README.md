@@ -93,6 +93,12 @@ npm run archive
 journalctl -u virtualcontrol -f --all
 ```
 
+# Command to send for Control Subnet processors
+```
+STARTPROGRAMAFTERROUTER
+```
+
+
 # 
 
 ```
