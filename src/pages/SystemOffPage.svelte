@@ -2,13 +2,12 @@
 <script>
 
   // Stores
-  import { global, router, config as configFile } from '../js/global.js';
+  import { global } from '../js/global.js';
 
   // Configuration
   export let config = {
     "name": "System Off",
     "file": "SystemOffPage",
-    "simplSubscriptionID": "SystemOffPage",
     "offList": [
       "Power down all Displays & Projectors",
       "Mute the Microphones and Speakers",
@@ -22,22 +21,23 @@
   let offPage = config.offPage
   let offTimer_sec = config.offTimer_sec
   let offList = config.offList
+  let tpId = $global.config?.client?.id
 
   // Websocket
   import { ws } from '../js/simpl-ws'
   let wsSub = config.simplSubscriptionID ?? "TouchPanel"
-  ws.addSubscription(wsSub)
+  ws.addSubscription(wsSub, () => {})
 
   // Functions
   export function powerOff() {
-    ws.serial(wsSub, 1, `System Off was pressed`)
-    ws.digitalPulse(wsSub, 1)
-    $router.page = offPage
-    $router.popup = ""
+    ws.serial(wsSub, tpId, `System Off was pressed on touch panel id ${tpId}`)
+    ws.digitalPulse(wsSub, tpId)
+    $global.router.page = offPage
+    $global.router.popup = ""
     // location.reload(true)
   }
   export function close() {
-    $router.popup = ""
+    $global.router.popup = ""
   }
 
 </script>

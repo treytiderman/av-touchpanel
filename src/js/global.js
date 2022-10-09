@@ -2,15 +2,26 @@ import { writable } from 'svelte/store'
 
 // Config to load if can't pull config from server (processor)
 let failedConfig = {
-  "processor": {
-    "offline": true
+  "server": {
+    "online": false,
+  },
+  "client": {
+    "id": 1,
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1,
+    "rotate": 0,
+    "startup": {
+      "page": "ConfigPage",
+      "popup": ""
+    }
   },
   "topBar": {
-    "show": false,
-  },
-  "startup": {
-    "page": "ConfigPage",
-    "popup": ""
+    "show": true,
+    "homePage": "ConfigPage",
+    "powerPage": "",
+    "popups": [],
+    "toggles": []
   },
   "pages": {
     "ConfigPage": {

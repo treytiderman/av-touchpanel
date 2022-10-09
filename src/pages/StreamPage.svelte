@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
   import { onMount } from 'svelte';
 
   // Configuration

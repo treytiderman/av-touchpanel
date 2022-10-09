@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { global, router, config } from "../js/global.js"
+  import { global } from "../js/global.js"
   import { fade } from 'svelte/transition';
 
   // Components
@@ -16,16 +16,16 @@
 
   // Functions
   export function close() {
-    $router.popup = ""
+    $global.router.popup = ""
   }
   function closeIfBackground(event) {
     if (event.target.localName === 'dialog') close()
   }
-  function getSubpageFiles(hasSubpages) {
+  function getSubpageFiles(hasSubpages, activePopupConfig) {
     if (hasSubpages) {
       let subpages = {}
       activePopupConfig.subpages.forEach(subpage => {
-        let subpageFile = pageFiles[$config.pages[subpage]?.file] || pageFiles["MissingPage"]
+        let subpageFile = pageFiles[$global.config.pages[subpage]?.file] ?? pageFiles["MissingPage"]
         subpages[subpage] = subpageFile
       });
       return subpages
@@ -39,8 +39,8 @@
   let editMode = $global.url.search.edit === "true"
   $: hasSubpages = activePopupConfig?.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePopupConfig.subpages[0] : ""
-  $: activeSubpageConfig = $config.pages[activeSubpageName]
-  $: activeSubpageFiles = getSubpageFiles(hasSubpages)
+  $: activeSubpageConfig = $global.config.pages[activeSubpageName]
+  $: activeSubpageFiles = getSubpageFiles(hasSubpages, activePopupConfig)
 
 </script>
 
@@ -62,10 +62,11 @@
       <!-- Nav -->
       <nav>
         {#each activePopupConfig.subpages as subpage}
+          <!-- on:click={() => {activeSubpageName = subpage; $global.router.subpage = subpage}} -->
           <button
             on:click={() => activeSubpageName = subpage}
             class:active={subpage === activeSubpageName}>
-            {editMode ? `${$config.pages[subpage]?.name} [${$config.pages[subpage]?.file}]` : $config.pages[subpage]?.name}
+            {editMode ? `${$global.config.pages[subpage]?.name} [${$global.config.pages[subpage]?.file}]` : $global.config.pages[subpage]?.name}
           </button>
         {/each}
       </nav>
@@ -84,7 +85,7 @@
         {#each activePopupConfig.subpages as subpage}
           {#await activeSubpageFiles[subpage].component() then component}
             {#if activeSubpageName === subpage}
-              <svelte:component this={component.default} config={activeSubpageConfig}/>
+              <svelte:component this={component.default} config={$global.config.pages[activeSubpageName]}/>
             {/if}
           {/await}
         {/each}

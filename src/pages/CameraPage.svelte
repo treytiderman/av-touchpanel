@@ -2,17 +2,12 @@
 <script>
   
   // Stores
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
 
   // Configuration
   export let config = {
     "name": "Video Call",
     "file": "CameraPage",
-    "SIMPL": {
-      "ip": "192.168.1.9",
-      "port": 10000,
-      "path": "CameraPage"
-    },
     "shareListShow": true,
     "savePresetHoldTime_sec": 2,
     "cameras": [

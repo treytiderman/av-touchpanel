@@ -2,11 +2,12 @@
 <script>
 
   // Imports
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
   import { ws } from '../js/simpl-ws'
 
   // Import Components
   import Icon from '../components/Icon.svelte'
+  import Loading from '../components/Loading.svelte'
   import Activity from '../components/Activity.svelte'
 
   // Configuration
@@ -68,14 +69,14 @@
 
   // Functions
   function pressActivity(activity) {
-    if (activity.page) $router.page = activity.page
-    if (activity.popup) $router.popup = activity.popup
+    if (activity.page) $global.router.page = activity.page
+    if (activity.popup) $global.router.popup = activity.popup
     ws.debug(`Activity id ${activity.id} "${activity.name}" was pressed`)
     ws.analog(wsSub, 1, activity.id)
     ws.digitalPulse(wsSub, activity.id)
   }
   function pressLowerLeftButton() {
-    $router.page = page
+    $global.router.page = page
   }
 
   // Debug
@@ -84,6 +85,7 @@
 </script>
 
 <!-- HTML -->
+<!-- <Loading show={!$ws.subscriptions[wsSub]?.ready && $global.config?.server?.online}/> -->
 <section>
   <h2>{heading}</h2>
   <div>

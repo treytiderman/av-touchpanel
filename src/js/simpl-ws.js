@@ -11,13 +11,13 @@ let subs = []
 let reconnectInterval
 
 // Check if config says the server is online
-import { config } from './global.js';
+import { global } from './global.js';
 let serverOnline = false
 let tpId = 1
 let tpSub = "TouchPanel"
-config.subscribe(obj => {
-  tpId = obj?.client?.id ?? 1
-  serverOnline = obj?.server?.online ?? false
+global.subscribe(g => {
+  tpId = g.config?.client?.id ?? 1
+  serverOnline = g.config?.server?.online ?? false
 })
 
 // Functions
@@ -150,7 +150,11 @@ function createStore() {
       // Connected
       websocket.addEventListener('open', (event) => {
         // Update Status
-        update(val => { val.status = "open"; console.log(val); return val })
+        update(val => { 
+          val.status = "open"
+          // console.log(val)
+          return val
+        })
       })
 
       // Recive message
@@ -173,6 +177,7 @@ function createStore() {
           const obj = JSON.parse(event.data)
           log(`RX[${obj.subscriptionID}]: subscribed = ${obj.subscribed}`)
           update(val => {
+            // console.log("val", val)
             val.subscriptions[obj.subscriptionID].ready = true
             return val
           })

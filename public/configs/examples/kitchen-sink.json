@@ -23,68 +23,66 @@
     "show": true,
     "homePage": "ActivityPage",
     "powerPage": "SystemOffPage",
-    "quickAccess": {
-      "darkMode": true,
-      "popups": [
-        {
-          "id": 1,
-          "name": "Audio",
-          "page": "AudioPage",
-          "icon": "volume_up"
+    "darkMode": true,
+    "popups": [
+      {
+        "id": 1,
+        "name": "Audio",
+        "page": "AudioPage",
+        "icon": "volume_up"
+      },
+      {
+        "id": 2,
+        "name": "Camera",
+        "page": "CameraPage",
+        "icon": "videocam"
+      },
+      {
+        "id": 3,
+        "name": "Phone",
+        "page": "PhonePage 1",
+        "icon": "call"
+      },
+      {
+        "id": 4,
+        "name": "Video",
+        "page": "VideoPage",
+        "icon": "co_present"
+      },
+      {
+        "id": 5,
+        "name": "Walls",
+        "page": "WallsPage",
+        "icon": "safety_divider"
+      },
+      {
+        "id": 6,
+        "name": "QRCodes",
+        "page": "QRCodePage",
+        "icon": "qr_code"
+      },
+      {
+        "id": 7,
+        "name": "Stream",
+        "page": "StreamPage",
+        "icon": "stream"
+      }
+    ],
+    "toggles": [
+      {
+        "id": 1,
+        "state": false,
+        "onState": {
+          "icon": "mic_off",
+          "name": "Privacy",
+          "color": "red"
         },
-        {
-          "id": 2,
-          "name": "Camera",
-          "page": "CameraPage",
-          "icon": "videocam"
-        },
-        {
-          "id": 3,
-          "name": "Phone",
-          "page": "PhonePage 1",
-          "icon": "call"
-        },
-        {
-          "id": 4,
-          "name": "Video",
-          "page": "VideoPage",
-          "icon": "co_present"
-        },
-        {
-          "id": 5,
-          "name": "Walls",
-          "page": "WallsPage",
-          "icon": "safety_divider"
-        },
-        {
-          "id": 6,
-          "name": "QRCodes",
-          "page": "QRCodePage",
-          "icon": "qr_code"
-        },
-        {
-          "id": 7,
-          "name": "Stream",
-          "page": "StreamPage",
-          "icon": "stream"
+        "offState": {
+          "icon": "mic",
+          "name": "Privacy"
         }
-      ],
-      "toggles": [
-        {
-          "id": 1,
-          "state": false,
-          "onState": {
-            "icon": "mic_off",
-            "name": "Privacy",
-            "color": "red"
-          },
-          "offState": {
-            "icon": "mic",
-            "name": "Privacy"
-          }
-        }
-      ]
-    }
+      }
+    ]
   },
   "pages": {
     "ActivityPage": {

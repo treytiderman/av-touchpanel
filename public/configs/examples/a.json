@@ -22,17 +22,15 @@
     "show": true,
     "homePage": "ActivityPage",
     "powerPage": "SystemOffPage",
-    "quickAccess": {
-      "popups": [
-        {
-          "id": 1,
-          "name": "Room State",
-          "page": "WallsPage",
-          "icon": "join_full"
-        }
-      ],
-      "toggles": []
-    }
+    "popups": [
+      {
+        "id": 1,
+        "name": "Room State",
+        "page": "WallsPage",
+        "icon": "join_full"
+      }
+    ],
+    "toggles": []
   },
   "pages": {
     "ActivityPage": {

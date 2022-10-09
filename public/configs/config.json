@@ -13,6 +13,7 @@
     "scale": 1,
     "scaleMobile": 1,
     "rotate": 0,
+    "blackout_min": 0,
     "startup": {
       "page": "home",
       "popup": ""
@@ -22,17 +23,29 @@
     "show": true,
     "homePage": "home",
     "powerPage": "system off",
-    "quickAccess": {
-      "popups": [
-        {
-          "id": 1,
-          "name": "Volumes",
-          "page": "audio",
-          "icon": "volume_up"
+    "popups": [
+      {
+        "id": 1,
+        "name": "Volumes",
+        "page": "audio",
+        "icon": "volume_up"
+      }
+    ],
+    "toggles": [
+      {
+        "id": 1,
+        "state": false,
+        "onState": {
+          "icon": "mic_off",
+          "name": "Privacy",
+          "color": "red"
+        },
+        "offState": {
+          "icon": "mic",
+          "name": "Privacy"
         }
-      ],
-      "toggles": []
-    }
+      }
+    ]
   },
   "pages": {
     "home": {
@@ -83,10 +96,10 @@
           },
           "slider": {
             "show": true,
-            "value": 0,
-            "max": 6,
-            "min": -36,
-            "units": "dB"
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
           }
         },
         {
@@ -98,10 +111,10 @@
           },
           "slider": {
             "show": true,
-            "value": 0,
-            "max": 6,
-            "min": -36,
-            "units": "dB"
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
           }
         },
         {

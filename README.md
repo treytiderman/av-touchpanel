@@ -98,6 +98,32 @@ journalctl -u virtualcontrol -f --all
 STARTPROGRAMAFTERROUTER
 ```
 
+# Install Cockpit on AlmaLinux
+```
+sudo yum install cockpit
+``` 
+
+## Enable Cockpit server management
+```
+sudo systemctl enable cockpit.socket
+```
+
+## Start its Service
+```
+sudo systemctl start cockpit
+```
+
+## Check the Cockpit Service status
+```
+sudo systemctl status cockpit
+```
+
+# Home page
+
+/var/www/html/
+/etc/httpd/conf.d/welcome.conf
+
+
 
 # 
 
@@ -112,3 +138,14 @@ openssl pkcs12 -export -out wss-cert.pfx -inkey privatekey.pem -in certificate.p
 openssl pkcs12 -export -out wss-cert.pfx -inkey server.key -in server.csr -in server.crt
 
 ```
+
+# Edge Cases / Things to consider
+
+- Config file fetched doesn't exist
+- Browser History for a SPA
+- Screen Black out after X mins
+- Since touch panels don't have a browser refresh provide a reload from any page
+- Visual for WebSocket not connected
+- Visual for WebSocket subscription not ready
+- 
+

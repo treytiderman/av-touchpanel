@@ -2,7 +2,7 @@
 <script>
 
   // Imports
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
   import { ws } from '../js/simpl-ws'
 
   // Import Components
@@ -48,13 +48,13 @@
   // Functions
   function onPress(device) {
     device.state = true
-    ws.serial(wsSub, 1, `Device id ${device.id} "${device.name}" was powered ON`)
+    ws.debug(`Device id ${device.id} "${device.name}" was powered ON`)
     ws.digitalPulse(wsSub, device.id*2-1)
     toggles = toggles
   }
   function offPress(device) {
     device.state = false
-    ws.serial(wsSub, 1, `Device id ${device.id} "${device.name}" was powered OFF`)
+    ws.debug(`Device id ${device.id} "${device.name}" was powered OFF`)
     ws.digitalPulse(wsSub, device.id*2)
     toggles = toggles
   }
@@ -74,7 +74,7 @@
 </script>
 
 <!-- HTML -->
-<Loading show={!$ws.subscriptions[wsSub]?.ready}/>
+<Loading show={!$ws.subscriptions[wsSub]?.ready && $global.config?.server?.online}/>
 <section style="grid-template-columns: repeat(auto-fit, minmax(min({cardWidth ?? "200px"}, 100%), .4fr));">
   {#each toggles as toggle}
     <CardPower

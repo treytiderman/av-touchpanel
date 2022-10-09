@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { global, router, config as configFile } from '../js/global.js';
+  import { global } from '../js/global.js';
 
   // Configuration
   export let config = {
@@ -16,11 +16,11 @@
 
   // Functions
   function close() {
-    $router.page = page
-    $router.popup = popup
+    $global.router.page = page
+    $global.router.popup = popup
   }
 
-  let page = config.page || $configFile.topBar.homePage
+  let page = config.page || $global.config.topBar.homePage
   let popup = config.popup || ""
   let timeout
 

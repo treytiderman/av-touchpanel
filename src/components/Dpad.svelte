@@ -141,8 +141,8 @@
     content: "";
     position: absolute;
     left: 0;
-    top: calc(-1*var(--size)*0.25);
-    height: calc(var(--size)*1.5);
+    top: calc(-1*var(--size)*0.27);
+    height: calc(var(--size)*1.54);
     width: var(--size);
     background-color: var(--color-bg-secondary);
     /* background-color: red; */
@@ -152,9 +152,9 @@
     content: "";
     position: absolute;
     top: 0;
-    left: calc(-1*var(--size)*0.25);
+    left: calc(-1*var(--size)*0.27);
     height: var(--size);
-    width: calc(var(--size)*1.5);
+    width: calc(var(--size)*1.54);
     background-color: var(--color-bg-secondary);
     /* background-color: red; */
   }

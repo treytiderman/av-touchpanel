@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { global, router, config as configFile, getJSON } from '../js/global.js'
+  import { global, getJSON } from '../js/global.js'
  
   // Components
   import Icon from '../components/Icon.svelte'
@@ -97,9 +97,9 @@
     getJSON(configFileName).then(json => {
       setTimeout(() => {        
         clearInterval(timeout);
-        $configFile = json
-        $router.popup = ""
-        $router.page = $configFile.client.startup.page
+        $global.config = json
+        $global.router.popup = ""
+        $global.router.page = $global.config.client.startup.page
       }, 2000);
     })
 

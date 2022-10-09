@@ -2,11 +2,12 @@
 <script>
 
   // Imports
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
   import { throttle } from '../js/helper.js';
   import { ws } from '../js/simpl-ws'
   
   // Import Components
+  import Loading from "../components/Loading.svelte";
   import Mute from "../components/Mute.svelte";
   import Slider from "../components/Slider.svelte";
 
@@ -85,6 +86,7 @@
 </script>
 
 <!-- HTML -->
+<Loading show={!$ws.subscriptions[wsSub]?.ready && $global.config?.server?.online}/>
 <section>
   {#each volumes as volume}
     <div class:muteOnly={!volume.slider.show}>

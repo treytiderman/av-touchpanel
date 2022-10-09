@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { global, router, config as configFile, getJSON } from '../js/global.js';
+  import { global, getJSON } from '../js/global.js';
 
   // Configuration
   export let config = {
@@ -47,9 +47,9 @@
     getJSON(configFileName).then(json => {
       setTimeout(() => {        
         clearInterval(timeout);
-        $configFile = json
-        $router.popup = ""
-        $router.page = $configFile.client.startup.page
+        $global.config = json
+        $global.router.popup = ""
+        $global.router.page = $global.config.client.startup.page
       }, 2000);
     })
 
@@ -67,13 +67,13 @@
         else if (passcode.page) {
           textFeedback = "Sucess"
           console.log("passcode.page", passcode.page)
-          $router.popup = ""
-          $router.page = passcode.page
+          $global.router.popup = ""
+          $global.router.page = passcode.page
         }
         if (passcode.popup) {
           textFeedback = "Sucess"
           console.log("passcode.popup", passcode.popup)
-          $router.popup = passcode.popup
+          $global.router.popup = passcode.popup
         }
       }
       else textFeedback = "Wrong code. Try again..."

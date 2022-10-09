@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
 
   // Configuration
   export let config = {

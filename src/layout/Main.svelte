@@ -2,7 +2,7 @@
 <script>
 
   // Stores
-  import {global, router, config } from "../js/global.js";
+  import { global } from "../js/global.js";
   import { fade } from 'svelte/transition';
 
   // Exports
@@ -15,9 +15,9 @@
     if (hasSubpages) {
       let subpages = {}
       activePageConfig.subpages.forEach(subpage => {
-        let subpageFile = pageFiles[$config.pages[subpage]?.file] ?? pageFiles["MissingPage"]
-        let subpageSubpages = $config.pages[subpage]?.subpages
+        let subpageFile = pageFiles[$global.config.pages[subpage]?.file] ?? pageFiles["MissingPage"]
         subpages[subpage] = subpageFile
+        let subpageSubpages = $global.config.pages[subpage]?.subpages
         if (subpageSubpages) subpages[subpage].subpages = subpageSubpages
       });
       return subpages
@@ -29,12 +29,13 @@
   let editMode = $global.url.search.edit === "true"
   $: hasSubpages = activePageConfig.hasOwnProperty('subpages')
   $: activeSubpageName = hasSubpages ? activePageConfig.subpages[0] : ""
+  $: activeSubpageConfig = $global.config.pages[activeSubpageName]
   $: activeSubpageFiles = getSubpageFiles(hasSubpages, activePageConfig)
   
   // Debug
-  // $: console.log("hasSubpages", hasSubpages)
-  // $: console.log("activeSubpageName", activeSubpageName)
-  // $: console.log("activeSubpageFiles", activeSubpageFiles)
+  $: console.log("hasSubpages", hasSubpages)
+  $: console.log("activeSubpageName", activeSubpageName)
+  $: console.log("activeSubpageFiles", activeSubpageFiles)
 
 </script>
 
@@ -44,26 +45,28 @@
   <!-- Nav and Subpages -->
   <nav>
     {#each activePageConfig.subpages as subpage}
+      <!-- on:click={() => {activeSubpageName = subpage; $global.router.subpage = subpage}} -->
       <button
-        on:click={() => {activeSubpageName = subpage; $router.subpage = subpage}}
+        on:click={() => activeSubpageName = subpage}
         class:active={subpage === activeSubpageName}
       >
-        {editMode ? `${$config.pages[subpage]?.name} [${$config.pages[subpage]?.file}]` : $config.pages[subpage]?.name}
+        {editMode ? `${$global.config.pages[subpage]?.name} [${$global.config.pages[subpage]?.file}]` : $global.config.pages[subpage]?.name}
       </button>
     {/each}
   </nav>
+  
   {#each activePageConfig.subpages as subpage}
     {#if activeSubpageFiles[subpage].subpages && activeSubpageName === subpage}
       <svelte:self 
         pageFiles={pageFiles}
-        activePageFile={pageFiles[$config.pages[subpage]?.file] || pageFiles["MissingPage"]}
-        activePageConfig={$config.pages[subpage]}
+        activePageFile={pageFiles[$global.config.pages[subpage]?.file] || pageFiles["MissingPage"]}
+        activePageConfig={$global.config.pages[subpage]}
       />
     {:else}
       {#await activeSubpageFiles[subpage].component() then component}
         {#if activeSubpageName === subpage}        
           <main>
-            <svelte:component this={component.default} config={$config.pages[subpage]}/>
+            <svelte:component this={component.default} config={activeSubpageConfig}/>
           </main>
         {/if}
       {/await}

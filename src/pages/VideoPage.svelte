@@ -2,7 +2,7 @@
 <script>
 
   // Imports
-  import { global, router } from '../js/global.js';
+  import { global } from '../js/global.js';
   import { ws } from '../js/simpl-ws'
 
   // Import Components
@@ -133,8 +133,7 @@
     output.input = inputSelected
     ws.debug(`Input id ${inputSelected.id} "${inputSelected.name}" was routed to Output id ${output.id} "${output.name}"`)
     ws.analog(wsSub, output.id, inputSelected.id)
-    updateId = output.id
-    setTimeout(() => updateId = 0, 1)
+    outputs = outputs
   }
   function advancedToggle() {
     advancedRouting = !advancedRouting
@@ -150,7 +149,7 @@
     outputs.forEach(output => {
       let input = inputs.find(input => input.id === rx.analog[output.id])
       if (!input) {input = noInput; input.name = "No input at id " + rx.analog[output.id]}
-      output.input = input
+      if (output.input !== input) output.input = input
     })
 
     // Simple mode input feedback
@@ -173,7 +172,7 @@
 </script>
 
 <!-- HTML -->
-<Loading show={!$ws.subscriptions[wsSub]?.ready}/>
+<Loading show={!$ws.subscriptions[wsSub]?.ready && $global.config?.server?.online}/>
 <section class:advancedSection={advancedRouting}>
   
   <!-- Inputs -->
@@ -204,16 +203,16 @@
         style="grid-template-columns: repeat({outputColumns}, 1fr);"
       >
         {#each outputs as output}      
-          <button on:click={() => outputSelect(output)} class="tv">
-            {#key output.id === updateId}
+          {#key output}
+            <button on:click={() => outputSelect(output)} class="tv">
               <span>{output.name} {editMode ? `[${output.id}]` : ""}</span>
               <div>
                 <Icon name={output.input?.icon} size={iconSize} />
                 {output.input?.name}
               </div>
+            </button>
             {/key}
-          </button>
-        {/each}
+          {/each}
       </div>
     </div>
   {/if}
