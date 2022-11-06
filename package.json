@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite build && vite preview --host",
     "zip": "vite build && tar.exe -a -cf archive/tp.zip build",
-    "zip-linux": "vite build && zip -r archive/tp.zip build",
+    "zip-linux": "vite build && mkdir -p archive && (cd build; zip -r ../archive/tp.zip .)",
     "archive": "vite build && ch5-cli archive -p tp -d build -o archive"
   },
   "devDependencies": {

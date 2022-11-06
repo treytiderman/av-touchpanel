@@ -86,7 +86,6 @@
   import { ws } from '../js/simpl-ws'
   let wsSub = config.simplSubscriptionID ?? "TopBar"
   ws.addSubscription(wsSub, rx => {
-    console.log("addSubscription ToBar")
     toggles.forEach(toggle => {
       toggle.state = rx.digital[toggle.id]
     })

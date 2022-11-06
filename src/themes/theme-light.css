@@ -15,7 +15,7 @@ body.light {
   --color-bg-primary: hsl(265, 75%, 70%);
   --color-text-primary: hsl(265, 90%, 10%);
 
-  --filter-brightness-hover: brightness(80%);
+  --filter-brightness-hover: brightness(90%);
   --filter-brightness-diable: brightness(60%);
   --color-highlight: hsl(220, 10%, 60%, 15%);
 

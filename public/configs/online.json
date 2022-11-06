@@ -1,0 +1,196 @@
+{
+  "server": {
+    "online": true,
+    "ip": "1.trey.app",
+    "websocket": {
+      "port": 443,
+      "path": "ws"
+    }
+  },
+  "client": {
+    "id": 1,
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1,
+    "rotate": 0,
+    "blackout_min": 0,
+    "startup": {
+      "page": "home",
+      "popup": ""
+    }
+  },
+  "topBar": {
+    "show": true,
+    "homePage": "home",
+    "powerPage": "system off",
+    "popups": [
+      {
+        "id": 1,
+        "name": "Volumes",
+        "page": "audio",
+        "icon": "volume_up"
+      }
+    ],
+    "toggles": [
+      {
+        "id": 1,
+        "state": false,
+        "onState": {
+          "icon": "mic_off",
+          "name": "Privacy",
+          "color": "red"
+        },
+        "offState": {
+          "icon": "mic",
+          "name": "Privacy"
+        }
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "name": "Home",
+      "file": "ActivityPage",
+      "heading": "Select an activity to get started...",
+      "lowerLeftButton": {
+        "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "settings power"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "name": "Presentation",
+          "page": "video",
+          "icon": "co_present",
+          "color": "green"
+        }
+      ]
+    },
+    "audio": {
+      "name": "Volumes",
+      "file": "AudioPage",
+      "volumes": [
+        {
+          "id": 1,
+          "label": "Video",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
+          }
+        },
+        {
+          "id": 2,
+          "label": "Wireless Microphone 1",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
+          }
+        },
+        {
+          "id": 3,
+          "label": "Wireless Microphone 2",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
+          }
+        },
+        {
+          "id": 4,
+          "label": "Privacy",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": false
+          }
+        }
+      ]
+    },
+    "video": {
+      "name": "Video",
+      "file": "VideoPage",
+      "advancedOption": true,
+      "advancedRouting": false,
+      "inputs": [
+        {
+          "id": 2,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 4,
+          "name": "Laptop",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 6,
+          "name": "Wireless",
+          "icon": "cast"
+        },
+        {
+          "id": 1,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 1,
+          "name": "Display"
+        },
+        {
+          "id": 2,
+          "name": "Confidence Monitor"
+        }
+      ]
+    },
+    "settings power": {
+      "name": "Device Power",
+      "file": "TogglePage",
+      "toggles": [
+        {
+          "id": 1,
+          "name": "Display"
+        },
+        {
+          "id": 2,
+          "name": "Confidence\nMonitor"
+        }
+      ]
+    },
+    "system off": {
+      "name": "System Off",
+      "file": "SystemOffPage",
+      "offList": [
+        "Power down the displays",
+        "Mute the Microphones and Speakers"
+      ],
+      "offTimer_sec": 30,
+      "offPage": "home"
+    }
+  }
+}
