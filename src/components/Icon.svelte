@@ -13,13 +13,14 @@
   export let width = undefined
   export let height = undefined
   export let color = "currentColor"
+  export let inline = false
 
   // SVG
   export let svgPath = undefined
   export let name = undefined // same as material_symbols
   let svgUsed = svgPath || name
   // If "name" prop was used update the svgPath
-  if (name) svgPath = `/svgs/material_symbols/${name.toLowerCase()}`
+  if (name) svgPath = `./svgs/material_symbols/${name.toLowerCase()}`
   // If "name" prop is the svgPath
   if (name && name.startsWith("/")) svgPath = name
   // Add ".svg" to the end of the svgPath is it isn't there already
@@ -33,7 +34,7 @@
 
 <!-- SVG -->
 {#if svgUsed}
-<div>
+<div style="{$$props.style}" class="{ inline ? "inline" : ""}">
   <img
     src={svgPath}
     alt="SVG Icon"
@@ -44,7 +45,6 @@
       fill: {color};
       shape-rendering: optimizeSpeed;
       shape-rendering: geometricPrecision;
-      {$$props.style}
     "
   >
 </div>
@@ -67,5 +67,8 @@
   div {
     display: grid;
     place-items: center;
+  }
+  div.inline {
+    display: inline;
   }
 </style>
