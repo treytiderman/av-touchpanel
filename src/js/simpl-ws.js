@@ -157,7 +157,7 @@ function createStore() {
         })
       })
 
-      // Recive message
+      // Receive message
       websocket.addEventListener('message', (event) => {
         if (JSON.parse(event.data).method === "set") {
           const obj = parseMessage(event.data)
