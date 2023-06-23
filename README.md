@@ -2,25 +2,7 @@
 
 This project uses Svelte (JavaScript/HTML Framwork) to make a touch panel UI for Crestron touch panels.
 
-
-#### Note: VC-4 needs the websocket port (default 10000) though the firewall
-
-https://linuxconfig.org/how-to-disable-enable-firewall-on-almalinux#:~:text=How%20to%20permanently%20enable%20or,above%2C%20will%20permanently%20disable%20firewalld.
-
-https://linuxconfig.org/how-to-allow-port-through-firewall-on-almalinux
-
-```
-sudo systemctl stop firewalld
-```
-```
-sudo systemctl start firewalld
-```
-```
-sudo systemctl disable firewalld
-```
-```
-sudo systemctl enable firewalld
-```
+Demo - https://trey.app/tp/
 
 
 # Setup
@@ -87,6 +69,25 @@ npm run archive
 3. Add page to pages in config.json
 4. Add to activity page or quick access top bar
 
+
+# VC-4 needs the websocket port (default 10000) though the firewall
+
+https://linuxconfig.org/how-to-disable-enable-firewall-on-almalinux#:~:text=How%20to%20permanently%20enable%20or,above%2C%20will%20permanently%20disable%20firewalld.
+
+https://linuxconfig.org/how-to-allow-port-through-firewall-on-almalinux
+
+```
+sudo systemctl stop firewalld
+```
+```
+sudo systemctl start firewalld
+```
+```
+sudo systemctl disable firewalld
+```
+```
+sudo systemctl enable firewalld
+```
 
 # VC-4 Text Console
 ```
