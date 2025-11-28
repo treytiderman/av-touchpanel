@@ -1,3 +1,0 @@
-// Only Free and Solid icons
-https://fontawesome.com/search?o=r&m=free&s=solid&f=classic
-https://github.com/FortAwesome/Font-Awesome
