@@ -42,8 +42,10 @@ WebXPanel.addEventListener(WebXPanelEvents.WEB_WORKER_FAILED, ({ detail }: any) 
 
 WebXPanel.addEventListener(WebXPanelEvents.CONNECT_CIP, ({ detail }: any) => {
     console.log("CONNECT_CIP", detail);
-    setTimeout(() => xp.isConnected = true, 1000);
     xp.status = "CONNECT_CIP"
+
+    // delay to allow for signals to all populate
+    setTimeout(() => xp.isConnected = true, 500);
 });
 
 WebXPanel.addEventListener(WebXPanelEvents.DISCONNECT_CIP, ({ detail }: any) => {
