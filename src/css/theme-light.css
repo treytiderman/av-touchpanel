@@ -1,0 +1,38 @@
+html.light {
+
+    /* built-in theme */
+    --color-scheme: light;
+
+    /* text color */
+    --text-light: hsl(220, 10%, 10%);
+    --text: hsl(220, 10%, 36%);
+    --text-dark: hsl(220, 10%, 54%);
+
+    /* bg color */
+    --bg-light: hsl(220, 10%, 92%);
+    --bg: hsl(220, 10%, 96%);
+    --bg-dark: hsl(220, 10%, 100%);
+
+    /* other colors */
+    --accent: hsl(265, 30%, 14%);
+    --accent-bg: hsl(265, 90%, 90%);
+    --accent-border: hsl(265, 90%, 85%);
+    --error: hsl(5, 90%, 80%);
+    --warning: hsl(60, 90%, 76%);
+    --success: hsl(130, 90%, 78%);
+    --info: hsl(220, 90%, 84%);
+
+    /* border */
+    --border-color: hsl(220, 12%, 85%);
+
+    /* shadows */
+    --shadow: 0 0.0625em 0.125em 0px hsla(220, 10%, 10%, 10%), 0 0.0625em 0.125em 0.0625em hsla(220, 10%, 10%, 2%);
+    --shadow-inset: inset 0 0.0625em 0.125em 0 hsla(220, 10%, 10%, 5%), inset 0 0.0625em 0.125em -0.0625em hsla(220, 10%, 10%, 2%);
+
+    /* hover / active */
+    --hover-mix-color: white;
+    --active-mix-color: black;
+    --hover-percent: 40%;
+    --active-percent: 4%;
+
+}

@@ -1,0 +1,418 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "av-touchpanel-schema",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "av-touchpanel-schema version",
+            "default": 0,
+            "enum": [
+                0
+            ]
+        },
+        "client": {
+            "type": "object",
+            "description": "settings for the web ui, the client",
+            "properties": {
+                "theme": {
+                    "type": "string",
+                    "default": "auto",
+                    "enum": [
+                        "auto",
+                        "light",
+                        "dark",
+                        "black"
+                    ]
+                },
+                "scale": {
+                    "type": "number",
+                    "description": "overall scale of ui",
+                    "default": 1.5,
+                    "minimum": 0.5,
+                    "maximum": 8.0,
+                    "multipleOf": 0.1
+                },
+                "scale_small": {
+                    "type": "number",
+                    "description": "overall scale of ui on devices with width less than 450px",
+                    "default": 1.0,
+                    "minimum": 0.5,
+                    "maximum": 8.0,
+                    "multipleOf": 0.1
+                },
+                "rotate": {
+                    "type": "integer",
+                    "description": "rotate ui clockwise",
+                    "default": 0,
+                    "enum": [
+                        0,
+                        90,
+                        180,
+                        270
+                    ]
+                },
+                "blackout_timeout_min": {
+                    "type": "integer",
+                    "description": "length of time, in minutes, with no activity before screen blackout",
+                    "minimum": 1,
+                    "default": 5
+                }
+            }
+        },
+        "server": {
+            "type": "object",
+            "description": "backend computer or processor",
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "description": "hostname or ip address",
+                    "format": "ipv4",
+                    "default": "172.22.0.1"
+                },
+                "backend": {
+                    "type": "string",
+                    "description": "backend server or processor or core",
+                    "default": "crestron",
+                    "enum": [
+                        "crestron",
+                        "qsys",
+                        "websocket",
+                        "redis"
+                    ]
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "backend": {
+                                "const": "crestron"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "ipid": {
+                                "type": "string",
+                                "default": "0x03"
+                            },
+                            "roomid": {
+                                "type": "string",
+                                "default": "1"
+                            },
+                            "token": {
+                                "type": "string",
+                                "default": "longtokenfromvc4"
+                            }
+                        },
+                        "required": [
+                            "ipid",
+                            "roomid",
+                            "token"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "backend": {
+                                "const": "qsys"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "port": {
+                                "type": "string",
+                                "default": "5000"
+                            }
+                        },
+                        "required": [
+                            "port"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "backend": {
+                                "const": "websocket"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "port": {
+                                "type": "string",
+                                "default": "5000"
+                            }
+                        },
+                        "required": [
+                            "port"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "backend": {
+                                "const": "redis"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "prefix": {
+                                "type": "string",
+                                "default": "av-tp"
+                            }
+                        },
+                        "required": [
+                            "prefix"
+                        ]
+                    }
+                }
+            ]
+        },
+        "page_list": {
+            "type": "array",
+            "description": "List of all pages",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "default": ""
+                },
+                "page_type": {
+                    "type": "string",
+                    "default": "rows",
+                    "enum": [
+                        "rows",
+                        "matrix"
+                    ]
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "page_type": {
+                                "const": "rows"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "rows": {
+                                "type": "array",
+                                "properties": {
+                                    "widgets": {
+                                        "type": "array",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "default": ""
+                                            },
+                                            "grow": {
+                                                "type": "integer",
+                                                "default": 1,
+                                                "minimum": 0
+                                            },
+                                            "widget_type": {
+                                                "type": "string",
+                                                "default": "text",
+                                                "enum": [
+                                                    "text",
+                                                    "button",
+                                                    "spacer",
+                                                    "slider",
+                                                    "page"
+                                                ]
+                                            }
+                                        },
+                                        "allOf": [
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "widget_type": {
+                                                            "const": "text"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "text": {
+                                                            "type": "string",
+                                                            "default": "text"
+                                                        },
+                                                        "text_id": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "hidden_id": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "widget_type": {
+                                                            "const": "button"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "text": {
+                                                            "type": "string",
+                                                            "default": "text"
+                                                        },
+                                                        "active_id": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "active_text": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "active_color_hex": {
+                                                            "type": "string",
+                                                            "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
+                                                            "default": ""
+                                                        },
+                                                        "active_background_hex": {
+                                                            "type": "string",
+                                                            "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
+                                                            "default": ""
+                                                        },
+                                                        "hidden_id": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "max": {
+                                                            "type": "integer",
+                                                            "default": "12"
+                                                        },
+                                                        "min": {
+                                                            "type": "integer",
+                                                            "default": "-40"
+                                                        },
+                                                        "step": {
+                                                            "type": "integer",
+                                                            "default": "3"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "widget_type": {
+                                                            "const": "slider"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "text": {
+                                                            "type": "string",
+                                                            "default": "text"
+                                                        },
+                                                        "active_id": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "hidden_id": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "max": {
+                                                            "type": "integer",
+                                                            "default": "12"
+                                                        },
+                                                        "min": {
+                                                            "type": "integer",
+                                                            "default": "-40"
+                                                        },
+                                                        "step": {
+                                                            "type": "integer",
+                                                            "default": "3"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "page_type": {
+                                "const": "matrix"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "input_title": {
+                                "type": "string",
+                                "default": "Select Source"
+                            },
+                            "output_title": {
+                                "type": "string",
+                                "default": "Then Destination"
+                            },
+                            "input_columns": {
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "output_columns": {
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "inputs": {
+                                "type": "array",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                }
+                            },
+                            "outputs": {
+                                "type": "array",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "default": ""
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "default": ""
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "port"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    "required": [
+        "version"
+    ]
+}

@@ -1,0 +1,69 @@
+{
+    "version": 0,
+    "client": {
+        "theme": "auto",
+        "scale": 1.5,
+        "scale_small": 1,
+        "rotate": 0,
+        "blackout_timeout_min": 15
+    },
+    "server": {
+        "host": "192.168.1.9",
+        "backend": "crestron",
+        "ipid": "0x03",
+        "roomid": "1",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzMjhiYmMwLWFlYWYtNGI0OC05MGJjLTAwMmI4MjkwYmFlNCIsImx2IjoiRGVmYXVsdCBMZXZlbCIsInZlciI6IjEuMCIsImV4cGkiOiIwIn0.h6cUVnbGogzwcszdNawI4ffovCYYOoDX1hN4NudO7ys"
+    },
+    "page_list": [
+        {
+            "title": "System <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"var(--error)\"     stroke=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"     class=\"lucide lucide-heart-icon lucide-heart\">     <path         d=\"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5\" /> </svg>",
+            "page_type": "rows",
+            "rows": [
+                {
+                    "widgets": [
+                        {
+                            "widget_type": "text",
+                            "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-power-icon lucide-power\"><path d=\"M12 2v10\"/><path d=\"M18.4 6.6a9 9 0 1 1-12.77.04\"/></svg> Power"
+                        }
+                    ]
+                },
+                {
+                    "widgets": [
+                        {
+                            "id": "1",
+                            "widget_type": "button",
+                            "text": "On"
+                        },
+                        {
+                            "id": "2",
+                            "widget_type": "button",
+                            "text": "Off"
+                        },
+                        {
+                            "widget_type": "spacer"
+                        },
+                        {
+                            "widget_type": "spacer"
+                        }
+                    ]
+                },
+                {
+                    "widgets": [
+                        {
+                            "widget_type": "spacer"
+                        }
+                    ]
+                },
+                {
+                    "widgets": [
+                        {
+                            "widget_type": "slider",
+                            "id": "3",
+                            "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-volume2-icon lucide-volume-2\"><path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><path d=\"M16 9a5 5 0 0 1 0 6\"/><path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"/></svg> Volume"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+html.black {
+
+    /* built-in theme */
+    --color-scheme: dark;
+
+    /* text color */
+    --text-light: hsl(220, 10%, 80%);
+    --text: hsl(220, 10%, 60%);
+    --text-dark: hsl(220, 10%, 46%);
+
+    /* bg color */
+    --bg-light: hsl(220, 12%, 12%);
+    --bg: hsl(220, 12%, 6%);
+    --bg-dark: hsl(220, 10%, 0%);
+
+    /* other colors */
+    --accent: hsl(269, 90%, 90%);
+    --accent-bg: hsl(269, 75%, 20%);
+    --accent-border: hsl(269, 75%, 40%);
+    --error: hsl(5, 90%, 80%);
+    --warning: hsl(60, 90%, 76%);
+    --success: hsl(130, 90%, 78%);
+    --info: hsl(220, 90%, 84%);
+
+    /* border */
+    --border-color: hsl(220, 12%, 30%);
+
+    /* shadows */
+    --shadow: 0 1px 3px -1px hsla(220, 10%, 10%, 5%), 0 1px 2px 1px hsla(220, 10%, 10%, 2%);
+    --shadow-inset: inset 0 1px 3px 0 hsla(220, 10%, 10%, 5%), inset 0 1px 2px -1px hsla(220, 10%, 10%, 2%);
+
+    /* hover / active */
+    --hover-mix-color: white;
+    --active-mix-color: black;
+    --hover-percent: 6%;
+    --active-percent: 12%;
+
+}

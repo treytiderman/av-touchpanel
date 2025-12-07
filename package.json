@@ -21,6 +21,7 @@
     "vite": "^7.2.2"
   },
   "dependencies": {
+    "@cfworker/json-schema": "^4.1.1",
     "@crestron/ch5-crcomlib": "^2.16.1",
     "@crestron/ch5-utilities-cli": "^2.0.0",
     "@crestron/ch5-webxpanel": "^2.8.0",

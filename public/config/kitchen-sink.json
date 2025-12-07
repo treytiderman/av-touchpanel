@@ -1,0 +1,882 @@
+{
+  "server": {
+    "online": false,
+    "ip": "192.168.1.69",
+    "websocket": {
+      "port": 10000,
+      "path": "ws"
+    }
+  },
+  "client": {
+    "id": 1,
+    "theme": "dark",
+    "scale": 1,
+    "scaleMobile": 1,
+    "rotate": 0,
+    "blackout_min": 1,
+    "startup": {
+      "page": "ActivityPage",
+      "popup": ""
+    }
+  },
+  "topBar": {
+    "show": true,
+    "homePage": "ActivityPage",
+    "powerPage": "SystemOffPage",
+    "darkMode": true,
+    "popups": [
+      {
+        "id": 1,
+        "name": "Audio",
+        "page": "AudioPage",
+        "icon": "volume_up"
+      },
+      {
+        "id": 2,
+        "name": "Camera",
+        "page": "CameraPage",
+        "icon": "videocam"
+      },
+      {
+        "id": 3,
+        "name": "Phone",
+        "page": "PhonePage 1",
+        "icon": "call"
+      },
+      {
+        "id": 4,
+        "name": "Video",
+        "page": "VideoPage",
+        "icon": "co_present"
+      },
+      {
+        "id": 5,
+        "name": "Walls",
+        "page": "WallsPage",
+        "icon": "safety_divider"
+      },
+      {
+        "id": 6,
+        "name": "QRCodes",
+        "page": "QRCodePage",
+        "icon": "qr_code"
+      },
+      {
+        "id": 7,
+        "name": "Stream",
+        "page": "StreamPage",
+        "icon": "stream"
+      }
+    ],
+    "toggles": [
+      {
+        "id": 1,
+        "state": false,
+        "onState": {
+          "icon": "mic_off",
+          "name": "Privacy",
+          "color": "red"
+        },
+        "offState": {
+          "icon": "mic",
+          "name": "Privacy"
+        }
+      }
+    ]
+  },
+  "pages": {
+    "ActivityPage": {
+      "name": "Activities",
+      "subpages": [
+        "ActivityPage 1",
+        "ActivityPage 2",
+        "Recursion"
+      ]
+    },
+    "ActivityPage 1": {
+      "name": "Common",
+      "file": "ActivityPage",
+      "heading": "Select an activity to get started...",
+      "lowerLeftButton": {
+        "show": true,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "TogglePage"
+      },
+      "activities": [
+        {
+          "id": 1,
+          "name": "Video",
+          "page": "VideoPage",
+          "icon": "co_present",
+          "color": "green"
+        },
+        {
+          "id": 2,
+          "name": "Camera",
+          "page": "CameraPage",
+          "icon": "videocam",
+          "color": "yellow"
+        },
+        {
+          "id": 3,
+          "name": "Audio",
+          "page": "AudioPage",
+          "icon": "volume_up",
+          "color": "orange"
+        },
+        {
+          "id": 4,
+          "name": "Phone",
+          "page": "PhonePage 1",
+          "icon": "call",
+          "color": "purple"
+        }
+      ]
+    },
+    "ActivityPage 2": {
+      "name": "Other",
+      "file": "ActivityPage",
+      "heading": "Select an activity to get started...",
+      "lowerLeftButton": {
+        "show": false,
+        "icon": "settings",
+        "label": "Settings",
+        "page": "settings power"
+      },
+      "activities": [
+        {
+          "id": 11,
+          "name": "Splash Page",
+          "page": "SplashPage",
+          "icon": "image",
+          "color": "cyan"
+        },
+        {
+          "id": 12,
+          "name": "Stream",
+          "page": "StreamPage",
+          "icon": "stream",
+          "color": "lime"
+        },
+        {
+          "id": 13,
+          "name": "Walls",
+          "page": "WallsPage",
+          "icon": "safety_divider",
+          "color": "pink"
+        },
+        {
+          "id": 14,
+          "name": "Passcode",
+          "popup": "PasscodePage",
+          "icon": "lock",
+          "color": "red"
+        }
+      ]
+    },
+    "AudioPage": {
+      "name": "Audio",
+      "subpages": [
+        "AudioPage 1",
+        "AudioPage 2",
+        "AudioPage 3"
+      ]
+    },
+    "AudioPage 1": {
+      "name": "Audio 1",
+      "file": "AudioPage",
+      "volumes": [
+        {
+          "id": 2,
+          "label": "Video",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 75,
+            "max": 100,
+            "min": 0,
+            "units": "%"
+          }
+        },
+        {
+          "id": 1,
+          "label": "Privacy",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": false
+          }
+        }
+      ]
+    },
+    "AudioPage 2": {
+      "name": "Audio 2",
+      "file": "AudioPage",
+      "volumes": [
+        {
+          "id": 11,
+          "label": "Wireless Microphone 1",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 0,
+            "max": 6,
+            "min": -36,
+            "units": "dB"
+          }
+        },
+        {
+          "id": 12,
+          "label": "Wireless Microphone 2",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 0,
+            "max": 6,
+            "min": -36,
+            "units": "dB"
+          }
+        },
+        {
+          "id": 13,
+          "label": "Wireless Microphone 3",
+          "mute": {
+            "show": true,
+            "icon": "mic_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 0,
+            "max": 6,
+            "min": -36,
+            "units": "dB"
+          }
+        }
+      ]
+    },
+    "AudioPage 3": {
+      "name": "Audio 3",
+      "file": "AudioPage",
+      "volumes": [
+        {
+          "id": 21,
+          "label": "Background Music - Zone 1",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 1,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 22,
+          "label": "Background Music - Zone 2",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 2,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 23,
+          "label": "Background Music - Zone 3",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 3,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 24,
+          "label": "Background Music - Zone 4",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 4,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 25,
+          "label": "Background Music - Zone 5",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 5,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 26,
+          "label": "Background Music - Zone 6",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 6,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 27,
+          "label": "Background Music - Zone 7",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 7,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        },
+        {
+          "id": 28,
+          "label": "Background Music - Zone 8",
+          "mute": {
+            "show": true,
+            "icon": "volume_off"
+          },
+          "slider": {
+            "show": true,
+            "value": 8,
+            "max": 10,
+            "min": 0,
+            "units": ""
+          }
+        }
+      ]
+    },
+    "CameraPage": {
+      "name": "Camera",
+      "subpages": [
+        "CameraPage 1",
+        "CameraPage 2"
+      ]
+    },
+    "CameraPage 1": {
+      "name": "Control",
+      "file": "CameraPage",
+      "cameras": [
+        {
+          "id": 1,
+          "name": "Front Camera",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            },
+            "bottomRight": {
+              "show": true,
+              "label": "Auto Track",
+              "icon": "auto_mode",
+              "toggle": true
+            }
+          }
+        }
+      ]
+    },
+    "CameraPage 2": {
+      "name": "Video Call",
+      "file": "CameraPage",
+      "shareListShow": true,
+      "savePresetHoldTime_sec": 2,
+      "cameras": [
+        {
+          "id": 0,
+          "name": "Overhead"
+        },
+        {
+          "id": 1,
+          "name": "Presenter",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            },
+            "bottomRight": {
+              "show": true,
+              "label": "Auto Track",
+              "icon": "auto_mode",
+              "toggle": true
+            }
+          }
+        },
+        {
+          "id": 2,
+          "name": "Audience",
+          "controls": {
+            "show": true,
+            "bottomLeft": {
+              "show": true,
+              "icon": "home"
+            }
+          }
+        }
+      ]
+    },
+    "QRCodePage": {
+      "name": "QRCodes",
+      "subpages": [
+        "QRCodePage 1",
+        "QRCodePage 2"
+      ]
+    },
+    "QRCodePage 1": {
+      "name": "Wifi Login",
+      "file": "QRCodePage",
+      "wifi": {
+        "ssid": "Trey-ATT",
+        "auth": "WPA",
+        "password": "password",
+        "hidden": false
+      }
+    },
+    "QRCodePage 2": {
+      "name": "Link",
+      "file": "QRCodePage",
+      "url": "https://trey.app/"
+    },
+    "PasscodePage": {
+      "name": "Try: 0000, 1973, 7777",
+      "file": "PasscodePage",
+      "passcodes": [
+        {
+          "code": "0000",
+          "page": "ActivityPage"
+        },
+        {
+          "code": "1973",
+          "page": "VideoPage",
+          "popup": "AudioPage 1"
+        },
+        {
+          "code": "7777",
+          "configFile": "/configs/examples/small.json"
+        }
+      ]
+    },
+    "PhonePage 1": {
+      "name": "Phone",
+      "file": "PhonePage",
+      "placeholder": "405-123-4567"
+    },
+    "Recursion": {
+      "name": "Recursion",
+      "subpages": [
+        "AudioPage",
+        "CameraPage",
+        "VideoPage"
+      ]
+    },
+    "SplashPage": {
+      "name": "Splash",
+      "file": "SplashPage",
+      "image": "/images/FordAV_BlackBG_1920_1080.png",
+      "backgroundColor": "#000000",
+      "page": "SplashPage",
+      "popup": "PasscodePage"
+    },
+    "StreamPage": {
+      "name": "Stream WS",
+      "file": "StreamPage",
+      "ws": "wss://stream.trey.app"
+    },
+    "StreamPage WS": {
+      "name": "Stream WS",
+      "file": "StreamPage",
+      "ws": "ws://192.168.1.1:9999"
+    },
+    "StreamPage HLS": {
+      "name": "Stream HLS",
+      "file": "StreamPage",
+      "hls": "https://stream.trey.app/memfs/a22dfe17-c714-459e-b2d5-7c252093d445.m3u8"
+    },
+    "StreamPage MJPEG": {
+      "name": "Stream MJPEG",
+      "file": "StreamPage",
+      "mjpeg": "Not used"
+    },
+    "SystemOffPage": {
+      "name": "System Off",
+      "file": "SystemOffPage",
+      "offList": [
+        "Power down the displays",
+        "Mute the Microphones and Speakers"
+      ],
+      "offTimer_sec": 30,
+      "offPage": "SplashPage"
+    },
+    "TogglePage": {
+      "name": "Device Power",
+      "subpages": [
+        "TogglePage 1",
+        "TogglePage 2"
+      ]
+    },
+    "TogglePage 1": {
+      "name": "Device Power",
+      "file": "TogglePage",
+      "cardWidth": "200px",
+      "toggles": [
+        {
+          "id": 1,
+          "name": "Display 1"
+        },
+        {
+          "id": 2,
+          "name": "Display 2"
+        },
+        {
+          "id": 3,
+          "name": "Display 3"
+        },
+        {
+          "id": 4,
+          "name": "Display 4"
+        },
+        {
+          "id": 5,
+          "name": "Display 5"
+        },
+        {
+          "id": 6,
+          "name": "Display 6"
+        },
+        {
+          "id": 7,
+          "name": "Display 7"
+        },
+        {
+          "id": 8,
+          "name": "Display 8"
+        },
+        {
+          "id": 9,
+          "name": "Display 9"
+        }
+      ]
+    },
+    "TogglePage 2": {
+      "name": "Recorders",
+      "file": "TogglePage",
+      "cardWidth": "500px",
+      "toggles": [
+        {
+          "id": 11,
+          "name": "Audio Recorder",
+          "state": true,
+          "onButton": {
+            "icon": "circle",
+            "label": "Record",
+            "activeLabel": "Recording",
+            "color": "red"
+          },
+          "offButton": {
+            "icon": "square",
+            "label": "Stop",
+            "activeLabel": "Stopped",
+            "color": "grey"
+          }
+        },
+        {
+          "id": 12,
+          "name": "Video Recorder",
+          "state": false,
+          "onButton": {
+            "icon": "circle",
+            "label": "Record",
+            "activeLabel": "Recording",
+            "color": "red"
+          },
+          "offButton": {
+            "icon": "square",
+            "label": "Stop",
+            "activeLabel": "Stopped",
+            "color": "grey"
+          }
+        }
+      ]
+    },
+    "VideoPage": {
+      "name": "Video",
+      "subpages": [
+        "VideoPage 1",
+        "VideoPage 2",
+        "VideoPage 3"
+      ]
+    },
+    "VideoPage 1": {
+      "name": "Video 1",
+      "file": "VideoPage",
+      "advancedOption": true,
+      "advancedRouting": false,
+      "inputColumns": 1,
+      "outputColumns": 2,
+      "inputs": [
+        {
+          "id": 3,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 5,
+          "name": "Wireless",
+          "icon": "cast"
+        },
+        {
+          "id": 2,
+          "name": "Laptop Front",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 1,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 1,
+          "name": "Display Left"
+        },
+        {
+          "id": 2,
+          "name": "Display Right"
+        }
+      ]
+    },
+    "VideoPage 2": {
+      "name": "Video 2",
+      "file": "VideoPage",
+      "advancedOption": false,
+      "advancedRouting": true,
+      "inputColumns": 1,
+      "outputColumns": 2,
+      "inputs": [
+        {
+          "id": 11,
+          "name": "Room PC",
+          "icon": "computer"
+        },
+        {
+          "id": 12,
+          "name": "Wireless",
+          "icon": "cast"
+        },
+        {
+          "id": 13,
+          "name": "Laptop Front",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 14,
+          "name": "Laptop Back",
+          "icon": "settings_input_hdmi"
+        },
+        {
+          "id": 15,
+          "name": "Apple TV",
+          "icon": "Cast"
+        },
+        {
+          "id": 16,
+          "name": "VCR",
+          "icon": "settings_input_component"
+        },
+        {
+          "id": 17,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 11,
+          "name": "Display 1"
+        },
+        {
+          "id": 12,
+          "name": "Display 2"
+        },
+        {
+          "id": 13,
+          "name": "Display 3"
+        },
+        {
+          "id": 14,
+          "name": "Display 4"
+        },
+        {
+          "id": 15,
+          "name": "Display 5"
+        },
+        {
+          "id": 16,
+          "name": "Display 6"
+        },
+        {
+          "id": 17,
+          "name": "Display 7"
+        },
+        {
+          "id": 18,
+          "name": "Display 8"
+        }
+      ]
+    },
+    "VideoPage 3": {
+      "name": "Video 3",
+      "file": "VideoPage",
+      "inputColumns": 2,
+      "outputColumns": 1,
+      "advancedOption": true,
+      "advancedRouting": true,
+      "inputs": [
+        {
+          "id": 22,
+          "name": "Playstation",
+          "icon": "/svgs/logos/playstation.svg"
+        },
+        {
+          "id": 23,
+          "name": "Apple TV",
+          "icon": "/svgs/logos/appletv.svg"
+        },
+        {
+          "id": 24,
+          "name": "HBO",
+          "icon": "/svgs/logos/hbo.svg"
+        },
+        {
+          "id": 25,
+          "name": "Teams",
+          "icon": "/svgs/logos/microsoft-teams.svg"
+        },
+        {
+          "id": 26,
+          "name": "Switch",
+          "icon": "/svgs/logos/nintendoswitch.svg"
+        },
+        {
+          "id": 27,
+          "name": "Xbox",
+          "icon": "/svgs/logos/xbox.svg"
+        },
+        {
+          "id": 21,
+          "name": "Blank",
+          "icon": "close"
+        }
+      ],
+      "outputs": [
+        {
+          "id": 21,
+          "name": "Front"
+        },
+        {
+          "id": 22,
+          "name": "Rear"
+        }
+      ]
+    },
+    "WallsPage": {
+      "name": "Room Combining",
+      "file": "WallsPage",
+      "roomName": "A",
+      "walls": [ 1, 0 ],
+      "wallSensor": false,
+      "rooms": [
+        {
+          "id": 1,
+          "name": "A"
+        },
+        {
+          "id": 2,
+          "name": "B"
+        },
+        {
+          "id": 3,
+          "name": "C"
+        }
+      ],
+      "roomStates": [
+        {
+          "id": 1,
+          "name": "A",
+          "configFile": "/configs/examples/a.json",
+          "walls": [ 1, 0 ],
+          "roomNames": [ "A" ]
+        },
+        {
+          "id": 2,
+          "name": "A",
+          "configFile": "/configs/examples/a.json",
+          "walls": [ 1, 1 ],
+          "roomNames": [ "A" ]
+        },
+        {
+          "id": 3,
+          "name": "A+B",
+          "configFile": "/configs/examples/a-b.json",
+          "walls": [ 0, 1 ],
+          "roomNames": [ "A", "B" ]
+        },
+        {
+          "id": 4,
+          "name": "A+B+C",
+          "configFile": "/configs/examples/a-b-c.json",
+          "walls": [ 0, 0 ],
+          "roomNames": [ "A", "B", "C" ]
+        }
+      ]
+    }
+  }
+}
