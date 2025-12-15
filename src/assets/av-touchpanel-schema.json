@@ -1,5 +1,5 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$schema": "https://json-schema.org/draft-07/schema",
     "title": "av-touchpanel-schema",
     "type": "object",
     "properties": {
@@ -7,23 +7,21 @@
             "type": "integer",
             "description": "av-touchpanel-schema version",
             "default": 0,
-            "enum": [
-                0
-            ]
+            "enum": [0]
         },
         "client": {
             "type": "object",
             "description": "settings for the web ui, the client",
+            "required": ["page_id_active"],
             "properties": {
+                "page_id_active": {
+                    "type": "string",
+                    "default": ""
+                },
                 "theme": {
                     "type": "string",
                     "default": "auto",
-                    "enum": [
-                        "auto",
-                        "light",
-                        "dark",
-                        "black"
-                    ]
+                    "enum": ["auto", "light", "dark", "black"]
                 },
                 "scale": {
                     "type": "number",
@@ -45,12 +43,7 @@
                     "type": "integer",
                     "description": "rotate ui clockwise",
                     "default": 0,
-                    "enum": [
-                        0,
-                        90,
-                        180,
-                        270
-                    ]
+                    "enum": [0, 90, 180, 270]
                 },
                 "blackout_timeout_min": {
                     "type": "integer",
@@ -73,8 +66,9 @@
                 "backend": {
                     "type": "string",
                     "description": "backend server or processor or core",
-                    "default": "crestron",
+                    "default": "offline",
                     "enum": [
+                        "offline",
                         "crestron",
                         "qsys",
                         "websocket",
@@ -106,11 +100,7 @@
                                 "default": "longtokenfromvc4"
                             }
                         },
-                        "required": [
-                            "ipid",
-                            "roomid",
-                            "token"
-                        ]
+                        "required": ["ipid", "roomid", "token"]
                     }
                 },
                 {
@@ -128,9 +118,7 @@
                                 "default": "5000"
                             }
                         },
-                        "required": [
-                            "port"
-                        ]
+                        "required": ["port"]
                     }
                 },
                 {
@@ -148,9 +136,7 @@
                                 "default": "5000"
                             }
                         },
-                        "required": [
-                            "port"
-                        ]
+                        "required": ["port"]
                     }
                 },
                 {
@@ -168,9 +154,7 @@
                                 "default": "av-tp"
                             }
                         },
-                        "required": [
-                            "prefix"
-                        ]
+                        "required": ["prefix"]
                     }
                 }
             ]
@@ -178,18 +162,20 @@
         "page_list": {
             "type": "array",
             "description": "List of all pages",
+            "required": ["page_id"],
             "properties": {
-                "title": {
+                "page_id": {
                     "type": "string",
                     "default": ""
                 },
                 "page_type": {
                     "type": "string",
                     "default": "rows",
-                    "enum": [
-                        "rows",
-                        "matrix"
-                    ]
+                    "enum": ["rows", "matrix"]
+                },
+                "title": {
+                    "type": "string",
+                    "default": ""
                 }
             },
             "allOf": [
@@ -209,7 +195,7 @@
                                     "widgets": {
                                         "type": "array",
                                         "properties": {
-                                            "id": {
+                                            "control_id": {
                                                 "type": "string",
                                                 "default": ""
                                             },
@@ -245,11 +231,11 @@
                                                             "type": "string",
                                                             "default": "text"
                                                         },
-                                                        "text_id": {
+                                                        "control_id_text": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
-                                                        "hidden_id": {
+                                                        "control_id_hidden": {
                                                             "type": "string",
                                                             "default": ""
                                                         }
@@ -270,7 +256,7 @@
                                                             "type": "string",
                                                             "default": "text"
                                                         },
-                                                        "active_id": {
+                                                        "control_id_active": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
@@ -288,7 +274,7 @@
                                                             "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
                                                             "default": ""
                                                         },
-                                                        "hidden_id": {
+                                                        "control_id_hidden": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
@@ -321,11 +307,11 @@
                                                             "type": "string",
                                                             "default": "text"
                                                         },
-                                                        "active_id": {
+                                                        "control_id_active": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
-                                                        "hidden_id": {
+                                                        "control_id_hidden": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
@@ -340,6 +326,23 @@
                                                         "step": {
                                                             "type": "integer",
                                                             "default": "3"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "if": {
+                                                    "properties": {
+                                                        "widget_type": {
+                                                            "const": "page"
+                                                        }
+                                                    }
+                                                },
+                                                "then": {
+                                                    "properties": {
+                                                        "page_id": {
+                                                            "type": "string",
+                                                            "default": "text"
                                                         }
                                                     }
                                                 }
@@ -380,7 +383,7 @@
                             "inputs": {
                                 "type": "array",
                                 "properties": {
-                                    "id": {
+                                    "control_id": {
                                         "type": "string",
                                         "default": ""
                                     },
@@ -393,7 +396,7 @@
                             "outputs": {
                                 "type": "array",
                                 "properties": {
-                                    "id": {
+                                    "control_id": {
                                         "type": "string",
                                         "default": ""
                                     },
@@ -404,15 +407,11 @@
                                 }
                             }
                         },
-                        "required": [
-                            "port"
-                        ]
+                        "required": ["port"]
                     }
                 }
             ]
         }
     },
-    "required": [
-        "version"
-    ]
+    "required": ["version"]
 }

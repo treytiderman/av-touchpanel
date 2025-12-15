@@ -10,10 +10,10 @@
         <h2 class="flex wrap gap-2 center-y">{@html config.active.page_list[index].title}</h2>
     {/if}
 
-    <div class="flex gap-8 top">
+    <div class="flex gap-4 top wrap">
         <div class="grid gap-2">
-            <div title={JSON.stringify(config.active.page_list[index].inputs, null, 4)}>
-                {config.active.page_list[index].input_title || "Select Source"}
+            <div class="flex gap-2" title={JSON.stringify(config.active.page_list[index].inputs, null, 4)}>
+                {@html config.active.page_list[index].input_title || "Select Source"}
             </div>
             <div
                 class="grid gap-4"
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="grid gap-2">
-            <div title={JSON.stringify(config.active.page_list[index].outputs, null, 4)}>{config.active.page_list[index].output_title || "Then Destination"}</div>
+            <div class="flex gap-2" title={JSON.stringify(config.active.page_list[index].outputs, null, 4)}>{@html config.active.page_list[index].output_title || "Then Destination"}</div>
             <div
                 class="grid gap-4"
                 style="grid-template-columns: repeat({config.active.page_list[index].output_columns}, 1fr);"

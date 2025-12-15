@@ -8,7 +8,7 @@
         classList = "",
         styleList = "",
         disabled = false,
-        valueChange
+        valueChange,
     } = $props();
 
     let sliderValue = $state(value);
@@ -27,14 +27,14 @@
     }
 </script>
 
-<div class="grid gap-4 width-100">
+<div class="grid gap-4" style={styleList}>
     {#if label !== ""}
         <label for={id} class="flex gap-4">
             <span class="grow flex wrap gap-2 center-y"> {@html label} </span>
             <output>{sliderValue} {units}</output>
         </label>
     {/if}
-    
+
     <input
         type="range"
         {id}
@@ -42,7 +42,7 @@
         {min}
         {disabled}
         class={classList}
-        style={styleList + `background: ${background};`}
+        style={`background: ${background};`}
         value={sliderValue}
         oninput={handleInput}
     />

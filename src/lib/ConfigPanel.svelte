@@ -207,12 +207,11 @@
             {#if "properties" in obj}
                 <div class="grid gap-4">
                     {#each Array(get_array_length_flat_config(config.working_flat, path)) as _, index}
-                        <div
+                        <details
                             id="array-{path}/{index}"
-                            class="grid gap-4"
                             style="padding: 0.75rem 0 0 1rem; border-left: var(--border); border-top: var(--border); "
                         >
-                            <div class="flex gap-2 top grow">
+                            <summary class="flex gap-2 center-y grow">
                                 <div class="text-dark grow">{index}</div>
                                 <button
                                     class="text-dark transparent"
@@ -242,20 +241,22 @@
                                         <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                                     </svg>
                                 </button>
-                            </div>
-                            {#each Object.entries(obj.properties) as prop}
-                                {@render property(`${path}/${index}/${prop[0]}`, prop[0], prop[1])}
-                            {/each}
-                            {#if obj.allOf && obj.allOf.length > 0}
-                                {#each obj.allOf as allOf}
-                                    {#if config.working_flat[`${path}/${index}/${[Object.entries(allOf.if.properties)[0][0]]}`] === (Object.entries(allOf.if.properties)[0][1] as any).const}
-                                        {#each Object.entries(allOf.then.properties) as prop}
-                                            {@render property(`${path}/${index}/${prop[0]}`, prop[0], prop[1])}
-                                        {/each}
-                                    {/if}
+                            </summary>
+                            <div class="grid gap-4">
+                                {#each Object.entries(obj.properties) as prop}
+                                    {@render property(`${path}/${index}/${prop[0]}`, prop[0], prop[1])}
                                 {/each}
-                            {/if}
-                        </div>
+                                {#if obj.allOf && obj.allOf.length > 0}
+                                    {#each obj.allOf as allOf}
+                                        {#if config.working_flat[`${path}/${index}/${[Object.entries(allOf.if.properties)[0][0]]}`] === (Object.entries(allOf.if.properties)[0][1] as any).const}
+                                            {#each Object.entries(allOf.then.properties) as prop}
+                                                {@render property(`${path}/${index}/${prop[0]}`, prop[0], prop[1])}
+                                            {/each}
+                                        {/if}
+                                    {/each}
+                                {/if}
+                            </div>
+                        </details>
                     {/each}
                 </div>
             {/if}

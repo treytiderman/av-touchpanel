@@ -484,6 +484,7 @@ optgroup {
 }
 
 select {
+    line-height: 1.19;
     padding-right: calc(var(--gap)*8);
     background-image:
         linear-gradient(60deg, transparent 50%, currentColor 50%),
@@ -774,7 +775,8 @@ input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: calc(var(--gap) * 8);
     width: calc(var(--gap) * 5);
-    /* border: var(--border); */
+    border: var(--border);
+    border-color: color-mix(in oklab, var(--text-dark), var(--active-mix-color) var(--active-percent)) !important;
     border-radius: var(--border-radius);
     background-color: var(--text-dark);
 }

@@ -2,54 +2,38 @@
     import { onMount } from "svelte";
     import { config } from "./js/config.svelte";
 
-    // Components
     import Split from "./lib/Split.svelte";
-    import TestPage from "./lib/TestPage.svelte";
-    import BasicPage from "./lib/BasicPage.svelte";
-    import MatrixPage from "./lib/MatrixPage.svelte";
-    import ConfigPage from "./lib/ConfigPage.svelte";
+    import ConfigPanel from "./lib/ConfigPanel.svelte";
+    import Page from "./lib/Page.svelte";
 
-    // XPanel Connect to Control System
-    import { xpConnect } from "./js/webxpanel.svelte";
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const editMode = urlSearchParams.get("edit") || false;
-    const paramIp = urlSearchParams.get("ip") || "172.22.0.1";
-    const ip = location.port === "5173" ? paramIp : location.hostname;
-    const ipid = urlSearchParams.get("ipid") || "0x03";
-    const roomid = urlSearchParams.get("roomid") || "1";
-    const token =
-        urlSearchParams.get("token") ||
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzMjhiYmMwLWFlYWYtNGI0OC05MGJjLTAwMmI4MjkwYmFlNCIsImx2IjoiRGVmYXVsdCBMZXZlbCIsInZlciI6IjEuMCIsImV4cGkiOiIwIn0.h6cUVnbGogzwcszdNawI4ffovCYYOoDX1hN4NudO7ys";
-    const xp = xpConnect(ip, ipid, roomid, token);
+    let page_width = $state(0);
 
     onMount(async () => {
+        console.log("av-touchpanel init");
         await config.get_from_server("/public/config/example.json");
-        
+        console.log("page_id_active", config.active.client.page_id_active);
     });
 
     $effect(() => {
         if (config.active.client?.theme) {
-            document.getElementsByTagName( 'html' )[0].classList = config.active.client.theme
+            document.getElementsByTagName("html")[0].classList =
+                config.active.client.theme;
         }
-    })
-
-    let page_width = $state(0)
-    $inspect(page_width)
+    });
 </script>
 
 <main class="flex column gap-8 height-100">
-    {#if !xp.isConnected}
+    {#if !config.ready}
         <div class="pad-4 grid gap-1">
-            <div>Status: {xp.status}</div>
-            <div>Host/IP: {xp.host}</div>
-            <div>IPID: {xp.ipId}</div>
-            <div>RoomID: {xp.roomId}</div>
+            <div>Status: No Config + Not Connected to Backend</div>
             <br /><br />
             <div>
-                <button class="border" onclick={() => location.reload()}>Reload</button>
+                <button class="border" onclick={() => location.reload()}>
+                    Reload
+                </button>
             </div>
         </div>
-    {:else if editMode}
+    {:else if config.edit_mode } <!-- EXAMPLE: http://192.168.1.11:9001/?edit=true -->
         <Split
             type="columns"
             id="main"
@@ -61,19 +45,31 @@
         >
             {#snippet a()}
                 <div class="pad-4" style="height: 100dvh;">
-                    <ConfigPage />
+                    <ConfigPanel />
                 </div>
             {/snippet}
 
             {#snippet b()}
-                <div class="pad-4 grow grid center-y margin-auto max-width-md" style="font-size: {page_width > 450 ? config.active.client.scale : config.active.client.scale_small}em;" bind:offsetWidth={page_width} >
-                    <MatrixPage />
+                <div
+                    class="pad-4 grow grid center-y margin-auto max-width-md"
+                    style="font-size: {page_width > 450
+                        ? config.active.client?.scale
+                        : config.active.client?.scale_small}em;"
+                    bind:offsetWidth={page_width}
+                >
+                    <Page page_id={config.active.client?.page_id_active} />
                 </div>
             {/snippet}
         </Split>
     {:else}
-        <div class="pad-4 grow grid center-y margin-auto max-width-md height-100 width-100" style="font-size: {page_width > 450 ? config.active.client.scale : config.active.client.scale_small}em;" bind:offsetWidth={page_width} >
-            <MatrixPage />
+        <div
+            class="pad-4 grow grid center-y margin-auto max-width-md height-100 width-100"
+            style="font-size: {page_width > 450
+                ? config.active.client.scale
+                : config.active.client.scale_small}em;"
+            bind:offsetWidth={page_width}
+        >
+            <Page page_id={config.active.client?.page_id_active} />
         </div>
     {/if}
 </main>
