@@ -1,5 +1,13 @@
 <script lang="ts">
-    import { useDigital, useAnalog, useSerial, pulseDigital, setAnalog, setDigital, setSerial } from "ch5-svelte";
+    import {
+        useDigital,
+        useAnalog,
+        useSerial,
+        pulseDigital,
+        setAnalog,
+        setDigital,
+        setSerial,
+    } from "ch5-svelte";
 
     // Crestron SIMPL Signals
     const d1 = useDigital("1"); // toggle.press
@@ -34,7 +42,9 @@
             <span>{d1.value}</span>
         </div>
         <div class="flex center-y wrap gap-4">
-            <button class="border shadow" onclick={() => d1.pulse()}> toggle </button>
+            <button class="border shadow" onclick={() => d1.pulse()}>
+                toggle
+            </button>
         </div>
     </div>
 
@@ -86,9 +96,15 @@
             <span>{s1.value}</span>
         </div>
         <div class="flex center-y wrap gap-4">
-            <button class="border shadow" onclick={() => d5.pulse()}> option 1 [d5] </button>
-            <button class="border shadow" onclick={() => d6.pulse()}> option 2 [d6] </button>
-            <button class="border shadow" onclick={() => d7.pulse()}> option 3 [d7] </button>
+            <button class="border shadow" onclick={() => d5.pulse()}>
+                option 1 [d5]
+            </button>
+            <button class="border shadow" onclick={() => d6.pulse()}>
+                option 2 [d6]
+            </button>
+            <button class="border shadow" onclick={() => d7.pulse()}>
+                option 3 [d7]
+            </button>
         </div>
     </div>
 
@@ -108,7 +124,8 @@
                 class="border shadow-inset"
                 bind:value={a2.value}
             />
-            <progress value={a2.value} max="65000" class="border shadow grow"></progress>
+            <progress value={a2.value} max="65000" class="border shadow grow"
+            ></progress>
         </div>
     </div>
 

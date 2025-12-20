@@ -27,6 +27,7 @@ const config: {
     get_page_by_id: (page_id: string) => any;
     validate: (config: any) => any;
     url_params: {
+        config_file: string;
         edit_mode: boolean;
         ip: string;
         ipid: string;
@@ -45,6 +46,7 @@ const config: {
     get_page_by_id: get_page_by_id,
     validate: validate_config,
     url_params: {
+        config_file: urlSearchParams.get("config") || "",
         edit_mode: !!urlSearchParams.get("edit") || false,
         ip: urlSearchParams.get("ip") || location.hostname,
         ipid: urlSearchParams.get("ipid") || "0x03",
