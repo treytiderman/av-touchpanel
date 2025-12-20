@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Slider from "./Slider.svelte";
+    import Slider from "./CompSlider.svelte";
     import Page from "./Page.svelte";
 
     const example_page: any = {
@@ -63,7 +63,7 @@
 
     const { page = example_page } = $props();
 
-    console.log("example_page.rows", page.rows);
+    // console.log("example_page.rows", page.rows);
 </script>
 
 <div class="grid gap-8">

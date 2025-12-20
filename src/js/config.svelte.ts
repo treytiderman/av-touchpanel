@@ -1,5 +1,6 @@
 import { Validator, type Schema } from "@cfworker/json-schema";
 import av_touchpanel_schema from "../assets/av-touchpanel-schema.json";
+import { xpConnect } from "./backend-crestron.svelte";
 
 export {
     config,
@@ -10,15 +11,13 @@ export {
 };
 
 const urlSearchParams = new URLSearchParams(window.location.search);
-const edit_mode = !!urlSearchParams.get("edit") || false;
-
 const schema_validator = new Validator(
     av_touchpanel_schema as unknown as Schema,
 );
 
 const config: {
     ready: boolean;
-    edit_mode: boolean;
+    server_connected: boolean;
     schema: typeof av_touchpanel_schema;
     active: Record<string, any>;
     working_flat: Record<string, any>;
@@ -27,9 +26,16 @@ const config: {
     set_from_working: () => any;
     get_page_by_id: (page_id: string) => any;
     validate: (config: any) => any;
+    url_params: {
+        edit_mode: boolean;
+        ip: string;
+        ipid: string;
+        roomid: string;
+        token: string;
+    };
 } = $state({
     ready: false,
-    edit_mode: edit_mode,
+    server_connected: false,
     schema: av_touchpanel_schema,
     active: {},
     working_flat: {},
@@ -38,6 +44,13 @@ const config: {
     set_from_working: set_from_working_flat_config,
     get_page_by_id: get_page_by_id,
     validate: validate_config,
+    url_params: {
+        edit_mode: !!urlSearchParams.get("edit") || false,
+        ip: urlSearchParams.get("ip") || location.hostname,
+        ipid: urlSearchParams.get("ipid") || "0x03",
+        roomid: urlSearchParams.get("roomid") || "1",
+        token: urlSearchParams.get("token") || "",
+    },
 });
 
 async function get_config(uri: string) {
@@ -62,11 +75,17 @@ function set_config(new_config: any) {
     if (check.valid) {
         config.active = new_config;
         config.working_flat = nested_to_flat_config(new_config);
+        on_config_change();
         return new_config;
     } else {
         console.error("config not valid", check);
         return {};
     }
+}
+
+function on_config_change() {
+    document.getElementsByTagName("html")[0].classList =
+        config.active.client.theme || "";
 }
 
 function set_from_working_flat_config() {
@@ -210,6 +229,18 @@ function remove_index_in_flat_obj(flat_obj: any, path: string, index: number) {
     }
 
     return flat_obj;
+}
+
+function connect_to_server() {
+    if (config.active.server.backend === "crestron") {
+        // const xp = xpConnect(ip, ipid, roomid, token);
+    }
+    else if (config.active.server.backend === "qsys") {
+        // const xp = xpConnect(ip, ipid, roomid, token);
+    }
+    else {
+        console.log("backend offline");
+    }
 }
 
 const test_obj = {

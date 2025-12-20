@@ -2,8 +2,8 @@
     import { onMount } from "svelte";
     import { config } from "./js/config.svelte";
 
-    import Split from "./lib/Split.svelte";
-    import ConfigPanel from "./lib/ConfigPanel.svelte";
+    import Split from "./lib/CompSplit.svelte";
+    import PageConfig from "./lib/PageConfig.svelte";
     import Page from "./lib/Page.svelte";
 
     let page_width = $state(0);
@@ -11,14 +11,7 @@
     onMount(async () => {
         console.log("av-touchpanel init");
         await config.get_from_server("/public/config/example.json");
-        console.log("page_id_active", config.active.client.page_id_active);
-    });
-
-    $effect(() => {
-        if (config.active.client?.theme) {
-            document.getElementsByTagName("html")[0].classList =
-                config.active.client.theme;
-        }
+        // console.log("page_id_active", config.active.client.page_id_active);
     });
 </script>
 
@@ -33,7 +26,7 @@
                 </button>
             </div>
         </div>
-    {:else if config.edit_mode } <!-- EXAMPLE: http://192.168.1.11:9001/?edit=true -->
+    {:else if config.url_params.edit_mode } <!-- EXAMPLE: http://192.168.1.11:9001/?edit=true -->
         <Split
             type="columns"
             id="main"
@@ -45,7 +38,7 @@
         >
             {#snippet a()}
                 <div class="pad-4" style="height: 100dvh;">
-                    <ConfigPanel />
+                    <PageConfig />
                 </div>
             {/snippet}
 

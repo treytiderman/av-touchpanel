@@ -2,8 +2,8 @@
     import { onMount } from "svelte";
     import { config } from "../js/config.svelte";
 
-    import RowsPage from "../lib/RowsPage.svelte";
-    import MatrixPage from "../lib/MatrixPage.svelte";
+    import PageRows from "../lib/PageRows.svelte";
+    import PageMatrix from "../lib/PageMatrix.svelte";
 
     const { page_id = "" } = $props();
 
@@ -18,9 +18,9 @@
 {#if page && page.page_type === false}
     <div>{JSON.stringify(page, null, 4)}</div>
 {:else if page?.page_type === "rows"}
-    <RowsPage {page} />
+    <PageRows {page} />
 {:else if page?.page_type === "matrix"}
-    <MatrixPage />
+    <PageMatrix />
 {:else if page?.page_type === "blank"}
     <div>...</div>
 {/if}

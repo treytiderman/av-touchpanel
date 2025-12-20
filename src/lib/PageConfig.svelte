@@ -2,13 +2,13 @@
     import {
         config,
         flat_to_nested_config,
-        nested_to_flat_config,
         get_array_length_flat_config,
         remove_index_in_flat_obj,
     } from "../js/config.svelte";
 
     let autosave = $state(true);
-    $inspect(config.working_flat);
+    // $inspect("config.active", config.active);
+    // $inspect("config.working_flat", config.working_flat);
 </script>
 
 <section class="grid gap-4">

@@ -2,7 +2,7 @@
     import { config } from "../js/config.svelte";
 
     const index = 0;
-    console.log("config.active.page_list[index].inputs", config.active.page_list[index].inputs);
+    // console.log("config.active.page_list[index].inputs", config.active.page_list[index].inputs);
 </script>
 
 <div class="grid gap-8">
