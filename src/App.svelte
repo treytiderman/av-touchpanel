@@ -4,6 +4,7 @@
 
     import Split from "./lib/CompSplit.svelte";
     import PageConfig from "./lib/PageConfig.svelte";
+    import PageBlackout from "./lib/PageBlackout.svelte";
     import Page from "./lib/Page.svelte";
 
     let page_width = $state(0);
@@ -14,6 +15,11 @@
         // console.log("page_id_active", config.active.client.page_id_active);
     });
 </script>
+
+<PageBlackout
+    opacity={1.0}
+    time_min={config.active.client?.blackout_timeout_min || 15}
+/>
 
 <main class="flex column gap-8 height-100">
     {#if !config.ready}
@@ -26,7 +32,8 @@
                 </button>
             </div>
         </div>
-    {:else if config.url_params.edit_mode } <!-- EXAMPLE: http://192.168.1.11:9001/?edit=true -->
+    {:else if config.url_params.edit_mode}
+        <!-- EXAMPLE: http://192.168.1.11:9001/?edit=true -->
         <Split
             type="columns"
             id="main"
@@ -45,7 +52,7 @@
             {#snippet b()}
                 <div
                     class="pad-4 grow grid center-y margin-auto max-width-md"
-                    style="font-size: {page_width > 450
+                    style="font-size: {page_width > 550
                         ? config.active.client?.scale
                         : config.active.client?.scale_small}em;"
                     bind:offsetWidth={page_width}
@@ -57,7 +64,7 @@
     {:else}
         <div
             class="pad-4 grow grid center-y margin-auto max-width-md height-100 width-100"
-            style="font-size: {page_width > 450
+            style="font-size: {page_width > 550
                 ? config.active.client.scale
                 : config.active.client.scale_small}em;"
             bind:offsetWidth={page_width}

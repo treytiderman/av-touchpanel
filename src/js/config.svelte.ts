@@ -84,8 +84,10 @@ function set_config(new_config: any) {
 }
 
 function on_config_change() {
-    document.getElementsByTagName("html")[0].classList =
-        config.active.client.theme || "";
+    document.documentElement.classList = `
+        ${config.active.client.theme || ""}
+        rotate-${config.active.client.rotate || ""}
+    `;
 }
 
 function set_from_working_flat_config() {
@@ -234,11 +236,9 @@ function remove_index_in_flat_obj(flat_obj: any, path: string, index: number) {
 function connect_to_server() {
     if (config.active.server.backend === "crestron") {
         // const xp = xpConnect(ip, ipid, roomid, token);
-    }
-    else if (config.active.server.backend === "qsys") {
+    } else if (config.active.server.backend === "qsys") {
         // const xp = xpConnect(ip, ipid, roomid, token);
-    }
-    else {
+    } else {
         console.log("backend offline");
     }
 }
