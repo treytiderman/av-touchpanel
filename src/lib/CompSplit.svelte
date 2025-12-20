@@ -177,7 +177,6 @@
     svelte-split-pane-section {
         width: 100%;
         height: 100%;
-        overflow: auto;
     }
 
     svelte-split-pane-section > :global(*) {

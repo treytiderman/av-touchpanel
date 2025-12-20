@@ -20,7 +20,7 @@
 {:else if page?.page_type === "rows"}
     <PageRows {page} />
 {:else if page?.page_type === "matrix"}
-    <PageMatrix />
+    <PageMatrix {page} />
 {:else if page?.page_type === "blank"}
     <div>...</div>
 {/if}

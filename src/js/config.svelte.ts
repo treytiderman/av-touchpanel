@@ -26,6 +26,7 @@ const config: {
     set_from_working: () => any;
     get_page_by_id: (page_id: string) => any;
     validate: (config: any) => any;
+    connect_to_server: () => Promise<void>;
     url_params: {
         config_file: string;
         edit_mode: boolean;
@@ -45,6 +46,7 @@ const config: {
     set_from_working: set_from_working_flat_config,
     get_page_by_id: get_page_by_id,
     validate: validate_config,
+    connect_to_server: connect_to_server,
     url_params: {
         config_file: urlSearchParams.get("config") || "",
         edit_mode: !!urlSearchParams.get("edit") || false,
@@ -56,7 +58,7 @@ const config: {
 });
 
 async function get_config(uri: string) {
-    console.log("get config", uri);
+    console.log("config: get from", uri);
     const options = { method: "GET" };
     let response = await fetch(uri, options);
     if (!response.ok) {
@@ -72,7 +74,7 @@ async function get_config(uri: string) {
 }
 
 function set_config(new_config: any) {
-    console.log("config file", new_config);
+    console.log("config: received", new_config);
     const check = validate_config(new_config);
     if (check.valid) {
         config.active = new_config;
@@ -86,10 +88,9 @@ function set_config(new_config: any) {
 }
 
 function on_config_change() {
-    document.documentElement.classList = `
-        ${config.active.client.theme || ""}
-        rotate-${config.active.client.rotate || ""}
-    `;
+    document.documentElement.classList =
+        `${config.active.client.theme || ""} ` +
+        `rotate-${config.active.client.rotate || ""} `;
 }
 
 function set_from_working_flat_config() {
@@ -235,13 +236,21 @@ function remove_index_in_flat_obj(flat_obj: any, path: string, index: number) {
     return flat_obj;
 }
 
-function connect_to_server() {
+async function connect_to_server() {
     if (config.active.server.backend === "crestron") {
-        // const xp = xpConnect(ip, ipid, roomid, token);
+        console.log("server: backend = crestron");
+        const xp = await xpConnect(
+            config.active.server.host,
+            config.active.server.ipid,
+            config.active.server.roomid,
+            config.active.server.token
+        );
+        config.server_connected = xp.isConnected
     } else if (config.active.server.backend === "qsys") {
         // const xp = xpConnect(ip, ipid, roomid, token);
     } else {
-        console.log("backend offline");
+        console.log("server: backend = offline");
+        config.server_connected = true;
     }
 }
 

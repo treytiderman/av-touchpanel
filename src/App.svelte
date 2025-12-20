@@ -2,9 +2,10 @@
     import { config } from "./js/config.svelte";
 
     import PageBlackout from "./lib/PageBlackout.svelte";
-    import PageConfig from "./lib//PageConfig.svelte";
+    import ConfigWrapper from "./lib/ConfigWrapper.svelte";
+    import Page from "./lib/Page.svelte";
 
-    console.log("av-touchpanel init");
+    console.log("av-touchpanel: init");
 </script>
 
 <PageBlackout
@@ -13,5 +14,9 @@
 />
 
 <main class="flex column gap-8 height-100">
-    <PageConfig />
+    <ConfigWrapper>
+        {#snippet page()}
+            <Page page_id={config.active.client?.page_id_active} />
+        {/snippet}
+    </ConfigWrapper>
 </main>

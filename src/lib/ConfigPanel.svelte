@@ -11,10 +11,28 @@
     // $inspect("config.working_flat", config.working_flat);
 </script>
 
-<section class="grid gap-4">
+<section
+    class="pad-4 grid top gap-4 height-100 overflow"
+    style="align-content: start;"
+>
     {#each Object.entries(config.schema.properties) as prop}
         {@render property(`#/${prop[0]}`, prop[0], prop[1])}
     {/each}
+
+    <div class="text-dark thin small">*empty fields are assumed default</div>
+
+    <div>
+        <input
+            type="checkbox"
+            name="autosave"
+            id="autosave"
+            class="border"
+            bind:checked={autosave}
+            onclick={config.set_from_working}
+        />
+        <label for="autosave">Show changes</label>
+    </div>
+
     <div class="flex wrap gap-4">
         <button
             class="border"
@@ -25,28 +43,9 @@
                 );
             }}
         >
-            Copy to clipboard
-        </button>
-        <button
-            class="border"
-            onclick={() => {
-                config.set_from_working();
-            }}
-        >
-            Set as active config
+            Copy Config
         </button>
     </div>
-    <div>
-        <input
-            type="checkbox"
-            name="autosave"
-            id="autosave"
-            class="border"
-            bind:checked={autosave}
-        />
-        <label for="autosave">Autosave changes</label>
-    </div>
-    <div class="text-dark thin small">*empty fields are assumed default</div>
     <br />
 </section>
 

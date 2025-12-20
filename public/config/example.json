@@ -9,7 +9,7 @@
     },
     "server": {
         "host": "192.168.1.72",
-        "backend": "offline",
+        "backend": "crestron",
         "ipid": "0x03",
         "roomid": "1",
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzMjhiYmMwLWFlYWYtNGI0OC05MGJjLTAwMmI4MjkwYmFlNCIsImx2IjoiRGVmYXVsdCBMZXZlbCIsInZlciI6IjEuMCIsImV4cGkiOiIwIn0.h6cUVnbGogzwcszdNawI4ffovCYYOoDX1hN4NudO7ys"

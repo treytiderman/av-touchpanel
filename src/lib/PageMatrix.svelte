@@ -1,42 +1,62 @@
 <script lang="ts">
-    import { config } from "../js/config.svelte";
+    const example_page: any = $state({
+        page_type: "matrix",
+        input_title: "Route Source",
+        output_title: "To Destination",
+        input_columns: 1,
+        output_columns: 2,
+        inputs: [
+            {
+                name: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="22" x2="2" y1="12" y2="12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /> <line x1="6" x2="6.01" y1="16" y2="16" /> <line x1="10" x2="10.01" y1="16" y2="16" /> </svg> Room PC',
+                id: "1",
+            },
+            {
+                id: "2",
+                name: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M22 9a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1l2 2h12l2-2h1a1 1 0 0 0 1-1Z" /> <path d="M7.5 12h9" /> </svg> Wall Plate',
+            },
+        ],
+        outputs: [
+            {
+                id: "11",
+                name: "Display Left + Audio",
+            },
+            {
+                id: "12",
+                name: "Display Right",
+            },
+        ],
+    });
 
-    const index = 0;
-    // console.log("config.active.page_list[index].inputs", config.active.page_list[index].inputs);
+    const { page = example_page } = $props();
 </script>
 
 <div class="grid gap-8">
-    {#if config.active.page_list[index].title}
+    {#if page.title}
         <h2 class="flex wrap gap-2 center-y">
-            {@html config.active.page_list[index].title}
+            {@html page.title}
         </h2>
     {/if}
 
     <div class="flex gap-4 top wrap">
         <div class="grid gap-2">
             <div
-                class="flex gap-2"
-                title={JSON.stringify(
-                    config.active.page_list[index].inputs,
-                    null,
-                    4,
-                )}
+                class="flex center-y gap-2"
+                title={JSON.stringify(page.inputs, null, 4)}
             >
-                {@html config.active.page_list[index].input_title ||
-                    "Select Source"}
+                {@html page.input_title || "Select Source"}
             </div>
             <div
                 class="grid gap-4"
-                style="grid-template-columns: repeat({config.active.page_list[
-                    index
-                ].input_columns}, 1fr);"
+                style="grid-template-columns: repeat({page.input_columns}, 1fr);"
             >
-                {#each config.active.page_list[index].inputs as input}
+                {#each page.inputs as input}
                     <button
                         class="maxtrix-input grid center-y border"
-                        class:selected={input._selected}
+                        class:accent={input._selected}
+                        class:accent-bg={input._selected}
+                        class:accent-border={input._selected}
                         onclick={() => {
-                            config.active.page_list[index].inputs.forEach(
+                            page.inputs.forEach(
                                 (input: { _selected: boolean }) => {
                                     input._selected = false;
                                 },
@@ -53,29 +73,20 @@
         </div>
         <div class="grid gap-2">
             <div
-                class="flex gap-2"
-                title={JSON.stringify(
-                    config.active.page_list[index].outputs,
-                    null,
-                    4,
-                )}
+                class="flex center-y gap-2"
+                title={JSON.stringify(page.outputs, null, 4)}
             >
-                {@html config.active.page_list[index].output_title ||
-                    "Then Destination"}
+                {@html page.output_title || "Then Destination"}
             </div>
             <div
                 class="grid gap-4"
-                style="grid-template-columns: repeat({config.active.page_list[
-                    index
-                ].output_columns}, 1fr);"
+                style="grid-template-columns: repeat({page.output_columns}, 1fr);"
             >
-                {#each config.active.page_list[index].outputs as output}
+                {#each page.outputs as output}
                     <button
                         class="maxtrix-output flex column top border pad-2"
                         onclick={() => {
-                            output._input_name = config.active.page_list[
-                                index
-                            ].inputs.find(
+                            output._input_name = page.inputs.find(
                                 (input: { _selected: any }) => input._selected,
                             ).name;
                         }}
@@ -97,12 +108,6 @@
 </div>
 
 <style>
-    .selected {
-        color: var(--accent);
-        border-color: var(--accent-border);
-        background-color: var(--accent-bg);
-    }
-
     .maxtrix-input,
     .maxtrix-output {
         width: 14em;

@@ -146,7 +146,7 @@ html {
 /* other colors */
 .accent { color: var(--accent); }
 .accent-bg { background-color: var(--accent-bg); }
-.accent-border { border: var(--border); border-color: var(--accent-border); }
+.accent-border { border: var(--border); border-color: var(--accent-border) !important; }
 .error { color: var(--error); }
 .warning { color: var(--warning); }
 .success { color: var(--success); }

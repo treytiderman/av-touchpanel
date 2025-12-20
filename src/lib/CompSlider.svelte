@@ -5,6 +5,7 @@
         max = 100,
         min = 0,
         units = "%",
+        title = "",
         classList = "",
         styleList = "",
         disabled = false,
@@ -40,6 +41,7 @@
         {id}
         {max}
         {min}
+        {title}
         {disabled}
         class={classList}
         style={`background: ${background};`}
