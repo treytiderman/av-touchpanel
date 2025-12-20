@@ -44,7 +44,7 @@
         {#snippet b()}
             <div
                 class="pad-4 grow grid center-y margin-auto max-width-md"
-                style="font-size: {page_width > 450
+                style="font-size: {page_width > 550
                     ? config.active.client?.scale
                     : config.active.client?.scale_small}em;"
                 bind:offsetWidth={page_width}
@@ -56,7 +56,7 @@
 {:else}
     <div
         class="pad-4 grow grid center-y margin-auto max-width-md height-100 width-100"
-        style="font-size: {page_width > 450
+        style="font-size: {page_width > 550
             ? config.active.client.scale
             : config.active.client.scale_small}em;"
         bind:offsetWidth={page_width}

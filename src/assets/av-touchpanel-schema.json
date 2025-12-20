@@ -33,7 +33,7 @@
                 },
                 "scale_small": {
                     "type": "number",
-                    "description": "overall scale of ui on devices with width less than 450px",
+                    "description": "overall scale of ui on devices with width less than 550px",
                     "default": 1.0,
                     "minimum": 0.5,
                     "maximum": 8.0,
