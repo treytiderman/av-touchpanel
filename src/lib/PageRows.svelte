@@ -14,24 +14,24 @@
                 widgets: [
                     {
                         widget_type: "text",
-                        text: "Power",
                         grow: 1,
+                        text: "Power",
                     },
                 ],
             },
             {
                 widgets: [
                     {
-                        control_id: "1",
                         widget_type: "button",
-                        text: "On",
                         grow: 1,
+                        text: "On",
+                        id_boolean_press: "1",
                     },
                     {
-                        control_id: "2",
                         widget_type: "button",
-                        text: "Off",
                         grow: 1,
+                        text: "Off",
+                        id_boolean_press: "2",
                     },
                     {
                         widget_type: "spacer",
@@ -55,9 +55,9 @@
                 widgets: [
                     {
                         widget_type: "slider",
-                        control_id: "3",
-                        text: "Volume",
                         grow: 1,
+                        text: "Volume",
+                        id_integer_value: "1",
                     },
                 ],
             },
@@ -68,27 +68,33 @@
 
     for (const row of page.rows) {
         for (const widget of row.widgets) {
-            if (widget.widget_type === "text" && widget.control_id) {
-                widget._control_id = backend.subscribeBoolean(
-                    widget.control_id,
+            if (widget.widget_type === "text" && widget.id_boolean_hide) {
+                widget._id_boolean_hide = backend.subscribeBoolean(
+                    widget.id_boolean_hide,
                 );
-            } else if (widget.widget_type === "button" && widget.control_id) {
-                widget._control_id = backend.subscribeBoolean(
-                    widget.control_id,
-                );
-                $inspect(
-                    `control [${config.active.backend?.type}]:`,
-                    widget.control_id,
-                    widget._control_id.value,
-                );
-            } else if (widget.widget_type === "slider" && widget.control_id) {
-                widget._control_id = backend.subscribeInteger(
-                    widget.control_id,
+            } else if (
+                widget.widget_type === "button" &&
+                widget.id_boolean_press
+            ) {
+                widget._id_boolean_press = backend.subscribeBoolean(
+                    widget.id_boolean_press,
                 );
                 $inspect(
                     `control [${config.active.backend?.type}]:`,
-                    widget.control_id,
-                    widget._control_id.value,
+                    widget.id_boolean_press,
+                    widget._id_boolean_press.value,
+                );
+            } else if (
+                widget.widget_type === "slider" &&
+                widget.id_integer_value
+            ) {
+                widget._id_integer_value = backend.subscribeInteger(
+                    widget.id_integer_value,
+                );
+                $inspect(
+                    `control [${config.active.backend?.type}]:`,
+                    widget.id_integer_value,
+                    widget._id_integer_value.value,
                 );
             }
         }
@@ -106,8 +112,8 @@
                 {#each row.widgets as widget}
                     {#if widget.widget_type === "text"}
                         <div
-                            title={widget.control_id
-                                ? `control_id: ${widget.control_id}`
+                            title={widget.id_boolean_hide
+                                ? `id_boolean_hide: ${widget.id_boolean_hide}`
                                 : ""}
                             class="flex wrap gap-2 center-y"
                             style="flex: {widget.grow || 1} 0 0%;"
@@ -116,20 +122,29 @@
                         </div>
                     {:else if widget.widget_type === "button"}
                         <button
-                            title={widget.control_id
-                                ? `control_id: ${widget.control_id}`
+                            title={widget.id_boolean_press
+                                ? `id_boolean_press: ${widget.id_boolean_press}`
                                 : ""}
                             class="border flex gap-2 wrap center"
                             style="flex: {widget.grow || 1} 0 0%;"
                             onpointerdown={() =>
-                                backend.setBoolean(widget.control_id, true)}
+                                backend.setBoolean(
+                                    widget.id_boolean_press,
+                                    true,
+                                )}
                             onpointerout={() =>
-                                backend.setBoolean(widget.control_id, false)}
+                                backend.setBoolean(
+                                    widget.id_boolean_press,
+                                    false,
+                                )}
                             onpointerup={() =>
-                                backend.setBoolean(widget.control_id, false)}
-                            class:accent={widget._control_id.value}
-                            class:accent-bg={widget._control_id.value}
-                            class:accent-border={widget._control_id.value}
+                                backend.setBoolean(
+                                    widget.id_boolean_press,
+                                    false,
+                                )}
+                            class:accent={widget._id_boolean_press.value}
+                            class:accent-bg={widget._id_boolean_press.value}
+                            class:accent-border={widget._id_boolean_press.value}
                         >
                             {@html widget.text}
                         </button>
@@ -142,11 +157,11 @@
                             units={widget.units}
                             step={widget.step}
                             label={widget.text}
-                            title={widget.control_id
-                                ? `control_id: ${widget.control_id}`
+                            title={widget.id_integer_value
+                                ? `id_integer_value: ${widget.id_integer_value}`
                                 : ""}
                             classList="border"
-                            bind:value={widget._control_id.value}
+                            bind:value={widget._id_integer_value.value}
                             styleList="flex: {widget.grow || 1} 0 0%;"
                         />
                     {:else if widget.widget_type === "page"}

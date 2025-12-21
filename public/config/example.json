@@ -24,34 +24,37 @@
             "output_title": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-tv-icon lucide-tv\"><path d=\"m17 2-5 5-5-5\"/><rect width=\"20\" height=\"15\" x=\"2\" y=\"7\" rx=\"2\"/></svg> Destinations",
             "inputs": [
                 {
-                    "control_id": "3",
-                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"> <line x1=\"22\" x2=\"2\" y1=\"12\" y2=\"12\" /> <path d=\"M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\" /> <line x1=\"6\" x2=\"6.01\" y1=\"16\" y2=\"16\" /> <line x1=\"10\" x2=\"10.01\" y1=\"16\" y2=\"16\" /> </svg> Room PC"
+                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"> <line x1=\"22\" x2=\"2\" y1=\"12\" y2=\"12\" /> <path d=\"M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\" /> <line x1=\"6\" x2=\"6.01\" y1=\"16\" y2=\"16\" /> <line x1=\"10\" x2=\"10.01\" y1=\"16\" y2=\"16\" /> </svg> Room PC",
+                    "id_boolean_press": "3"
                 },
                 {
-                    "control_id": "4",
-                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"> <path d=\"M22 9a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1l2 2h12l2-2h1a1 1 0 0 0 1-1Z\" /> <path d=\"M7.5 12h9\" /> </svg> Wall Plate"
+                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"> <path d=\"M22 9a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1l2 2h12l2-2h1a1 1 0 0 0 1-1Z\" /> <path d=\"M7.5 12h9\" /> </svg> Wall Plate",
+                    "id_boolean_press": "4"
                 },
                 {
-                    "control_id": "5",
-                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus-icon lucide-minus\"><path d=\"M5 12h14\"/></svg> Input 3"
+                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus-icon lucide-minus\"><path d=\"M5 12h14\"/></svg> Input 3",
+                    "id_boolean_press": "5"
                 },
                 {
-                    "control_id": "6",
-                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus-icon lucide-minus\"><path d=\"M5 12h14\"/></svg> Input 4"
+                    "name": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus-icon lucide-minus\"><path d=\"M5 12h14\"/></svg> Input 4",
+                    "id_boolean_press": "6"
                 }
             ],
             "outputs": [
                 {
-                    "control_id": "7",
-                    "name": "Display Left"
+                    "name": "Display Left",
+                    "id_boolean_press": "7",
+                    "id_integer_input_fb": "7"
                 },
                 {
-                    "control_id": "8",
-                    "name": "Display Right"
+                    "name": "Display Right",
+                    "id_boolean_press": "8",
+                    "id_integer_input_fb": "8"
                 },
                 {
-                    "control_id": "9",
-                    "name": "Audio"
+                    "name": "Audio",
+                    "id_boolean_press": "9",
+                    "id_integer_input_fb": "9"
                 }
             ]
         },
@@ -71,14 +74,14 @@
                 {
                     "widgets": [
                         {
-                            "control_id": "1",
                             "widget_type": "button",
-                            "text": "On"
+                            "text": "On",
+                            "id_boolean_press": "1"
                         },
                         {
-                            "control_id": "2",
                             "widget_type": "button",
-                            "text": "Off"
+                            "text": "Off",
+                            "id_boolean_press": "2"
                         },
                         {
                             "widget_type": "spacer"
@@ -99,14 +102,14 @@
                     "widgets": [
                         {
                             "widget_type": "slider",
-                            "control_id": "1",
                             "grow": 2.5,
                             "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-volume2-icon lucide-volume-2\"><path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><path d=\"M16 9a5 5 0 0 1 0 6\"/><path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"/></svg> Volume",
-                            "min": 0,
+                            "value": 5000,
                             "max": 65000,
-                            "units": "",
+                            "min": 0,
                             "step": "1000",
-                            "value": 5000
+                            "units": "",
+                            "id_integer_value": "1"
                         },
                         {
                             "widget_type": "spacer"

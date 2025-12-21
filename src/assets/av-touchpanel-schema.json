@@ -171,15 +171,6 @@
                                     "widgets": {
                                         "type": "array",
                                         "properties": {
-                                            "control_id": {
-                                                "type": "string",
-                                                "default": ""
-                                            },
-                                            "grow": {
-                                                "type": "integer",
-                                                "default": 1,
-                                                "minimum": 0
-                                            },
                                             "widget_type": {
                                                 "type": "string",
                                                 "default": "text",
@@ -190,6 +181,11 @@
                                                     "slider",
                                                     "page"
                                                 ]
+                                            },
+                                            "grow": {
+                                                "type": "integer",
+                                                "default": 1,
+                                                "minimum": 0
                                             }
                                         },
                                         "allOf": [
@@ -207,11 +203,11 @@
                                                             "type": "string",
                                                             "default": "text"
                                                         },
-                                                        "control_id_text": {
+                                                        "id_string_set": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
-                                                        "control_id_hidden": {
+                                                        "id_boolean_hide": {
                                                             "type": "string",
                                                             "default": ""
                                                         }
@@ -232,43 +228,46 @@
                                                             "type": "string",
                                                             "default": "text"
                                                         },
-                                                        "control_id_active": {
+                                                        "id_boolean_press": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_disable": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_hide": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_active": {
                                                             "type": "string",
                                                             "default": ""
                                                         },
                                                         "active_text": {
                                                             "type": "string",
+                                                            "description": "text to display when active",
                                                             "default": ""
                                                         },
-                                                        "active_color_hex": {
+                                                        "active_color": {
+                                                            "type": "string",
+                                                            "default": "blue",
+                                                            "enum": [
+                                                                "red",
+                                                                "orange",
+                                                                "yellow",
+                                                                "green",
+                                                                "cyan",
+                                                                "blue",
+                                                                "purple",
+                                                                "pink",
+                                                                "custom"
+                                                            ]
+                                                        },
+                                                        "active_custom_color_hex": {
                                                             "type": "string",
                                                             "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
-                                                            "default": ""
-                                                        },
-                                                        "active_background_hex": {
-                                                            "type": "string",
-                                                            "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
-                                                            "default": ""
-                                                        },
-                                                        "control_id_hidden": {
-                                                            "type": "string",
-                                                            "default": ""
-                                                        },
-                                                        "max": {
-                                                            "type": "integer",
-                                                            "default": "12"
-                                                        },
-                                                        "min": {
-                                                            "type": "integer",
-                                                            "default": "-40"
-                                                        },
-                                                        "units": {
-                                                            "type": "string",
-                                                            "default": ""
-                                                        },
-                                                        "step": {
-                                                            "type": "integer",
-                                                            "default": "3"
+                                                            "default": "#FFFFFF"
                                                         }
                                                     }
                                                 }
@@ -287,25 +286,71 @@
                                                             "type": "string",
                                                             "default": "text"
                                                         },
-                                                        "control_id_active": {
-                                                            "type": "string",
-                                                            "default": ""
-                                                        },
-                                                        "control_id_hidden": {
-                                                            "type": "string",
-                                                            "default": ""
+                                                        "value": {
+                                                            "type": "integer",
+                                                            "default": "50"
                                                         },
                                                         "max": {
                                                             "type": "integer",
-                                                            "default": "12"
+                                                            "default": "100"
                                                         },
                                                         "min": {
                                                             "type": "integer",
-                                                            "default": "-40"
+                                                            "default": "0"
                                                         },
                                                         "step": {
                                                             "type": "integer",
-                                                            "default": "3"
+                                                            "default": "5"
+                                                        },
+                                                        "units": {
+                                                            "type": "string",
+                                                            "default": "%"
+                                                        },
+                                                        "id_integer_value": {
+                                                            "type": "string",
+                                                            "description": "value of the silder, fb and changes",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_press": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_disable": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_hide": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "id_boolean_active": {
+                                                            "type": "string",
+                                                            "default": ""
+                                                        },
+                                                        "active_text": {
+                                                            "type": "string",
+                                                            "description": "text to display when active",
+                                                            "default": ""
+                                                        },
+                                                        "active_color": {
+                                                            "type": "string",
+                                                            "default": "blue",
+                                                            "enum": [
+                                                                "red",
+                                                                "orange",
+                                                                "yellow",
+                                                                "green",
+                                                                "cyan",
+                                                                "blue",
+                                                                "purple",
+                                                                "pink",
+                                                                "custom"
+                                                            ]
+                                                        },
+                                                        "active_custom_color_hex": {
+                                                            "type": "string",
+                                                            "pattern": "^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$",
+                                                            "default": "#FFFFFF"
                                                         }
                                                     }
                                                 }
@@ -363,11 +408,11 @@
                             "inputs": {
                                 "type": "array",
                                 "properties": {
-                                    "control_id": {
+                                    "name": {
                                         "type": "string",
                                         "default": ""
                                     },
-                                    "name": {
+                                    "id_boolean_press": {
                                         "type": "string",
                                         "default": ""
                                     }
@@ -376,18 +421,22 @@
                             "outputs": {
                                 "type": "array",
                                 "properties": {
-                                    "control_id": {
+                                    "name": {
                                         "type": "string",
                                         "default": ""
                                     },
-                                    "name": {
+                                    "id_boolean_press": {
                                         "type": "string",
+                                        "default": ""
+                                    },
+                                    "id_integer_input_fb": {
+                                        "type": "string",
+                                        "description": "input index from inputs array. starts at 1",
                                         "default": ""
                                     }
                                 }
                             }
-                        },
-                        "required": ["port"]
+                        }
                     }
                 }
             ]

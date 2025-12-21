@@ -9,7 +9,7 @@
 </script>
 
 <PageBlackout
-    opacity={0.95}
+    opacity={0.9}
     time_min={config.active.client?.blackout_timeout_min || 15}
 />
 
