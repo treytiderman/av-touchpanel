@@ -1,8 +1,11 @@
 <script lang="ts">
+    import { config } from "../js/config.svelte";
+    import { backend } from "../js/backend.svelte";
+
     import Slider from "./CompSlider.svelte";
     import Page from "./Page.svelte";
 
-    const example_page: any = $state({
+    const example_page: any = {
         title: "System",
         page_id: "rows",
         page_type: "rows",
@@ -59,9 +62,37 @@
                 ],
             },
         ],
-    });
+    };
 
-    const { page = example_page } = $props();
+    let { page = $bindable(example_page) } = $props();
+
+    for (const row of page.rows) {
+        for (const widget of row.widgets) {
+            if (widget.widget_type === "text" && widget.control_id) {
+                widget._control_id = backend.subscribeBoolean(
+                    widget.control_id,
+                );
+            } else if (widget.widget_type === "button" && widget.control_id) {
+                widget._control_id = backend.subscribeBoolean(
+                    widget.control_id,
+                );
+                $inspect(
+                    `control [${config.active.backend?.type}]:`,
+                    widget.control_id,
+                    widget._control_id.value,
+                );
+            } else if (widget.widget_type === "slider" && widget.control_id) {
+                widget._control_id = backend.subscribeInteger(
+                    widget.control_id,
+                );
+                $inspect(
+                    `control [${config.active.backend?.type}]:`,
+                    widget.control_id,
+                    widget._control_id.value,
+                );
+            }
+        }
+    }
 </script>
 
 <div class="grid gap-8">
@@ -90,6 +121,15 @@
                                 : ""}
                             class="border flex gap-2 wrap center"
                             style="flex: {widget.grow || 1} 0 0%;"
+                            onpointerdown={() =>
+                                backend.setBoolean(widget.control_id, true)}
+                            onpointerout={() =>
+                                backend.setBoolean(widget.control_id, false)}
+                            onpointerup={() =>
+                                backend.setBoolean(widget.control_id, false)}
+                            class:accent={widget._control_id.value}
+                            class:accent-bg={widget._control_id.value}
+                            class:accent-border={widget._control_id.value}
                         >
                             {@html widget.text}
                         </button>
@@ -97,15 +137,17 @@
                         <div style="flex: {widget.grow || 1} 0 0%;">&nbsp;</div>
                     {:else if widget.widget_type === "slider"}
                         <Slider
+                            min={widget.min}
+                            max={widget.max}
+                            units={widget.units}
+                            step={widget.step}
                             label={widget.text}
                             title={widget.control_id
                                 ? `control_id: ${widget.control_id}`
                                 : ""}
                             classList="border"
+                            bind:value={widget._control_id.value}
                             styleList="flex: {widget.grow || 1} 0 0%;"
-                            valueChange={(value: number) => {
-                                // console.log(value)
-                            }}
                         />
                     {:else if widget.widget_type === "page"}
                         <Page page_id={widget.page_id} />

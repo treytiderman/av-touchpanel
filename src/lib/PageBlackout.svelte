@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    const { opacity = 0.5, time_min = 5 } = $props();
+    let { opacity = 0.5, time_min = 5 } = $props();
 
     let blackout = $state(false);
     let blackout_timeout: number | undefined;

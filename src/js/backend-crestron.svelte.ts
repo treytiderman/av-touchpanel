@@ -1,8 +1,9 @@
 import { getWebXPanel, runsInContainerApp } from "@crestron/ch5-webxpanel";
-const { isActive, WebXPanel, WebXPanelConfigParams, WebXPanelEvents } =
-    getWebXPanel(!runsInContainerApp());
 
 export { xpConnect };
+
+const { isActive, WebXPanel, WebXPanelConfigParams, WebXPanelEvents } =
+    getWebXPanel(!runsInContainerApp());
 
 const xp = $state({
     isConnected: false,

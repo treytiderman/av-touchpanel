@@ -3,19 +3,23 @@
 
     import { onMount } from "svelte";
     import { config } from "../js/config.svelte";
+    import { backend } from "../js/backend.svelte";
 
     import Split from "../lib/CompSplit.svelte";
     import ConfigPanel from "../lib/ConfigPanel.svelte";
 
-    const { page }: { page: Snippet } = $props();
+    let { page }: { page: Snippet } = $props();
 
     let page_width = $state(0);
     let tried = $state(false);
 
     onMount(async () => {
         await config.get_from_server(config.url_params.config_file);
-        await config.connect_to_server();
-        tried = true;
+        await backend.connect();
+        setTimeout(() => {
+            console.log("Timeout completed");
+            tried = true;
+        }, 500);
     });
 </script>
 
@@ -36,7 +40,7 @@
             </button>
         </div>
     </div>
-{:else if tried && !config.server_connected}
+{:else if tried && !backend.connected}
     <div class="pad-4 grid gap-1 max-width-sm">
         <div>Status: Not Connected to Backend Server</div>
 
@@ -49,7 +53,7 @@
 
         <br />
         <div class="pad-4 bg border-radius overflow">
-            <pre><code>{JSON.stringify(config.active.server, null, 4)}</code
+            <pre><code>{JSON.stringify(config.active.backend, null, 4)}</code
                 ></pre>
         </div>
     </div>

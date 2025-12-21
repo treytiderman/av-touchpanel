@@ -53,9 +53,9 @@
                 }
             }
         },
-        "server": {
+        "backend": {
             "type": "object",
-            "description": "backend computer or processor",
+            "description": "backend server / processor / core",
             "properties": {
                 "host": {
                     "type": "string",
@@ -63,24 +63,18 @@
                     "format": "ipv4",
                     "default": "172.22.0.1"
                 },
-                "backend": {
+                "type": {
                     "type": "string",
-                    "description": "backend server or processor or core",
+                    "description": "backend server / processor / core type",
                     "default": "offline",
-                    "enum": [
-                        "offline",
-                        "crestron",
-                        "qsys",
-                        "websocket",
-                        "redis"
-                    ]
+                    "enum": ["offline", "crestron", "qsys", "websocket"]
                 }
             },
             "allOf": [
                 {
                     "if": {
                         "properties": {
-                            "backend": {
+                            "type": {
                                 "const": "crestron"
                             }
                         }
@@ -106,7 +100,7 @@
                 {
                     "if": {
                         "properties": {
-                            "backend": {
+                            "type": {
                                 "const": "qsys"
                             }
                         }
@@ -124,7 +118,7 @@
                 {
                     "if": {
                         "properties": {
-                            "backend": {
+                            "type": {
                                 "const": "websocket"
                             }
                         }
@@ -137,24 +131,6 @@
                             }
                         },
                         "required": ["port"]
-                    }
-                },
-                {
-                    "if": {
-                        "properties": {
-                            "backend": {
-                                "const": "redis"
-                            }
-                        }
-                    },
-                    "then": {
-                        "properties": {
-                            "prefix": {
-                                "type": "string",
-                                "default": "av-tp"
-                            }
-                        },
-                        "required": ["prefix"]
                     }
                 }
             ]
@@ -285,6 +261,10 @@
                                                         "min": {
                                                             "type": "integer",
                                                             "default": "-40"
+                                                        },
+                                                        "units": {
+                                                            "type": "string",
+                                                            "default": ""
                                                         },
                                                         "step": {
                                                             "type": "integer",

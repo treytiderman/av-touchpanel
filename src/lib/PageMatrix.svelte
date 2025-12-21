@@ -1,5 +1,8 @@
 <script lang="ts">
-    const example_page: any = $state({
+    import { config } from "../js/config.svelte";
+    import { backend } from "../js/backend.svelte";
+
+    const example_page: any = {
         page_type: "matrix",
         input_title: "Route Source",
         output_title: "To Destination",
@@ -25,9 +28,27 @@
                 name: "Display Right",
             },
         ],
-    });
+    };
 
-    const { page = example_page } = $props();
+    let { page = $bindable(example_page) } = $props();
+
+    for (const input of page.inputs) {
+        input._control_id = backend.subscribeBoolean(input.control_id);
+        $inspect(
+            `control [${config.active.backend?.type}]:`,
+            input.control_id,
+            input._control_id.value,
+        );
+    }
+
+    for (const output of page.outputs) {
+        output._control_id = backend.subscribeInteger(output.control_id);
+        $inspect(
+            `control [${config.active.backend?.type}]:`,
+            output.control_id,
+            output._control_id.value,
+        );
+    }
 </script>
 
 <div class="grid gap-8">
@@ -39,10 +60,7 @@
 
     <div class="flex gap-4 top wrap">
         <div class="grid gap-2">
-            <div
-                class="flex center-y gap-2"
-                title={JSON.stringify(page.inputs, null, 4)}
-            >
+            <div class="flex center-y gap-2">
                 {@html page.input_title || "Select Source"}
             </div>
             <div
@@ -51,18 +69,19 @@
             >
                 {#each page.inputs as input}
                     <button
+                        title={input.control_id
+                            ? `control_id: ${input.control_id}`
+                            : ""}
                         class="maxtrix-input grid center-y border"
-                        class:accent={input._selected}
-                        class:accent-bg={input._selected}
-                        class:accent-border={input._selected}
-                        onclick={() => {
-                            page.inputs.forEach(
-                                (input: { _selected: boolean }) => {
-                                    input._selected = false;
-                                },
-                            );
-                            input._selected = true;
-                        }}
+                        class:accent={input._control_id.value}
+                        class:accent-bg={input._control_id.value}
+                        class:accent-border={input._control_id.value}
+                        onpointerdown={() =>
+                            backend.setBoolean(input.control_id, true)}
+                        onpointerout={() =>
+                            backend.setBoolean(input.control_id, false)}
+                        onpointerup={() =>
+                            backend.setBoolean(input.control_id, false)}
                     >
                         <div class="flex gap-4 center-y">
                             {@html input.name}
@@ -72,10 +91,7 @@
             </div>
         </div>
         <div class="grid gap-2">
-            <div
-                class="flex center-y gap-2"
-                title={JSON.stringify(page.outputs, null, 4)}
-            >
+            <div class="flex center-y gap-2">
                 {@html page.output_title || "Then Destination"}
             </div>
             <div
@@ -84,12 +100,16 @@
             >
                 {#each page.outputs as output}
                     <button
+                        title={output.control_id
+                            ? `control_id: ${output.control_id}`
+                            : ""}
                         class="maxtrix-output flex column top border pad-2"
-                        onclick={() => {
-                            output._input_name = page.inputs.find(
-                                (input: { _selected: any }) => input._selected,
-                            ).name;
-                        }}
+                        onpointerdown={() =>
+                            backend.setBoolean(output.control_id, true)}
+                        onpointerout={() =>
+                            backend.setBoolean(output.control_id, false)}
+                        onpointerup={() =>
+                            backend.setBoolean(output.control_id, false)}
                     >
                         <div class="width-100 text-dark">
                             {@html output.name}
@@ -98,7 +118,8 @@
                             class="grow width-100 grid gap-2 center"
                             style="align-content: center;"
                         >
-                            {@html output._input_name}
+                            {@html page.inputs[output._control_id.value - 1]
+                                ?.name || ""}
                         </div>
                     </button>
                 {/each}

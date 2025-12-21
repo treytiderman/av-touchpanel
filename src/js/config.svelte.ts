@@ -1,6 +1,5 @@
 import { Validator, type Schema } from "@cfworker/json-schema";
 import av_touchpanel_schema from "../assets/av-touchpanel-schema.json";
-import { xpConnect } from "./backend-crestron.svelte";
 
 export {
     config,
@@ -17,7 +16,6 @@ const schema_validator = new Validator(
 
 const config: {
     ready: boolean;
-    server_connected: boolean;
     schema: typeof av_touchpanel_schema;
     active: Record<string, any>;
     working_flat: Record<string, any>;
@@ -26,7 +24,6 @@ const config: {
     set_from_working: () => any;
     get_page_by_id: (page_id: string) => any;
     validate: (config: any) => any;
-    connect_to_server: () => Promise<void>;
     url_params: {
         config_file: string;
         edit_mode: boolean;
@@ -37,7 +34,6 @@ const config: {
     };
 } = $state({
     ready: false,
-    server_connected: false,
     schema: av_touchpanel_schema,
     active: {},
     working_flat: {},
@@ -46,7 +42,6 @@ const config: {
     set_from_working: set_from_working_flat_config,
     get_page_by_id: get_page_by_id,
     validate: validate_config,
-    connect_to_server: connect_to_server,
     url_params: {
         config_file: urlSearchParams.get("config") || "",
         edit_mode: !!urlSearchParams.get("edit") || false,
@@ -234,24 +229,6 @@ function remove_index_in_flat_obj(flat_obj: any, path: string, index: number) {
     }
 
     return flat_obj;
-}
-
-async function connect_to_server() {
-    if (config.active.server.backend === "crestron") {
-        console.log("server: backend = crestron");
-        const xp = await xpConnect(
-            config.active.server.host,
-            config.active.server.ipid,
-            config.active.server.roomid,
-            config.active.server.token
-        );
-        config.server_connected = xp.isConnected
-    } else if (config.active.server.backend === "qsys") {
-        // const xp = xpConnect(ip, ipid, roomid, token);
-    } else {
-        console.log("server: backend = offline");
-        config.server_connected = true;
-    }
 }
 
 const test_obj = {
