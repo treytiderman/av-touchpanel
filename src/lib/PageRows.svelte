@@ -64,41 +64,45 @@
         ],
     };
 
-    let { page = $bindable(example_page) } = $props();
+    let { page = example_page, page_index = 0 } = $props();
 
-    for (const row of page.rows) {
-        for (const widget of row.widgets) {
-            if (widget.widget_type === "text" && widget.id_boolean_hide) {
-                widget._id_boolean_hide = backend.subscribeBoolean(
-                    widget.id_boolean_hide,
-                );
-            } else if (
-                widget.widget_type === "button" &&
-                widget.id_boolean_press
-            ) {
-                widget._id_boolean_press = backend.subscribeBoolean(
-                    widget.id_boolean_press,
-                );
-                $inspect(
-                    `control [${config.active.backend?.type}]:`,
-                    widget.id_boolean_press,
-                    widget._id_boolean_press.value,
-                );
-            } else if (
-                widget.widget_type === "slider" &&
-                widget.id_integer_value
-            ) {
-                widget._id_integer_value = backend.subscribeInteger(
-                    widget.id_integer_value,
-                );
-                $inspect(
-                    `control [${config.active.backend?.type}]:`,
-                    widget.id_integer_value,
-                    widget._id_integer_value.value,
-                );
+    $effect(() => {
+        for (const [row_index, row] of page.rows.entries()) {
+            for (const [widget_index, widget] of row.widgets.entries()) {
+                widget._path = `#/page_list/${page_index}/rows/${row_index}/widgets/${widget_index}/widget_type`;
+
+                if (widget.widget_type === "text" && widget.id_boolean_hide) {
+                    widget._id_boolean_hide = backend.subscribeBoolean(
+                        widget.id_boolean_hide,
+                    );
+                } else if (
+                    widget.widget_type === "button" &&
+                    widget.id_boolean_press
+                ) {
+                    widget._id_boolean_press = backend.subscribeBoolean(
+                        widget.id_boolean_press,
+                    );
+                    $inspect(
+                        `control [${config.active.backend?.type}]:`,
+                        widget.id_boolean_press,
+                        widget._id_boolean_press.value,
+                    );
+                } else if (
+                    widget.widget_type === "slider" &&
+                    widget.id_integer_value
+                ) {
+                    widget._id_integer_value = backend.subscribeInteger(
+                        widget.id_integer_value,
+                    ) || { value: -1 };
+                    $inspect(
+                        `control [${config.active.backend?.type}]:`,
+                        widget.id_integer_value,
+                        widget._id_integer_value.value,
+                    );
+                }
             }
         }
-    }
+    });
 </script>
 
 <div class="grid gap-8">
@@ -125,45 +129,43 @@
                             title={widget.id_boolean_press
                                 ? `id_boolean_press: ${widget.id_boolean_press}`
                                 : ""}
-                            class="border flex gap-2 wrap center"
+                            class="border flex gap-2 wrap center {widget.active_color}"
                             style="flex: {widget.grow || 1} 0 0%;"
-                            onpointerdown={() =>
-                                backend.setBoolean(
-                                    widget.id_boolean_press,
-                                    true,
-                                )}
-                            onpointerout={() =>
-                                backend.setBoolean(
-                                    widget.id_boolean_press,
-                                    false,
-                                )}
-                            onpointerup={() =>
-                                backend.setBoolean(
-                                    widget.id_boolean_press,
-                                    false,
-                                )}
-                            class:accent={widget._id_boolean_press.value}
-                            class:accent-bg={widget._id_boolean_press.value}
-                            class:accent-border={widget._id_boolean_press.value}
+                            onclick={() => {
+                                backend.pulseBoolean(widget.id_boolean_press)
+                                config.focus_path = widget._path
+                            }}
+                            class:accent={widget._id_boolean_press?.value}
                         >
                             {@html widget.text}
                         </button>
                     {:else if widget.widget_type === "spacer"}
-                        <div style="flex: {widget.grow || 1} 0 0%;">&nbsp;</div>
+                        <!-- svelte-ignore a11y_click_events_have_key_events -->
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
+                        <div
+                            style="flex: {widget.grow || 1} 0 0%;"
+                            title={widget._path}
+                            onclick={() => (config.focus_path = widget._path)}
+                        >
+                            &nbsp;
+                        </div>
                     {:else if widget.widget_type === "slider"}
-                        <Slider
-                            min={widget.min}
-                            max={widget.max}
-                            units={widget.units}
-                            step={widget.step}
-                            label={widget.text}
-                            title={widget.id_integer_value
-                                ? `id_integer_value: ${widget.id_integer_value}`
-                                : ""}
-                            classList="border"
-                            bind:value={widget._id_integer_value.value}
-                            styleList="flex: {widget.grow || 1} 0 0%;"
-                        />
+                        {#if widget._id_integer_value}
+                            <Slider
+                                min={widget.min}
+                                max={widget.max}
+                                units={widget.units}
+                                step={widget.step}
+                                label={widget.text}
+                                title={widget.id_integer_value
+                                    ? `id_integer_value: ${widget.id_integer_value}`
+                                    : ""}
+                                classList="border {widget.active_color}"
+                                styleList="flex: {widget.grow || 1} 0 0%;"
+                                bind:value={widget._id_integer_value.value}
+                                onclick={() => (config.focus_path = widget._path)}
+                            />
+                        {/if}
                     {:else if widget.widget_type === "page"}
                         <Page page_id={widget.page_id} />
                     {/if}

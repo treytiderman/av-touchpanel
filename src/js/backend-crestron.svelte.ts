@@ -32,6 +32,10 @@ async function xpConnect(
     xp.roomId = roomId;
 
     return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(xp);
+        }, 2000);
+
         WebXPanel.addEventListener(
             WebXPanelEvents.CONNECT_WS,
             ({ detail }: any) => {

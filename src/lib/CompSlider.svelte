@@ -1,11 +1,12 @@
 <script lang="ts">
     let {
+        onclick,
         value = $bindable(50),
         label = "",
         max = 100,
         min = 0,
         step = 1,
-        units = "%",
+        units = "",
         title = "",
         classList = "",
         styleList = "",
@@ -18,8 +19,8 @@
     const percent = $derived(((value - min) / (max - min)) * 100);
     const background = $derived(`linear-gradient(
         to right,
-        var(--bg-light) 0% ${percent}%,
-        var(--bg-dark) ${percent}% 100%)`);
+        currentColor 0% ${percent}%,
+        transparent ${percent}% 100%)`);
 </script>
 
 <div class="grid gap-4" style={styleList}>
@@ -41,5 +42,6 @@
         bind:value
         class={classList}
         style={`background: ${background};`}
+        onclick={onclick}
     />
 </div>

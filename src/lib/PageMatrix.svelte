@@ -12,11 +12,11 @@
         output_columns: 2,
         inputs: [
             {
-                name: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <line x1="22" x2="2" y1="12" y2="12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /> <line x1="6" x2="6.01" y1="16" y2="16" /> <line x1="10" x2="10.01" y1="16" y2="16" /> </svg> Room PC',
+                name: "Room PC",
                 id_boolean_press: "1",
             },
             {
-                name: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M22 9a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1l2 2h12l2-2h1a1 1 0 0 0 1-1Z" /> <path d="M7.5 12h9" /> </svg> Wall Plate',
+                name: "Wall Plate",
                 id_boolean_press: "2",
             },
         ],
@@ -32,30 +32,33 @@
         ],
     };
 
-    let { page = $bindable(example_page) } = $props();
-    $inspect("matrix page", page);
+    let { page = example_page, page_index = 0 } = $props();
 
-    for (const input of page.inputs) {
-        input._id_boolean_press = backend.subscribeBoolean(
-            input.id_boolean_press,
-        );
-        $inspect(
-            `control [${config.active.backend?.type}]:`,
-            input.id_boolean_press,
-            input._id_boolean_press.value,
-        );
-    }
-
-    for (const output of page.outputs) {
-        output._id_integer_input_fb = backend.subscribeInteger(
-            output.id_integer_input_fb,
-        );
-        $inspect(
-            `control [${config.active.backend?.type}]:`,
-            output.id_integer_input_fb,
-            output._id_integer_input_fb.value,
-        );
-    }
+    // Backend subscriptions
+    $effect(() => {
+        for (const [input_index, input] of page.inputs.entries()) {
+            input._path = `#/page_list/${page_index}/inputs/${input_index}/name`;
+            input._id_boolean_press = backend.subscribeBoolean(
+                input.id_boolean_press,
+            );
+            $inspect(
+                `control [${config.active.backend?.type}]:`,
+                input.id_boolean_press,
+                input._id_boolean_press.value,
+            );
+        }
+        for (const [output_index, output] of page.outputs.entries()) {
+            output._path = `#/page_list/${page_index}/outputs/${output_index}/name`;
+            output._id_integer_input_fb = backend.subscribeInteger(
+                output.id_integer_input_fb,
+            );
+            $inspect(
+                `control [${config.active.backend?.type}]:`,
+                output.id_integer_input_fb,
+                output._id_integer_input_fb.value,
+            );
+        }
+    });
 </script>
 
 <div class="grid gap-8">
@@ -65,7 +68,7 @@
         </h2>
     {/if}
 
-    <div class="flex gap-4 top wrap">
+    <div class="flex gap-4 top wrap" style="row-gap: calc(var(--gap)*8);">
         <div class="grid gap-2">
             <div class="flex center-y gap-2">
                 {@html page.input_title || "Select Source"}
@@ -79,16 +82,12 @@
                         title={input.id_boolean_press
                             ? `id_boolean_press: ${input.id_boolean_press}`
                             : ""}
-                        class="maxtrix-input grid center-y border"
-                        class:accent={input._id_boolean_press.value}
-                        class:accent-bg={input._id_boolean_press.value}
-                        class:accent-border={input._id_boolean_press.value}
-                        onpointerdown={() =>
-                            backend.setBoolean(input.id_boolean_press, true)}
-                        onpointerout={() =>
-                            backend.setBoolean(input.id_boolean_press, false)}
-                        onpointerup={() =>
-                            backend.setBoolean(input.id_boolean_press, false)}
+                        class="maxtrix-input grid center-y border {page.input_active_color}"
+                        class:accent={input._id_boolean_press?.value}
+                        onclick={() => {
+                            backend.pulseBoolean(input.id_boolean_press)
+                            config.focus_path = input._path
+                        }}
                     >
                         <div class="flex gap-4 center-y">
                             {@html input.name}
@@ -113,12 +112,10 @@
                               ? `id_integer_input_fb: ${output.id_integer_input_fb}`
                               : ""}
                         class="maxtrix-output flex column top border pad-2"
-                        onpointerdown={() =>
-                            backend.setBoolean(output.id_boolean_press, true)}
-                        onpointerout={() =>
-                            backend.setBoolean(output.id_boolean_press, false)}
-                        onpointerup={() =>
-                            backend.setBoolean(output.id_boolean_press, false)}
+                        onclick={() => {
+                            backend.pulseBoolean(output.id_boolean_press)
+                            config.focus_path = output._path
+                        }}
                     >
                         <div class="width-100 text-dark">
                             {@html output.name}
@@ -128,7 +125,7 @@
                             style="align-content: center;"
                         >
                             {@html page.inputs[
-                                output._id_integer_input_fb.value - 1
+                                output._id_integer_input_fb?.value - 1
                             ]?.name || ""}
                         </div>
                     </button>

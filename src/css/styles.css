@@ -18,13 +18,13 @@ html {
     --color-scheme: dark;
 
     /* text */
-    --font-family: 'Rubik', helvetica, arial, sans-serif;
-    --font-family-mono: 'Fira Code', Menlo, Consolas, monospace;
+    --font-family: "Rubik", helvetica, arial, sans-serif;
+    --font-family-mono: "Fira Code", Menlo, Consolas, monospace;
     --line-height: 1.6;
 
     /* text sizes */
     --font-size: 16px;
-    --font-size-mono: calc(var(--font-size) - 0.1875em);
+    --font-size-mono: calc(var(--font-size) - 0.1875em); /* 14px */
     --p: 1em;
     --h1: 1.8em;
     --h2: 1.4em;
@@ -39,7 +39,7 @@ html {
     --padding-x: calc(var(--gap) * 3);
     --padding-y: calc(var(--gap) * 2);
     --padding: var(--padding-y) var(--padding-x);
-    
+
     /* break points */
     --break-xs: 16em;
     --break-sm: 32em;
@@ -47,43 +47,49 @@ html {
     --break-lg: 80em;
     --break-xl: 120rem;
 
+    /* color */
+    --hue: 220;
+    --sat: 10%;
+    --bg-lum: 16%;
+    --text-lum: 72%;
+    --bg: hsl(var(--hue), var(--sat), var(--bg-lum));
+    --bg-dark: hsl(from var(--bg) h s calc(l - 4));
+    --bg-light: hsl(from var(--bg) h s calc(l + 4));
+    --text: hsl(var(--hue), var(--sat), var(--text-lum));
+    --text-dark: hsl(from var(--text) h s calc(l - 24));
+    --text-light: hsl(from var(--text) h s calc(l + 12));
+    --input: hsl(from var(--text) h s calc(l + 8));
+    --input-bg: hsl(from var(--text) h s calc(l - 52));
+    --input-border: hsl(from var(--text) h s calc(l - 48));
+    --border-color: hsl(from var(--bg) h s calc(l + 8));
+
     /* border */
-    --border-width: 0.0625em;
-    --border-width: 0.09375em;
+    --border-width: 0.0625em; /* 1px */
+    --border-width: 0.09375em; /* 1.5px */
     --border-radius: 0.25em;
-    --border-color: hsl(220, 12%, 24%);
     --border: var(--border-width) solid var(--border-color);
     --outline: var(--border-width) solid var(--text-light);
 
     /* shadows */
-    --shadow: 0 0.0625em 0.1875em 0 rgb(0 0 0 / 0.3), 0 0.0625em 0.125em 0.0625em rgb(0 0 0 / 0.1);
-    --shadow-inset: inset 0 0.0625em 0.1875em 0 rgb(0 0 0 / 0.3), inset 0 0.0625em 0.125em -0.0625em rgb(0 0 0 / 0.1);
-    
-    /* text color */
-    --text-light: hsl(220, 8%, 84%);
-    --text: hsl(220, 8%, 72%);
-    --text-dark: hsl(220, 8%, 50%);
-
-    /* bg color */
-    --bg-light: hsl(220, 13%, 20%);
-    --bg: hsl(220, 12%, 16%);
-    --bg-dark: hsl(220, 9%, 12%);
+    --shadow:
+        0 0.0625em 0.1875em 0 rgb(0 0 0 / 0.3),
+        0 0.0625em 0.125em 0.0625em rgb(0 0 0 / 0.1);
+    --shadow-inset:
+        inset 0 0.0625em 0.1875em 0 rgb(0 0 0 / 0.3),
+        inset 0 0.0625em 0.125em -0.0625em rgb(0 0 0 / 0.1);
 
     /* other colors */
-    --accent: hsl(269, 90%, 90%);
-    --accent-bg: hsl(269, 75%, 22%);
-    --accent-border: hsl(269, 75%, 32%);
-    --error: hsl(5, 90%, 80%);
-    --warning: hsl(60, 90%, 76%);
-    --success: hsl(130, 67%, 61%);
-    --info: hsl(220, 90%, 84%);
-
-    /* hover / active */
-    --hover-mix-color: white;
-    --active-mix-color: black;
-    --hover-percent: 6%;
-    --active-percent: 12%;
-
+    --red: hsl(5, 48%, 76%);
+    --orange: hsl(30, 48%, 76%);
+    --yellow: hsl(60, 48%, 76%);
+    --green: hsl(130, 48%, 76%);
+    --cyan: hsl(180, 48%, 76%);
+    --blue: hsl(220, 48%, 76%);
+    --purple: hsl(265, 48%, 76%);
+    --pink: hsl(320, 48%, 76%);
+    --hover-luminance-change: 4;
+    --active-luminance-change: 2;
+    --accent: var(--text);
 }
 
 /* light theme */
@@ -92,39 +98,58 @@ html {
 
         /* built-in theme */
         --color-scheme: light;
-
-        /* text color */
-        --text-light: hsl(220, 10%, 10%);
-        --text: hsl(220, 10%, 36%);
-        --text-dark: hsl(220, 10%, 54%);
-
-        /* bg color */
-        --bg-light: hsl(220, 10%, 92%);
-        --bg: hsl(220, 10%, 96%);
-        --bg-dark: hsl(220, 10%, 100%);
-
+    
+        /* color */
+        --hue: 220;
+        --sat: 10%;
+        --bg-lum: 96%;
+        --text-lum: 36%;
+        --bg: hsl(var(--hue), var(--sat), var(--bg-lum));
+        --bg-dark: hsl(from var(--bg) h s 100);
+        --bg-light: hsl(from var(--bg) h s calc(l + 4));
+        --text: hsl(var(--hue), var(--sat), var(--text-lum));
+        --text-dark: hsl(from var(--text) h s calc(l + 18));
+        --text-light: hsl(from var(--text) h s calc(l - 12));
+        --input: hsl(from var(--text) h s calc(l - 8));
+        --input-bg: hsl(from var(--text) h s calc(l + 58));
+        --input-border: hsl(from var(--text) h s calc(l + 36));
+        --border-color: hsl(from var(--bg) h s calc(l - 18));
+    
         /* other colors */
-        --accent: hsl(265, 30%, 14%);
-        --accent-bg: hsl(265, 90%, 90%);
-        --accent-border: hsl(265, 90%, 85%);
-        --error: hsl(5, 90%, 80%);
-        --warning: hsl(60, 90%, 76%);
-        --success: hsl(130, 90%, 78%);
-        --info: hsl(220, 90%, 84%);
-
-        /* border */
-        --border-color: hsl(220, 12%, 85%);
-
+        --red: hsl(5, 64%, 76%);
+        --orange: hsl(30, 64%, 76%);
+        --yellow: hsl(60, 64%, 76%);
+        --green: hsl(130, 64%, 76%);
+        --cyan: hsl(180, 64%, 76%);
+        --blue: hsl(220, 64%, 76%);
+        --purple: hsl(265, 64%, 76%);
+        --pink: hsl(320, 64%, 76%);
+        --hover-luminance-change: 4;
+        --active-luminance-change: 3;
+        --accent: var(--text);
+        
         /* shadows */
         --shadow: 0 0.0625em 0.125em 0px hsla(220, 10%, 10%, 10%), 0 0.0625em 0.125em 0.0625em hsla(220, 10%, 10%, 2%);
         --shadow-inset: inset 0 0.0625em 0.125em 0 hsla(220, 10%, 10%, 5%), inset 0 0.0625em 0.125em -0.0625em hsla(220, 10%, 10%, 2%);
 
-        /* hover / active */
-        --hover-mix-color: white;
-        --active-mix-color: black;
-        --hover-percent: 40%;
-        --active-percent: 4%;
-
+    }
+    input[type=range]::-webkit-slider-thumb {
+        border-color: hsl(from var(--accent) h s calc(l - 24)) !important;
+        background-color: hsl(from var(--accent) h s calc(l - 8)) !important;
+    }
+    input[type=range]::-moz-range-thumb {
+        border-color: hsl(from var(--accent) h s calc(l - 24)) !important;
+        background-color: hsl(from var(--accent) h s calc(l - 8)) !important;
+    }
+    @media (hover: hover) {
+        input[type=range]::-webkit-slider-thumb:hover  {
+            border-color: hsl(from var(--accent) h s calc(l - 24 + var(--hover-luminance-change))) !important;
+            background-color: hsl(from var(--accent) h s calc(l - 8 + var(--hover-luminance-change))) !important;
+        }
+    }
+    input[type=range]::-webkit-slider-thumb:active  {
+        border-color: hsl(from var(--accent) h s calc(l - 24 + var(--active-luminance-change))) !important;
+        background-color: hsl(from var(--accent) h s calc(l - 8 + var(--active-luminance-change))) !important;
     }
 }
 
@@ -144,23 +169,35 @@ html {
 .bg-dark { background-color: var(--bg-dark); }
 
 /* other colors */
-.accent { color: var(--accent); }
-.accent-bg { background-color: var(--accent-bg); }
-.accent-border { border: var(--border); border-color: var(--accent-border) !important; }
-.error { color: var(--error); }
-.warning { color: var(--warning); }
-.success { color: var(--success); }
-.info { color: var(--info); }
-.transparent { background-color: transparent !important; }
+.red { --accent: var(--red); }
+.orange { --accent: var(--orange); }
+.yellow { --accent: var(--yellow); }
+.green { --accent: var(--green); }
+.cyan { --accent: var(--cyan); }
+.blue { --accent: var(--blue); }
+.purple { --accent: var(--purple); }
+.pink { --accent: var(--pink); }
 
-.accent-bg:hover:not(:disabled) {
+.accent-text {
     color: var(--accent);
-    background-color: color-mix(in oklab, var(--accent-bg), var(--hover-mix-color) var(--hover-percent)) !important;
 }
-.accent-bg:active:not(:disabled) {
-    color: var(--accent);
-    background-color: color-mix(in oklab, var(--accent-bg), var(--active-mix-color) var(--active-percent)) !important;
+.accent {
+    color: hsl(from var(--accent) h s calc(l + 18));
+    border-color: hsl(from var(--accent) h s calc(l - 38)) !important;
+    background-color: hsl(from var(--accent) h s calc(l - 42));
 }
+.accent:hover:not(:disabled) {
+    color: hsl(from hsl(from var(--accent) h s calc(l + 18)) h s calc(l + var(--hover-luminance-change)));
+    border-color: hsl(from hsl(from var(--accent) h s calc(l - 38)) h s calc(l + var(--hover-luminance-change))) !important;
+    background-color: hsl(from hsl(from var(--accent) h s calc(l - 42)) h s calc(l + var(--hover-luminance-change)));
+}
+.accent:active:not(:disabled) {
+    color: hsl(from hsl(from var(--accent) h s calc(l + 18)) h s calc(l + var(--active-luminance-change)));
+    border-color: hsl(from hsl(from var(--accent) h s calc(l - 38)) h s calc(l + var(--active-luminance-change))) !important;
+    background-color: hsl(from hsl(from var(--accent) h s calc(l - 42)) h s calc(l + var(--active-luminance-change)));
+}
+
+.transparent { background-color: transparent !important; }
 
 /* gap */
 .gap-0 { gap: 0; }
@@ -190,9 +227,8 @@ html {
 .border-none { border: none; }
 .border { border: var(--border); }
 .border-bottom { border-bottom: var(--border); }
-.outline { border: var(--outline); }
-.radius,
 .border-radius { border-radius: var(--border-radius); }
+.outline { border: var(--outline); }
 
 /* shadow */
 .shadow { box-shadow: var(--shadow); }
@@ -342,6 +378,7 @@ hr {
     border: none;
     border-radius: 99px;
     height: var(--border-width, 0.125em);
+    min-height: var(--border-width, 0.125em);
     background-color: var(--border-color, #444);
 }
 
@@ -369,11 +406,16 @@ small, .small { font-size: .8em; }
 pre, .pre { white-space: pre; }
 code, .code, .mono { font-size: var(--font-size-mono); font-family: var(--font-family-mono); }
 .indent { text-indent: calc(var(--gap)*8); }
-.highlight, .mark, mark { color: var(--accent); background-color: var(--accent-bg); }
+.highlight, .mark, mark {
+    --accent: var(--yellow);
+    color: hsl(from var(--accent) h s calc(l + 18));
+    background-color: hsl(from var(--accent) h s calc(l - 42));
+}
 
 ::selection {
-    color: var(--accent-bg);
-    background-color: var(--accent);
+    --accent: var(--blue);
+    color: hsl(from var(--accent) h s calc(l + 18));
+    background-color: hsl(from var(--accent) h s calc(l - 42));
 }
 
 /* links */
@@ -409,8 +451,9 @@ textarea {
     font: inherit;
     line-height: 1;
     padding: var(--padding);
-    color: var(--text-light);
-    background-color: var(--bg-light);
+    color: var(--input);
+    border-color: var(--input-border) !important;
+    background-color: var(--input-bg);
     border-radius: var(--border-radius);
 }
 
@@ -589,8 +632,9 @@ input[type="search"]::-webkit-search-cancel-button {
     input[type=submit]:hover:not(:disabled),
     select:hover:not(:disabled),
     button:hover:not(:disabled) {
-        color: var(--text-light);
-        background-color: color-mix(in oklab, var(--bg-light), var(--hover-mix-color) var(--hover-percent)) !important;
+        color: hsl(from var(--text-light) h s calc(l + var(--hover-luminance-change)));
+        border-color: hsl(from var(--border-color) h s calc(l + var(--hover-luminance-change)));
+        background-color: hsl(from var(--bg-light) h s calc(l + var(--hover-luminance-change)));
     }
 }
 
@@ -611,8 +655,9 @@ input[type=checkbox]:active:not(:disabled),
 input[type=submit]:active:not(:disabled),
 select:active:not(:disabled),
 button:active:not(:disabled) {
-    color: var(--text-light);
-    background-color: color-mix(in oklab, var(--bg-light), var(--active-mix-color) var(--active-percent)) !important;
+    color: hsl(from var(--input) h s calc(l + var(--active-luminance-change)));
+    border-color: hsl(from var(--input-border) h s calc(l + var(--active-luminance-change)));
+    background-color: hsl(from var(--input-bg) h s calc(l + var(--active-luminance-change)));
 }
 
 /* disabled */
@@ -767,8 +812,9 @@ input[type=range] {
     -webkit-appearance: none;
     padding: 0;
     height: calc(var(--gap) * 3);
-    background-color: var(--bg-light);
+    border-color: var(--input-border);
     border-radius: var(--border-radius);
+    color: var(--input-bg);
 }
 input[type=range]::-webkit-slider-thumb {
     appearance: none;
@@ -776,17 +822,17 @@ input[type=range]::-webkit-slider-thumb {
     height: calc(var(--gap) * 8);
     width: calc(var(--gap) * 5);
     border: var(--border);
-    border-color: color-mix(in oklab, var(--text-dark), var(--active-mix-color) var(--active-percent)) !important;
     border-radius: var(--border-radius);
-    background-color: var(--text-dark);
+    border-color: hsl(from var(--accent) h s calc(l - 32)) !important;
+    background-color: hsl(from var(--accent) h s calc(l - 36)) !important;
 }
 input[type=range]::-moz-range-thumb {
     height: calc(var(--gap) * 8);
     width: calc(var(--gap) * 5);
     border: var(--border);
     border-radius: var(--border-radius);
-    background-color: var(--text);
-    background-color: color-mix(in oklab, var(--text-dark), var(--active-mix-color) var(--active-percent)) !important;
+    border-color: hsl(from var(--accent) h s calc(l - 32)) !important;
+    background-color: hsl(from var(--accent) h s calc(l - 36)) !important;
 }
 input[type=range].circle::-webkit-slider-thumb {
     height: calc(var(--gap) * 8);
@@ -794,15 +840,15 @@ input[type=range].circle::-webkit-slider-thumb {
     border: var(--border);
     border-radius: 99px;
 }
-input[type=range]::-webkit-slider-thumb:active  {
-    color: var(--text-light);
-    background-color: color-mix(in oklab, var(--text-dark), var(--active-mix-color) var(--active-percent)) !important;
-}
 @media (hover: hover) {
     input[type=range]::-webkit-slider-thumb:hover  {
-        color: var(--text-light);
-        background-color: color-mix(in oklab, var(--text-dark), var(--hover-mix-color) var(--hover-percent)) !important;
+        border-color: hsl(from var(--accent) h s calc(l - 32 + var(--hover-luminance-change))) !important;
+        background-color: hsl(from var(--accent) h s calc(l - 36 + var(--hover-luminance-change))) !important;
     }
+}
+input[type=range]::-webkit-slider-thumb:active  {
+    border-color: hsl(from var(--accent) h s calc(l - 32 + var(--active-luminance-change))) !important;
+    background-color: hsl(from var(--accent) h s calc(l - 36 + var(--active-luminance-change))) !important;
 }
 
 /* progress */
@@ -847,7 +893,7 @@ progress::-moz-progress-bar {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    box-shadow: inset 0 0 1em 1em color-mix(in oklab, var(--bg-light), var(--hover-mix-color) var(--hover-percent)) !important;
+    box-shadow: inset 0 0 1em 1em hsl(from var(--bg-light) h s calc(l + var(--hover-luminance-change)));
 }
 
 ::-webkit-resizer {

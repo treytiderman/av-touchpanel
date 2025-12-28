@@ -1,5 +1,6 @@
 import { Validator, type Schema } from "@cfworker/json-schema";
 import av_touchpanel_schema from "../assets/av-touchpanel-schema.json";
+import { nav } from "../js/nav.svelte";
 
 export {
     config,
@@ -19,36 +20,28 @@ const config: {
     schema: typeof av_touchpanel_schema;
     active: Record<string, any>;
     working_flat: Record<string, any>;
+    focus_path: string;
     get_from_server: (uri: string) => Promise<any>;
     set: (new_config: any) => any;
     set_from_working: () => any;
-    get_page_by_id: (page_id: string) => any;
     validate: (config: any) => any;
     url_params: {
         config_file: string;
         edit_mode: boolean;
-        ip: string;
-        ipid: string;
-        roomid: string;
-        token: string;
     };
 } = $state({
     ready: false,
     schema: av_touchpanel_schema,
     active: {},
     working_flat: {},
+    focus_path: "",
     get_from_server: get_config,
     set: set_config,
     set_from_working: set_from_working_flat_config,
-    get_page_by_id: get_page_by_id,
     validate: validate_config,
     url_params: {
         config_file: urlSearchParams.get("config") || "",
         edit_mode: !!urlSearchParams.get("edit") || false,
-        ip: urlSearchParams.get("ip") || location.hostname,
-        ipid: urlSearchParams.get("ipid") || "0x03",
-        roomid: urlSearchParams.get("roomid") || "1",
-        token: urlSearchParams.get("token") || "",
     },
 });
 
@@ -69,7 +62,7 @@ async function get_config(uri: string) {
 }
 
 function set_config(new_config: any) {
-    console.log("config: received", new_config);
+    console.log("config: set", new_config);
     const check = validate_config(new_config);
     if (check.valid) {
         config.active = new_config;
@@ -86,16 +79,14 @@ function on_config_change() {
     document.documentElement.classList =
         `${config.active.client.theme || ""} ` +
         `rotate-${config.active.client.rotate || ""} `;
+
+    if (nav.get_page(config.active.client.page_id)) {
+        nav.set_page(config.active.client.page_id);
+    }
 }
 
 function set_from_working_flat_config() {
     return config.set(flat_to_nested_config(config.working_flat));
-}
-
-function get_page_by_id(page_id: string) {
-    return config.active.page_list?.find(
-        (page: { page_id: string }) => page.page_id === page_id,
-    );
 }
 
 function validate_config(config: any) {

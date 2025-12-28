@@ -4,6 +4,7 @@
     import { onMount } from "svelte";
     import { config } from "../js/config.svelte";
     import { backend } from "../js/backend.svelte";
+    import { nav } from "../js/nav.svelte";
 
     import Split from "../lib/CompSplit.svelte";
     import ConfigPanel from "../lib/ConfigPanel.svelte";
@@ -16,10 +17,8 @@
     onMount(async () => {
         await config.get_from_server(config.url_params.config_file);
         await backend.connect();
-        setTimeout(() => {
-            console.log("Timeout completed");
-            tried = true;
-        }, 500);
+        nav.set_page(config.active.client.page_id);
+        setTimeout(() => (tried = true), 500);
     });
 </script>
 
@@ -66,7 +65,7 @@
         max="-200px"
         pos="24rem"
         --color={"var(--border-color)"}
-        --thickness={"24px"}
+        --thickness={"12px"}
     >
         {#snippet a()}
             <div style="height: 100dvh;">

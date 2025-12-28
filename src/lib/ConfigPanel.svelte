@@ -7,46 +7,97 @@
     } from "../js/config.svelte";
 
     let autosave = $state(true);
+    let focus_next = $state(false);
+    let details_open_state: any = $state({});
+    // $inspect("details_open_state", details_open_state);
     // $inspect("config.active", config.active);
     // $inspect("config.working_flat", config.working_flat);
+
+    $effect(() => {
+        if (!focus_next) return;
+        console.log("config.focus_path", config.focus_path);
+        for (const key in details_open_state) details_open_state[key] = true;
+        setTimeout(() => {
+            let el = document.getElementById(config.focus_path);
+            if (el) console.log("el.focus()", el, el.focus());
+        }, 1);
+    });
 </script>
 
-<section
-    class="pad-4 grid top gap-4 height-100 overflow"
-    style="align-content: start;"
->
-    {#each Object.entries(config.schema.properties) as prop}
-        {@render property(`#/${prop[0]}`, prop[0], prop[1])}
-    {/each}
+<section class="flex column height-100" style="align-content: start;">
+    <div class="flex column gap-4 pad-4 border-bottom">
+        <div class="flex wrap gap-4">
+            <button
+                class="border"
+                onclick={() => {
+                    const clipboard = flat_to_nested_config(
+                        config.working_flat,
+                    );
+                    navigator.clipboard.writeText(
+                        JSON.stringify(clipboard, null, 4),
+                    );
+                }}
+            >
+                Copy Config
+            </button>
+            <div class="flex wrap gap-4">
+                <button
+                    class="border"
+                    onclick={() => {
+                        for (const key in details_open_state) {
+                            details_open_state[key] = true;
+                        }
+                    }}
+                >
+                    Expand
+                </button>
+            </div>
+            <div class="flex wrap gap-4">
+                <button
+                    class="border"
+                    onclick={() => {
+                        for (const key in details_open_state) {
+                            details_open_state[key] = false;
+                        }
+                    }}
+                >
+                    Collapse
+                </button>
+            </div>
+        </div>
 
-    <div class="text-dark thin small">*empty fields are assumed default</div>
+        <div>
+            <input
+                type="checkbox"
+                name="autosave"
+                id="autosave"
+                class="border"
+                bind:checked={focus_next}
+            />
+            <label for="autosave">Focus next button/input</label>
+        </div>
+        <div>
+            <input
+                type="checkbox"
+                name="autosave"
+                id="autosave"
+                class="border"
+                bind:checked={autosave}
+                onclick={config.set_from_working}
+            />
+            <label for="autosave">Show changes</label>
+        </div>
 
-    <div>
-        <input
-            type="checkbox"
-            name="autosave"
-            id="autosave"
-            class="border"
-            bind:checked={autosave}
-            onclick={config.set_from_working}
-        />
-        <label for="autosave">Show changes</label>
+        <div class="text-dark thin small">
+            *empty fields are assumed default
+        </div>
     </div>
 
-    <div class="flex wrap gap-4">
-        <button
-            class="border"
-            onclick={() => {
-                const clipboard = flat_to_nested_config(config.working_flat);
-                navigator.clipboard.writeText(
-                    JSON.stringify(clipboard, null, 4),
-                );
-            }}
-        >
-            Copy Config
-        </button>
+    <div class="flex column gap-4 grow pad-4 overflow">
+        {#each Object.entries(config.schema.properties) as prop}
+            {@render property(`#/${prop[0]}`, prop[0], prop[1])}
+        {/each}
     </div>
-    <br />
 </section>
 
 {#snippet property(path: string, key: string, obj: any)}
@@ -59,6 +110,7 @@
                 </div>
                 <select
                     class="border xshadow"
+                    id={path}
                     title={path}
                     value={config.working_flat[path]}
                     oninput={(event) => {
@@ -88,6 +140,7 @@
                 <input
                     type="number"
                     class="border xshadow-inset"
+                    id={path}
                     title={path}
                     step="1"
                     max={obj.maximum}
@@ -112,6 +165,7 @@
                 <input
                     type="number"
                     class="border xshadow-inset"
+                    id={path}
                     title={path}
                     step={obj.multipleOf}
                     max={obj.maximum}
@@ -136,6 +190,7 @@
                 <input
                     type="text"
                     class="border xshadow-inset"
+                    id={path}
                     title={path}
                     placeholder={String(obj.default) || ""}
                     value={config.working_flat[path]}
@@ -148,7 +203,12 @@
             </label>
         </div>
     {:else if obj.type === "object" && obj.properties}
-        <details>
+        <details
+            bind:open={details_open_state[path]}
+            {@attach (element) => {
+                details_open_state[path] = false;
+            }}
+        >
             <summary class="flex gap-2 center-y border-radius">
                 <div class="flex gap-2 bottom">
                     <div title={"description" in obj ? obj.description : ""}>
@@ -187,7 +247,12 @@
             {/if}
         </details>
     {:else if obj.type === "array" && obj.properties}
-        <details>
+        <details
+            bind:open={details_open_state[path]}
+            {@attach (element) => {
+                details_open_state[path] = false;
+            }}
+        >
             <summary class="flex gap-2 center-y border-radius">
                 <div class="flex gap-2 bottom grow">
                     <div title={"description" in obj ? obj.description : ""}>
@@ -243,6 +308,10 @@
                         <details
                             id="array-{path}/{index}"
                             style="padding: 0.75rem 0 0 1rem; border-left: var(--border); border-top: var(--border); "
+                            bind:open={details_open_state[`${path}/${index}`]}
+                            {@attach (element) => {
+                                details_open_state[`${path}/${index}`] = false;
+                            }}
                         >
                             <summary class="flex gap-2 center-y grow">
                                 <div class="text-dark grow">{index}</div>
