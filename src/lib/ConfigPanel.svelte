@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { backend } from "../js/backend.svelte";
     import {
         config,
         flat_to_nested_config,
@@ -38,7 +39,15 @@
                     );
                 }}
             >
-                Copy Config
+                Copy
+            </button>
+            <button
+                class="border"
+                onclick={() => {
+                    backend.save_config();
+                }}
+            >
+                Save
             </button>
             <div class="flex wrap gap-4">
                 <button
@@ -69,12 +78,12 @@
         <div>
             <input
                 type="checkbox"
-                name="autosave"
-                id="autosave"
+                name="focus_next"
+                id="focus_next"
                 class="border"
                 bind:checked={focus_next}
             />
-            <label for="autosave">Focus next button/input</label>
+            <label for="focus_next">Focus next button/input</label>
         </div>
         <div>
             <input

@@ -6,7 +6,7 @@
     "dev": "vite",
     "dev-host": "vite --host",
     "build": "vite build",
-    "archive": "ch5-cli archive -p av-touchpanel -d ./dist/ -o ./archive/ -c ./public/config/contract.cse2j",
+    "archive": "ch5-cli archive -p av-touchpanel -d ./dist/ -o ./archive/ -c ./public/contract.cse2j",
     "deploy": "ch5-cli deploy -t touchscreen -p -H 192.168.1.44 ./dist/av-touchpanel.ch5z",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"

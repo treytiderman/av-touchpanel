@@ -98,6 +98,7 @@
                         `control [${config.active.backend?.type}]:`,
                         widget.id_integer_value,
                         widget._id_integer_value.value,
+                        widget._id_integer_value.value_signed,
                     );
                 }
             }
@@ -112,7 +113,7 @@
 
     <div class="grid gap-4">
         {#each page.rows as row}
-            <div class="flex wrap gap-4">
+            <div class="flex center-y wrap gap-4">
                 {#each row.widgets as widget}
                     {#if widget.widget_type === "text"}
                         <div
@@ -129,11 +130,11 @@
                             title={widget.id_boolean_press
                                 ? `id_boolean_press: ${widget.id_boolean_press}`
                                 : ""}
-                            class="border flex gap-2 wrap center {widget.active_color}"
+                            class="row-button border flex gap-2 wrap center {widget.active_color}"
                             style="flex: {widget.grow || 1} 0 0%;"
                             onclick={() => {
-                                backend.pulseBoolean(widget.id_boolean_press)
-                                config.focus_path = widget._path
+                                backend.pulseBoolean(widget.id_boolean_press);
+                                config.focus_path = widget._path;
                             }}
                             class:accent={widget._id_boolean_press?.value}
                         >
@@ -150,7 +151,7 @@
                             &nbsp;
                         </div>
                     {:else if widget.widget_type === "slider"}
-                        {#if widget._id_integer_value}
+                        {#if widget._id_integer_value && widget.signed === "true"}
                             <Slider
                                 min={widget.min}
                                 max={widget.max}
@@ -162,8 +163,33 @@
                                     : ""}
                                 classList="border {widget.active_color}"
                                 styleList="flex: {widget.grow || 1} 0 0%;"
+                                bind:value={
+                                    widget._id_integer_value.value_signed
+                                }
+                                onclick={() =>
+                                    (config.focus_path = widget._path)}
+                            />
+                        {:else if widget._id_integer_value}
+                            <Slider
+                                min={widget.min}
+                                max={widget.max}
+                                units={widget.units}
+                                step={widget.step}
+                                label={widget.text}
+                                title={widget.id_integer_value
+                                    ? `id_integer_value: ${widget.id_integer_value}`
+                                    : ""}
+                                classList="border {widget.active_color}"
+                                styleList="flex: {widget.grow || 1} 0 0%;"
+                                {@attach (element: any) => {
+                                    // convert unsigned to signed
+                                    if (widget.signed === "true") {
+                                        element.value = widget._id_integer_value.value - widget.min;
+                                    }
+                                }}
                                 bind:value={widget._id_integer_value.value}
-                                onclick={() => (config.focus_path = widget._path)}
+                                onclick={() =>
+                                    (config.focus_path = widget._path)}
                             />
                         {/if}
                     {:else if widget.widget_type === "page"}
@@ -174,3 +200,15 @@
         {/each}
     </div>
 </div>
+
+<style>
+    :global(.row-button svg) {
+        width: 1.5em;
+        height: 1.5em;
+        min-width: 1.5em;
+    }
+
+    .row-button {
+        height: 3em;
+    }
+</style>

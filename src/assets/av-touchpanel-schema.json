@@ -92,6 +92,26 @@
                             "token": {
                                 "type": "string",
                                 "default": "longtokenfromvc4"
+                            },
+                            "config_path": {
+                                "type": "string",
+                                "description": "client -> server, config path. VC4 = '\\\\XPanel\\\\tp1.json' or '\\\\XPanel\\\\tp1' or '\\\\User\\\\tp1.json' or '\\\\Html\\\\tp1.json'",
+                                "default": "\\\\XPanel\\\\tp1"
+                            },
+                            "out_string_config_path": {
+                                "type": "string",
+                                "description": "client -> server, key to send the config_path to",
+                                "default": ""
+                            },
+                            "out_string_saved_config": {
+                                "type": "string",
+                                "description": "client -> server, json string of the newly saved config",
+                                "default": ""
+                            },
+                            "in_string_load_config": {
+                                "type": "string",
+                                "description": "server -> client, name of json file to load",
+                                "default": ""
                             }
                         },
                         "required": ["ipid", "roomid", "token"]
@@ -306,6 +326,11 @@
                                                         "units": {
                                                             "type": "string",
                                                             "default": ""
+                                                        },
+                                                        "signed": {
+                                                            "type": "string",
+                                                            "default": "false",
+                                                            "enum": ["true", "false"]
                                                         },
                                                         "id_integer_value": {
                                                             "type": "string",

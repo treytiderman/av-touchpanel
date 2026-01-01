@@ -138,7 +138,7 @@
 <style>
     .maxtrix-input,
     .maxtrix-output {
-        width: 14em;
+        width: 12.5em;
         text-align: left;
     }
 
@@ -150,7 +150,7 @@
     }
 
     .maxtrix-input {
-        height: 2.75em;
+        height: 3em;
     }
 
     .maxtrix-output {

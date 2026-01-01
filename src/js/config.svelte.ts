@@ -46,6 +46,8 @@ const config: {
 });
 
 async function get_config(uri: string) {
+    if (uri === "") uri = "tp1";
+    if (!uri.endsWith(".json")) uri += ".json";
     console.log("config: get from", uri);
     const options = { method: "GET" };
     let response = await fetch(uri, options);
@@ -221,34 +223,3 @@ function remove_index_in_flat_obj(flat_obj: any, path: string, index: number) {
 
     return flat_obj;
 }
-
-const test_obj = {
-    key: "string",
-    arr: ["hello", "there", "blue", "stanger"],
-    arr2: [{ key: "hello" }, { key: "there" }, { key: "stanger" }],
-};
-
-// console.log(nested_to_flat_config(test_obj));
-// console.log(flat_to_nested_config(nested_to_flat_config(test_obj)));
-// console.log(get_array_length_flat_config(nested_to_flat_config(test_obj), "#/arr"));
-// console.log(get_array_length_flat_config(nested_to_flat_config(test_obj), "#/arr2"));
-
-const test_flat_obj = `{
-    "#/version": 0,
-    "#/server/host": "192.168.1.9",
-    "#/server/backend": "crestron",
-    "#/server/backend_options/ipid": "0x03",
-    "#/server/backend_options/roomid": "1",
-    "#/server/backend_options/token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzMjhiYmMwLWFlYWYtNGI0OC05MGJjLTAwMmI4MjkwYmFlNCIsImx2IjoiRGVmYXVsdCBMZXZlbCIsInZlciI6IjEuMCIsImV4cGkiOiIwIn0.h6cUVnbGogzwcszdNawI4ffovCYYOoDX1hN4NudO7ys",
-    "#/settings/theme": "auto",
-    "#/settings/scale": 1.2,
-    "#/settings/scale_small": 1,
-    "#/settings/rotate": 0,
-    "#/page_list/0": "",
-    "#/page_list/1": "",
-    "#/page_list/2": "",
-    "#/page_list/3": ""
-}`;
-
-// console.log("flat_to_nested_config", flat_to_nested_config(test_flat_obj));
-// console.log("remove_index_in_flat_obj", remove_index_in_flat_obj(test_flat_obj, "#/page_list", 1));
