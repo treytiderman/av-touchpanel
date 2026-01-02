@@ -6,9 +6,9 @@
     - [ ] AMX (Muse)
     - [ ] Universal (WebSocket)
 
-Demo: [av-touchpanel](https://trey.app/av-touchpanel/?config=tp1&edit=y
+Demo: [av-touchpanel](https://trey.app/av-touchpanel/?config=tp1&edit=y)
 
-Demo-Old: [av-touchpanel-old](https://trey.app/av-touchpanel-old
+Demo-Old: [av-touchpanel-old](https://trey.app/av-touchpanel-old)
 
 
 ## Crestron VC4 Setup
